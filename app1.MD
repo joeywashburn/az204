@@ -584,7 +584,7 @@ func azure functionapp publish taskmanagerfunc-jwashburn
 </ul>
 ```
 #### Update HomeController.cs to Handle File Upload:
-- Update TaskMangerWeb/Controllers/HomeController.cs to send the form data (including the file) to the Function:
+- Update TaskMangerWeb/Controllers/HomeController.cs to send the form data (including the file) to the Function with these code changes:
 ```csharp
 using Microsoft.AspNetCore.Mvc;
 using TaskManagerWeb.Models;
@@ -650,7 +650,7 @@ namespace TaskManagerWeb.Controllers
 ```
 
 #### Update TaskItem.cs to Include AttachmentUrl:
-- Open TaskManagerWeb/Models/TaskItem.cs:
+- Open TaskManagerWeb/Models/TaskItem.cs and make these changes:
 ```csharp
 namespace TaskManagerWeb.Models
 {
@@ -671,7 +671,8 @@ az webapp up --name taskmanagerweb-jwashburn --resource-group az204exam --sku F1
 ```
 
 
-## GO Test in Azure
+## Go Test in Azure
+- THIS IS WHERE ITS CURRENTLY FAILING.  500 Error.  Working on that now
 
 
 # Cost Estimate

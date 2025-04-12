@@ -48,19 +48,19 @@ Follow these steps to set up and deploy the app locally and on Azure (~2.5 hours
    ```bash
    code.
    ```
-5. You made already have a Models directory under TaskManagerWeb.  If not create one
+5. You may already have a Models directory under TaskManagerWeb.  If not create one
 6. Add TaskItem.cs:
     ```csharp
-    namespace TaskManagerWeb.Models
-    {
-        public class TaskItem
+        namespace TaskManagerWeb.Models
         {
-            public string Id { get; set; } = Guid.NewGuid().ToString();
-            public string Title { get; set; }
-            public string Description { get; set; }
-            public DateTime DueDate { get; set; }
+            public class TaskItem
+            {
+                public string id { get; set; } = System.Guid.NewGuid().ToString();
+                public string? Title { get; set; }
+                public string? Description { get; set; }
+                public string? DueDate { get; set; } // Changed to string
+            }
         }
-    }
     ```
 7. Update Controllers/HomeController.cs to handle tasks (in-memory for now):
     ```csharp

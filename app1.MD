@@ -306,7 +306,6 @@ namespace TaskManagerFunctions
 func azure functionapp publish taskmanagerfunc-yourname
 ```
 
-
 ### Send a Test
 You could use POSTMAN or a CURL Command
 Use the key from before.  If you need help getting that again run
@@ -321,9 +320,22 @@ curl -X POST -H "Content-Type: application/json" -d '{"Title":"Study AZ-204","De
 Go into the Azure Portal > CosmosDB and drill down using Data Explorer and find your item
 ![data-explorer](images/image-3.png)
 
+### You have completed the Add the Connection String to the Function App Section.
+---
 
-## Modify HomeController
+## Update the HomeController with the Function App changes.
 Now we need to add some more settings to Environment Variables and update HomeController.cs
+
+Go to the Azure Portal and go to your Web App.  Service > Setting > Environment Variables
+
+Add 2 settings
+
+- Name: FunctionSettings__CreateTaskUrl
+- Value: https://taskmanagerfunc-yourname.azurewebsites.net/api/createtask
+
+- Name: FunctionSettings__FunctionKey
+- Value: USE_YOUR_KEY_HERE
+
 
 Replace all the code in TaskManagerWeb/Controllers/HomeController.cs with this code
 ```csharp
@@ -382,14 +394,6 @@ namespace TaskManagerWeb.Controllers
 }
 ```
 
-Head over to the Portal and go to your App Service > Setting > Environment Variables
-
-Add 2 settings
-
-Name: FunctionSettings__CreateTaskUrl
-Value: https://taskmanagerfunc-yourname.azurewebsites.net/api/createtask
-Name: FunctionSettings__FunctionKey
-Value: USE_YOUR_KEY_HERE
 
 Rebuild the app to get the changes into the code.
 

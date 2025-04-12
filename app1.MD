@@ -532,10 +532,10 @@ func azure functionapp publish taskmanagerfunc-jwashburn
 ### You have completed the CreateTask Function to Handle File Uploads Section.
 ---
 
+### Update files to support File Uploads:
 
-Update the Web App Form to Include File Upload (~5 min):
-
-Open TaskManagerWeb/Views/Home/Index.cshtml
+#### Update the Web App Form to Include File Upload
+- Open TaskManagerWeb/Views/Home/Index.cshtml and change your code to this
 
 ```csharp
 @model List<TaskManagerWeb.Models.TaskItem>
@@ -583,9 +583,8 @@ Open TaskManagerWeb/Views/Home/Index.cshtml
     }
 </ul>
 ```
-Update HomeController.cs to Handle File Upload (~3 min):
-
-Update HomeController.cs to send the form data (including the file) to the Function:
+#### Update HomeController.cs to Handle File Upload:
+- Update TaskMangerWeb/Controllers/HomeController.cs to send the form data (including the file) to the Function:
 ```csharp
 using Microsoft.AspNetCore.Mvc;
 using TaskManagerWeb.Models;
@@ -650,9 +649,8 @@ namespace TaskManagerWeb.Controllers
 }
 ```
 
-Update TaskItem.cs to Include AttachmentUrl (~1 min):
-
-Open TaskManagerWeb/Models/TaskItem.cs:
+#### Update TaskItem.cs to Include AttachmentUrl:
+- Open TaskManagerWeb/Models/TaskItem.cs:
 ```csharp
 namespace TaskManagerWeb.Models
 {
@@ -666,8 +664,7 @@ namespace TaskManagerWeb.Models
     }
 }
 ```
-
-Change back to the TaskManagerWeb Direcotry to push yp the app
+- Change back to the TaskManagerWeb Directory and push up the change
 
 ```powershell
 az webapp up --name taskmanagerweb-jwashburn --resource-group az204exam --sku F1 --location westus

@@ -207,11 +207,12 @@ az functionapp function keys list --resource-group az204exam --name taskmanagerf
 https://taskmanagerfunc-jwashburn.azurewebsites.net/api/createtask?code=THISISYOURCODEFROMSTEP7&name=Test
 ```
 
-
 - You should see something like:
 ```text
 Hello, Test. This HTTP triggered function executed successfully.
 ```
+### You have completed the Set Up Azure Functions for API section.
+---
 
 ### Set Up Cosmos DB
 1. In the Portal, go to “Azure Cosmos DB” > “Create.  Choose NoSQL API”

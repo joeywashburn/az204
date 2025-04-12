@@ -230,9 +230,12 @@ Hello, Test. This HTTP triggered function executed successfully.
 ## Get Connection Strings:
 - Go to Settings> Keys copy the Primary Connection String.  Save them we are going to need them in a minute.
 
+### You have completed the Set Up Cosmos DBsection.
+---
+
+
 ## Update the Function to Use Cosmos DB
 - Modify the CreateTask Function to save tasks to Cosmos DB.
-
 
 ## Add the Cosmos DB SDK:
 1. In the TaskManagerFunctions directory

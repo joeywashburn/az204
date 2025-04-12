@@ -431,12 +431,12 @@ Look through the tabs for learning, but leave as default.
 ### You have completed the Add Blob Storage Section.
 ---
 
-
 ## Update the CreateTask Function to Handle File Uploads
 In the TaskManagerFunctions directory, add the Blob Storage SDK
 
 ```powershell
 dotnet add package Azure.Storage.Blobs
+dotnet add package Microsoft.Azure.WebJobs.Extensions.Storage
 ```
 
 Update CreateTask.cs to handle a file upload and store it in Blob Storage:
@@ -528,6 +528,10 @@ Deploy the updated Function:
 ```powershell
 func azure functionapp publish taskmanagerfunc-jwashburn
 ```
+
+### You have completed the CreateTask Function to Handle File Uploads Section.
+---
+
 
 Update the Web App Form to Include File Upload (~5 min):
 

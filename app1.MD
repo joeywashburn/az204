@@ -233,11 +233,10 @@ Hello, Test. This HTTP triggered function executed successfully.
 ### You have completed the Set Up Cosmos DBsection.
 ---
 
-
 ## Update the Function to Use Cosmos DB
 - Modify the CreateTask Function to save tasks to Cosmos DB.
 
-## Add the Cosmos DB SDK:
+### Add the Cosmos DB SDK:
 1. In the TaskManagerFunctions directory
 ```powershell
 cd TaskManagerFunctions
@@ -295,20 +294,20 @@ namespace TaskManagerFunctions
 ```
 
 
-## Add the Connection String to the Function App:
+### Add the Connection String to the Function App:
 1. In the Portal, Go to your Function App. Settings > Environment Variables
 2. Click Add
 - Name: CosmosDBConnection.
 - Value: Paste the PRIMARY CONNECTION STRING from Cosmos DB.
 - Click Apply twice and confirm to make sure its saved.
 
-## Redeploy the FunctionApp
+### Redeploy the FunctionApp
 ```powershell
 func azure functionapp publish taskmanagerfunc-yourname
 ```
 
 
-## Send a Test
+### Send a Test
 You could use POSTMAN or a CURL Command
 Use the key from before.  If you need help getting that again run
 ```powershell

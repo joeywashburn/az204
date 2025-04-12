@@ -314,6 +314,9 @@ Use the key from before.  If you need help getting that again run
 az functionapp function keys list --resource-group az204exam --name taskmanagerfunc-yourname --function-name CreateTask
 ```
 Feel free to send any message that makes sense to you
+```bash
+curl -X POST -H "Content-Type: application/json" -d '{"Title":"Study AZ-204","Description":"Review Cosmos DB","DueDate":"2025-04-15"}' "https://taskmanagerfunc-jwashburn.azurewebsites.net/api/createtask?code=YOURCODEFROMBEFORE=="
+```
 
 Go into the Azure Portal > CosmosDB and drill down using Data Explorer and find your item
 ![data-explorer](images/image-3.png)

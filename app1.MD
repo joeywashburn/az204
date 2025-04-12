@@ -28,8 +28,7 @@ A simple task management web application built with .NET, hosted on Azure App Se
 ## Getting Started
 Follow these steps to set up and deploy the app locally and on Azure (~2.5 hours total).
 
-### 1. Set Up Azure App Service (~30 minutes)
-**Goal**: Host the web app on Azure App Service.
+### 1. Set Up Azure App Service
 
 1. In the [Azure Portal](https://portal.azure.com), create a new App Service:
    - Use the **Free F1 tier** to avoid costs.
@@ -48,7 +47,7 @@ Follow these steps to set up and deploy the app locally and on Azure (~2.5 hours
    ```bash
    code.
    ```
-5. You may already have a Models directory under TaskManagerWeb.  If not create one
+5. Browse into the Models directory under TaskManagerWeb.
 6. Add TaskItem.cs:
     ```csharp
         namespace TaskManagerWeb.Models
@@ -86,7 +85,7 @@ Follow these steps to set up and deploy the app locally and on Azure (~2.5 hours
                 {
                     Title = title,
                     Description = description,
-                    DueDate = dueDate
+                    DueDate = dueDate.ToString("yyyy-MM-dd") // Convert DateTime to string
                 };
                 _tasks.Add(task);
                 return RedirectToAction("Index");
@@ -146,6 +145,9 @@ az webapp up --name taskmanagerweb-yourname --resource-group az204exam --sku F1 
 ```
 2. Test the app in your browser.  You should be able to get the URL from the App Service Overview page
 
+### You have completed the Set Up Azure App Service section.
+---
+
 ###	Create Azure Functions for APIs 
 In the [Azure Portal](https://portal.azure.com), create a new Function App:
 - Check out the tabs for learning experience, we are leaving them default
@@ -164,7 +166,7 @@ cd TaskManagerFunctions
 ```bash
 func new --template "HttpTrigger" --name CreateTask
 ```
-- Implement CRUD endpoints (e.g., CreateTask, GetTasks) to interact with Cosmos DB.
+
 5. Test your function locally first
 ```bash
 func start
@@ -196,12 +198,13 @@ Functions in taskmanagerfunc-yourname:
 ```bash
 az functionapp function keys list --resource-group az204exam --name taskmanagerfunc-yourname --function-name CreateTask
 ```
+7. Save the default key value.  We are going to use it in the next step.
 
-7. Test it out:
+8. Test it out:
 - Construct the URL you need to test
 - Take your invoke url from Step 5 and append your default key.  It should look something like this
 ```bash
-
+https://taskmanagerfunc-jwashburn.azurewebsites.net/api/createtask?code=THISISYOURCODEFROMSTEP7&name=Test
 ```
 
 

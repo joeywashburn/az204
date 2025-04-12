@@ -407,6 +407,9 @@ Push the changes up to Azure
 az webapp up --name taskmanagerweb-jwashburn --resource-group az204exam --sku F1 --location westus
 ```
 
+### You have completed the Update the HomeController with the Function App changes Section.
+---
+
 ## Add  Blob Storage
 In the Azure Portal Create a new Storage account
 

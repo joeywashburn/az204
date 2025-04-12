@@ -410,34 +410,29 @@ az webapp up --name taskmanagerweb-jwashburn --resource-group az204exam --sku F1
 ### You have completed the Update the HomeController with the Function App changes Section.
 ---
 
-## Add  Blob Storage
+## Add Blob Storage
 In the Azure Portal Create a new Storage account
 
 Look through the tabs for learning, but leave as default.
 
 ![blob](images/image-4.png)
 
-Add A container.
+### Add a Container
+- Data_Storage> Containers.  Add a Container
+- Name: attachments.
+- Go to Access Keys and copy the Connection String for Key1
 
-Data_Storage> Containers.  Add a Container
+### Add the keys to your Function App
+- Settings > Environment Variables
+- Add a new application setting:
+- Name: BlobStorageConnectionString.
+- Value: Paste the Blob Storage connection string from the previous step
 
-Name: attachments.
+### You have completed the Add Blob Storage Section.
+---
 
-Public access level: Private (default).
 
-Go to Access Keys and copy the Connection String for Key1
-
-Head over to your FunctionApp 
-
-Settings > Environment Variables
-
-Add a new application setting:
-
-Name: BlobStorageConnectionString.
-
-Value: Paste the Blob Storage connection string from the previous step
-
-## Update the CreateTask Function to Handle File Uploads (~10 min):
+## Update the CreateTask Function to Handle File Uploads
 In the TaskManagerFunctions directory, add the Blob Storage SDK
 
 Update CreateTask.cs to handle a file upload and store it in Blob Storage:

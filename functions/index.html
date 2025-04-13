@@ -367,6 +367,39 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Setup Azure Functions App">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#add-blob-storage-placeholder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Add Blob Storage (Placeholder)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implement-input-and-output-bindings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implement Input and Output Bindings
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implement-function-triggers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implement Function Triggers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -504,6 +537,39 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Setup Azure Functions App">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#add-blob-storage-placeholder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Add Blob Storage (Placeholder)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implement-input-and-output-bindings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implement Input and Output Bindings
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implement-function-triggers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implement Function Triggers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -555,22 +621,22 @@
 <ol>
 <li>From your root directory build your function</li>
 </ol>
-<pre><code class="language-bash">func init TaskManagerFunctions --dotnet
+<pre><code class="language-powershell">func init TaskManagerFunctions --dotnet
 </code></pre>
 <ol>
 <li>Move into the TaskManagerFunctions dir</li>
 </ol>
-<pre><code class="language-bash">cd TaskManagerFunctions
+<pre><code class="language-powershell">cd TaskManagerFunctions
 </code></pre>
 <ol>
 <li>Build the function</li>
 </ol>
-<pre><code class="language-bash">func new --template &quot;HttpTrigger&quot; --name CreateTask
+<pre><code class="language-powershell">func new --template &quot;HttpTrigger&quot; --name CreateTask
 </code></pre>
 <ol>
 <li>Test your function locally first</li>
 </ol>
-<pre><code class="language-bash">func start
+<pre><code class="language-powershell">func start
 </code></pre>
 <p>You should see output like</p>
 <pre><code class="language-text">Functions:
@@ -585,7 +651,7 @@
 <ol>
 <li>Deploy to Azure: </li>
 </ol>
-<pre><code class="language-bash">func azure functionapp publish taskmanagerfunc-yourname #replace with your function name
+<pre><code class="language-powershell">func azure functionapp publish taskmanagerfunc-yourname #replace with your function name
 </code></pre>
 <p>Watch for the “Functions in taskmanagerfunc-yourname” section in the output. It should list:</p>
 <pre><code class="language-text">Functions in taskmanagerfunc-yourname:
@@ -595,7 +661,7 @@
 <ol>
 <li>Retrieve the Function Key</li>
 </ol>
-<pre><code class="language-bash">az functionapp function keys list --resource-group az204exam --name taskmanagerfunc-yourname --function-name CreateTask
+<pre><code class="language-powershell">az functionapp function keys list --resource-group az204exam --name taskmanagerfunc-yourname --function-name CreateTask
 </code></pre>
 <ol>
 <li>
@@ -607,16 +673,214 @@
 <li>Construct the URL you need to test</li>
 <li>Take your invoke url from Step 5 and append your default key.  It should look something like this</li>
 </ol>
-<pre><code class="language-bash">https://taskmanagerfunc-jwashburn.azurewebsites.net/api/createtask?code=THISISYOURCODEFROMSTEP7&amp;name=Test
+<pre><code class="language-powershell">https://taskmanagerfunc-jwashburn.azurewebsites.net/api/createtask?code=THISISYOURCODEFROMSTEP7&amp;name=Test
 </code></pre>
 <ul>
 <li>You should see something like:</li>
 </ul>
 <pre><code class="language-text">Hello, Test. This HTTP triggered function executed successfully.
 </code></pre>
+<h3 id="add-blob-storage-placeholder">Add Blob Storage (Placeholder)</h3>
+<p><em>Note</em>: We’ll use Blob Storage to store tasks, prepping for Cosmos DB later</p>
+<ol>
+<li><strong>Create Storage Account</strong>:</li>
+<li>In the Azure Portal, create a Storage Account:<ul>
+<li>Name: <code>taskmanagerstore</code> (or unique, e.g., <code>taskmanagerstoreyourname</code>).</li>
+<li>Resource group: <code>az204exam</code>.</li>
+<li>Leave defaults (Standard, General-purpose v2).</li>
+<li>Click <strong>Create</strong>.</li>
+</ul>
+</li>
+<li>
+<p>Go to <strong>Containers</strong> &gt; Create container named <code>tasks</code>.</p>
+</li>
+<li>
+<p><strong>Get Connection String</strong>:</p>
+</li>
+<li>In the Storage Account, go to <strong>Access keys</strong>.</li>
+<li>
+<p>Copy the <strong>Connection string</strong> for <code>key1</code>.</p>
+</li>
+<li>
+<p><strong>Add to Function App</strong>:</p>
+</li>
+<li>In your Function App (<code>taskmanagerfunc-yourname</code>), go to <strong>Configuration</strong> &gt; <strong>Application settings</strong>.</li>
+<li>Click <strong>New application setting</strong>.</li>
+<li>Name: <code>StorageConnection</code>, Value: <code>[your-connection-string]</code>.</li>
+<li>Save and restart.</li>
+</ol>
+<h3 id="implement-input-and-output-bindings">Implement Input and Output Bindings</h3>
+<p><em>Note</em>: We’ll use HTTP to read task data (input) and Blob Storage to save tasks (output), matching our web app’s tasks.</p>
+<ol>
+<li><strong>Add Blob SDK</strong>:</li>
+<li>In <code>TaskManagerFunctions</code>, run:
+     <code>powershell
+     dotnet add package Azure.Storage.Blobs</code></li>
+<li><strong>Update CreateTask Function</strong>:</li>
+</ol>
+<p>Replace CreateTask.cs with:
+    ```csharp
+    using System.IO;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Azure.Functions.Worker;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Logging;
+    using Newtonsoft.Json;</p>
+<pre><code>namespace TaskManagerFunctions
+{
+    public class CreateTask
+    {
+        private readonly ILogger&lt;CreateTask&gt; _logger;
+
+        public CreateTask(ILogger&lt;CreateTask&gt; logger)
+        {
+            _logger = logger;
+        }
+
+        public class TaskItem
+        {
+            public string id { get; set; } = Guid.NewGuid().ToString();
+            public string Title { get; set; }
+            public string Description { get; set; }
+            public string DueDate { get; set; }
+        }
+
+        [Function("CreateTask")]
+        [BlobOutput("tasks/{id}.json", Connection = "StorageConnection")]
+        public async Task&lt;IActionResult&gt; Run(
+            [HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequest req)
+        {
+            _logger.LogInformation("Creating new task.");
+
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            TaskItem task = JsonConvert.DeserializeObject&lt;TaskItem&gt;(requestBody);
+
+            if (string.IsNullOrEmpty(task?.Title))
+            {
+                return new BadRequestObjectResult("Please provide a title.");
+            }
+
+            task.id = Guid.NewGuid().ToString();
+            _logger.LogInformation($"Saving task: {task.Title}");
+
+            return new OkObjectResult(task); // Saves to Blob via output binding
+        }
+    }
+}
+```
+</code></pre>
+<ol>
+<li>
+<p><strong>Test Locally</strong>:</p>
+<p>Update local.settings.json:
+<code>json
+{
+    "IsEncrypted": false,
+    "Values": {
+        "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+        "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+        "StorageConnection": "[your-connection-string]"
+    }
+}</code>
+Run:
+<code>powershell
+func start</code>
+POST with curl or Postman:
+<code>powershell
+curl -X POST http://localhost:7071/api/CreateTask -H "Content-Type: application/json" -d '{"Title":"Test Task","Description":"Do this","DueDate":"2025-04-15"}'</code>
+Check the tasks container (local Azurite or Portal) for a [guid].json file with the task JSON.</p>
+</li>
+<li>
+<p><strong>Deploy and Test</strong>:</p>
+<p>Deploy:
+<code>powershell
+func azure functionapp publish taskmanagerfunc-yourname</code>
+Test:
+<code>powershell
+curl -X POST https://taskmanagerfunc-yourname.azurewebsites.net/api/createtask?code=[your-key] -H "Content-Type: application/json" -d '{"Title":"Azure Task","Description":"Deployed","DueDate":"2025-04-15"}'</code></p>
+<p>Verify the tasks container in the Portal has a new JSON file.</p>
+</li>
+</ol>
+<p>Why do this? HTTP input reads task data, Blob output saves it, hitting exam goals. Preps for Cosmos DB without needing it now.</p>
+<h3 id="implement-function-triggers">Implement Function Triggers</h3>
+<p>Note: Our HTTP trigger covers webhooks. We’ll add a timer trigger and Blob trigger for data operations.</p>
+<ol>
+<li>
+<p><strong>Add a Timer Trigger</strong>:</p>
+<p>In TaskManagerFunctions, create:
+<code>powershell
+func new --template "TimerTrigger" --name CheckTasks</code>
+Edit CheckTasks.cs:
+```csharp
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Extensions.Logging;</p>
+<p>namespace TaskManagerFunctions
+{
+    public class CheckTasks
+    {
+        private readonly ILogger<CheckTasks> _logger;</p>
+<pre><code>    public CheckTasks(ILogger&lt;CheckTasks&gt; logger)
+    {
+        _logger = logger;
+    }
+
+    [Function("CheckTasks")]
+    public void Run([TimerTrigger("0 */5 * * * *")] TimerInfo myTimer)
+    {
+        _logger.LogInformation($"Timer triggered at: {DateTime.Now}");
+        _logger.LogInformation("Checking tasks (placeholder for future logic)...");
+    }
+}
+</code></pre>
+<p>}
+```
+Note: Runs every 5 minutes.</p>
+<p>Add a Blob Trigger:</p>
+<p>Create:
+<code>powershell
+func new --template "BlobTrigger" --name ProcessTask</code></p>
+<p>Edit ProcessTask.cs:
+```csharp</p>
+<p>using Microsoft.Azure.Functions.Worker;
+using Microsoft.Extensions.Logging;</p>
+<p>namespace TaskManagerFunctions
+{
+    public class ProcessTask
+    {
+        private readonly ILogger<ProcessTask> _logger;</p>
+<pre><code>    public ProcessTask(ILogger&lt;ProcessTask&gt; logger)
+    {
+        _logger = logger;
+    }
+
+    [Function("ProcessTask")]
+    public void Run([BlobTrigger("tasks/{name}.json", Connection = "StorageConnection")] string taskJson)
+    {
+        _logger.LogInformation($"New task file detected: {taskJson}");
+    }
+}
+</code></pre>
+<p>}
+```</p>
+<p>Test Locally:</p>
+<p>Ensure local.settings.json has StorageConnection.</p>
+<p>Run:
+<code>powershell
+func start</code>
+For timer: Wait 5 minutes, see “Checking tasks...” in console.</p>
+<p>For Blob: Add a JSON file to tasks (via Azurite or Portal), check console for “New task file detected...”.</p>
+<p>Deploy and Test:</p>
+<p><code>powershell
+func azure functionapp publish taskmanagerfunc-yourname</code></p>
+<p>Timer: Wait 5 minutes, check Portal &gt; Functions &gt; CheckTasks &gt; Monitor &gt; Logs.</p>
+<p>Blob: Upload a JSON to tasks container, check ProcessTask logs.</p>
+</li>
+</ol>
+<p>Why do this? Timer (scheduled), Blob (data operation), and HTTP (webhook) triggers cover all exam requirements.</p>
 <h2 id="next-steps">Next Steps</h2>
 <ul>
-<li>Do everything again, but this time use the CLI to build the Functions App.</li>
+<li>Do everything again, but this time, but use the CLI where possible.</li>
 <li>If you are going to take break, you could clean up here, but the next section builds on what we have done here.</li>
 </ul>
 

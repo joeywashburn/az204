@@ -704,9 +704,108 @@ app.Run();
 az webapp up --name taskmanagerweb-jwashburn --resource-group az204exam --sku F1 --location westus
 ```
 
+## Application Insights
+At this point you are likely hitting app errors and other problems as this code is AI generated and not tested at any real level of scrutiny.  So lets get App Insights going to help troubleshoot the problem
+
+### Create Application Insights
+In the Azure Portal create an Appliction Insights resource
+- Use the same resource group you have been using
+- Setup a name like taskmanager-insights
+- Leave the rest defaults
+- Retrieve the Connection String
+-- Go to the new Application Insights resource > Overview tab.
+- Copy the Connection String (e.g., InstrumentationKey=...;IngestionEndpoint=...). - Save this for later we are going to need it.
+
+### Integrate with App Service
+Navigate to the TaskManagerWeb directory and add the required package
+```powershell
+dotnet add package Microsoft.ApplicationInsights.AspNetCore
+```
+
+Modify TaskManagerWeb/Program.cs to initialize Application Insights.
+
+Replace the existing code with
+
+```csharp
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.ApplicationInsights.AspNetCore.Extensions; // Add this
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container
+builder.Services.AddControllersWithViews();
+builder.Services.AddHttpClient();
+
+// Add Application Insights
+builder.Services.AddApplicationInsightsTelemetry();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.Run();
+```
+
+### Add Connection String to App Service
+- In the Azure Portal, go to your App Service (taskmanagerweb-yourname).
+- Navigate to Settings > Environment Variables (or Configuration).
+- Add a new application setting:
+- Name: APPLICATIONINSIGHTS_CONNECTION_STRING
+- Value: Paste the Connection String from Step 1.
+
+### Redeploy the Web App
+- Ensure you’re in the TaskManagerWeb directory
+```powershell
+cd TaskManagerWeb
+dotnet build
+az webapp up --name taskmanagerweb-yourname --resource-group az204exam --sku F1 --location westus
+```
+
+### You have completed the Add App Insights to App Service Section.
+---
+
+### Integrate with Azure Function
+- Add the Application Insights SDK:
+- In the TaskManagerFunctions directory:
+```powershell
+dotnet add package Microsoft.Azure.WebJobs.Logging.ApplicationInsights
+```
+
+- Add Connection String to Function App:
+- In the Azure Portal, go to your Function App (taskmanagerfunc-yourname).
+- Navigate to Settings > Environment Variables.
+- Add a new application setting:
+- Name: APPLICATIONINSIGHTS_CONNECTION_STRING
+- Value: Paste the same Connection String from Step 1.
+
+### Redeploy the Function App:
+- Ensure you’re in the TaskManagerFunctions directory:
+```powershell
+cd TaskManagerFunctions
+func azure functionapp publish taskmanagerfunc-yourname
+```
 
 ## Go Test in Azure
-- THIS IS WHERE ITS CURRENTLY FAILING.  500 Error.  Working on that now
+
+STILL to DO
+AD Auth
+App Insights
 
 
 # Cost Estimate

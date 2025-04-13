@@ -9,7 +9,7 @@
       
       
       
-        <link rel="prev" href="..">
+        <link rel="prev" href="../acr/">
       
       
       
@@ -18,7 +18,7 @@
     
     
       
-        <title>Azure Compute - AZ-204 Study Materials</title>
+        <title>Implement Azure App Service Web Apps - AZ-204 Study Materials</title>
       
     
     
@@ -60,7 +60,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#implement-containerized-solutions" class="md-skip">
+        <a href="#implement-azure-app-service-web-apps" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Azure Compute
+              Implement Azure App Service Web Apps
             
           </span>
         </div>
@@ -215,6 +215,69 @@
   
   
   
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Develop Azure compute solutions
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Develop Azure compute solutions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../acr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Implement containerized solutions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
     <li class="md-nav__item md-nav__item--active">
       
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
@@ -228,7 +291,7 @@
   
   
   <span class="md-ellipsis">
-    Azure Compute
+    Implement Azure App Service Web Apps
     
   </span>
   
@@ -241,7 +304,7 @@
   
   
   <span class="md-ellipsis">
-    Azure Compute
+    Implement Azure App Service Web Apps
     
   </span>
   
@@ -264,15 +327,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#implement-containerized-solutions_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Implement containerized solutions
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
       Prerequisites
@@ -282,74 +336,35 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#build-the-dockerfile" class="md-nav__link">
+  <a href="#set-up-azure-app-service" class="md-nav__link">
     <span class="md-ellipsis">
-      Build the Dockerfile
+      Set Up Azure App Service
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Set Up Azure App Service">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modify-the-home-page-view-to-add-a-form" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modify the Home Page View to Add a Form
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#create-the-flask-app" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#deploy-to-azure-app-service" class="md-nav__link">
     <span class="md-ellipsis">
-      Create the Flask App
+      Deploy to Azure App Service
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#build-and-test-docker-locally" class="md-nav__link">
-    <span class="md-ellipsis">
-      Build and Test Docker locally
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#create-a-container-registry" class="md-nav__link">
-    <span class="md-ellipsis">
-      Create a Container Registry
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#push-the-image-to-acr" class="md-nav__link">
-    <span class="md-ellipsis">
-      Push the Image to ACR
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#deploy-container-to-aci" class="md-nav__link">
-    <span class="md-ellipsis">
-      Deploy container to ACI
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#deploy-to-container-apps-environment" class="md-nav__link">
-    <span class="md-ellipsis">
-      Deploy to Container Apps Environment
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#clean-up" class="md-nav__link">
-    <span class="md-ellipsis">
-      Clean up
-    </span>
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -365,6 +380,14 @@
     </ul>
   
 </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
       
     </li>
   
@@ -397,15 +420,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#implement-containerized-solutions_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Implement containerized solutions
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
       Prerequisites
@@ -415,74 +429,35 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#build-the-dockerfile" class="md-nav__link">
+  <a href="#set-up-azure-app-service" class="md-nav__link">
     <span class="md-ellipsis">
-      Build the Dockerfile
+      Set Up Azure App Service
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Set Up Azure App Service">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modify-the-home-page-view-to-add-a-form" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modify the Home Page View to Add a Form
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#create-the-flask-app" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#deploy-to-azure-app-service" class="md-nav__link">
     <span class="md-ellipsis">
-      Create the Flask App
+      Deploy to Azure App Service
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#build-and-test-docker-locally" class="md-nav__link">
-    <span class="md-ellipsis">
-      Build and Test Docker locally
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#create-a-container-registry" class="md-nav__link">
-    <span class="md-ellipsis">
-      Create a Container Registry
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#push-the-image-to-acr" class="md-nav__link">
-    <span class="md-ellipsis">
-      Push the Image to ACR
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#deploy-container-to-aci" class="md-nav__link">
-    <span class="md-ellipsis">
-      Deploy container to ACI
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#deploy-to-container-apps-environment" class="md-nav__link">
-    <span class="md-ellipsis">
-      Deploy to Container Apps Environment
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#clean-up" class="md-nav__link">
-    <span class="md-ellipsis">
-      Clean up
-    </span>
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -511,156 +486,286 @@
 
 
 
-<h1 id="implement-containerized-solutions">Implement containerized solutions</h1>
-<p>Docker Application to hit the AZ-204 Exam Topics:</p>
-<h2 id="implement-containerized-solutions_1">Implement containerized solutions</h2>
+<h1 id="implement-azure-app-service-web-apps">Implement Azure App Service Web Apps</h1>
+<p>Web App to hit the AZ-204 Exam Topics:</p>
 <ul>
-<li>Create and manage container images for solutions</li>
-<li>Publish an image to Azure Container Registry</li>
-<li>Run containers by using Azure Container Instance</li>
-<li>Create solutions by using Azure Container Apps</li>
+<li>Create an Azure App Service Web App</li>
+<li>Configure and implement diagnostics and logging</li>
+<li>Deploy code and containerized solutions</li>
+<li>Configure settings including Transport Layer Security (TLS), API settings, and service connections</li>
+<li>Implement autoscaling</li>
+<li>Configure deployment slots</li>
 </ul>
 <h2 id="prerequisites">Prerequisites</h2>
 <ul>
-<li><strong>Docker</strong> </li>
-<li><strong>Python</strong> Optional</li>
+<li><strong>.NET SDK 8.0</strong> (<a href="https://learn.microsoft.com/en-us/dotnet/core/install/windows?tabs=net80#install-with-windows-package-manager-winget">Install via winget</a>: <code>winget install Microsoft.DotNet.SDK.8</code>)</li>
+<li><strong>Azure CLI</strong> (<a href="https://learn.microsoft.com/en-us/cli/azure/install-azure-cli">Install</a>)</li>
+<li><strong>Azure Functions Core Tools</strong> (<a href="https://github.com/Azure/azure-functions-core-tools/releases">Install</a>)</li>
 <li><strong>Azure Subscription</strong> (Free tier or $200 credit recommended for minimal costs)</li>
 <li><strong>Existing Resource Group</strong></li>
 </ul>
-<h2 id="build-the-dockerfile">Build the Dockerfile</h2>
-<ul>
-<li>Create a directory for your files</li>
-</ul>
-<pre><code class="language-powershell">mkdir azurecompute25
-cd azurecompute25
-</code></pre>
-<ul>
-<li>Build your Dockerfile</li>
-</ul>
-<pre><code class="language-Dockerfile">FROM python:3.9-slim
-WORKDIR /app
-COPY . .
-RUN pip install flask
-EXPOSE 5000
-CMD [&quot;python&quot;, &quot;app.py&quot;]
-</code></pre>
-<h2 id="create-the-flask-app">Create the Flask App</h2>
-<ul>
-<li>In that same directory create a new file called app.py</li>
-</ul>
-<pre><code class="language-python">from flask import Flask
-app = Flask(__name__)
+<h2 id="set-up-azure-app-service">Set Up Azure App Service</h2>
+<ol>
+<li>In the <a href="https://portal.azure.com">Azure Portal</a>, create a new App Service:</li>
+<li>Use the <strong>Free F1 tier</strong> to avoid costs.</li>
+<li>Note the app name (e.g., <code>taskmanagerweb-yourname</code>) and resource group (e.g., <code>az204exam</code>).</li>
+<li>Check out the tabs for learning experience, we are leaving them default</li>
+</ol>
+<p><img alt="Portal Screenshot" src="../images/image1.png" />
+2. Create a .NET Core MVC app locally:
+   <code>bash
+   dotnet new mvc -o TaskManagerWeb
+   cd TaskManagerWeb
+   dotnet run</code>
+3. Verify the app runs at http://localhost:port
+4. Launch your editor of choice:
+   <code>bash
+   code.</code>
+5. Browse into the Models directory under TaskManagerWeb.
+6. Add TaskItem.cs:
+    <code>csharp
+        namespace TaskManagerWeb.Models
+        {
+            public class TaskItem
+            {
+                public string id { get; set; } = System.Guid.NewGuid().ToString();
+                public string? Title { get; set; }
+                public string? Description { get; set; }
+                public string? DueDate { get; set; } // Changed to string
+            }
+        }</code>
+7. Update Controllers/HomeController.cs to handle tasks (in-memory for now):
+    ```csharp
+    using Microsoft.AspNetCore.Mvc;
+    using TaskManagerWeb.Models;
+    using System.Collections.Generic;</p>
+<pre><code>namespace TaskManagerWeb.Controllers
+{
+    public class HomeController : Controller
+    {
+        private static List&lt;TaskItem&gt; _tasks = new List&lt;TaskItem&gt;();
 
-@app.route('/')
-def hello():
-    return 'Hello from Docker!'
+        public IActionResult Index()
+        {
+            return View(_tasks);
+        }
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+        [HttpPost]
+        public IActionResult Create(string title, string description, DateTime dueDate)
+        {
+            var task = new TaskItem
+            {
+                Title = title,
+                Description = description,
+                DueDate = dueDate.ToString("yyyy-MM-dd") // Convert DateTime to string
+            };
+            _tasks.Add(task);
+            return RedirectToAction("Index");
+        }
+    }
+}
+```
 </code></pre>
-<h2 id="build-and-test-docker-locally">Build and Test Docker locally</h2>
-<pre><code class="language-cmd">docker build -t whateveryouwant:1.0 .
-</code></pre>
-<ul>
-<li>Run docker run -p 5000:5000 whateveryouwant:1.0.</li>
-<li>Open http://localhost:5000 in a browser (should show "Hello from Docker!").</li>
-<li>Stop the container with Ctrl+C.</li>
-</ul>
-<h2 id="create-a-container-registry">Create a Container Registry</h2>
-<ul>
-<li>Create the ACR</li>
-</ul>
-<pre><code class="language-powershell">az acr create --resource-group az204 --name acryourname --sku Basic
-</code></pre>
-<ul>
-<li>Enable Admin</li>
-</ul>
-<pre><code class="language-powershell">az acr update -n acryourname --admin-enabled true
-</code></pre>
-<ul>
-<li>Get you credentials</li>
-</ul>
-<pre><code class="language-powershell">az acr credential show --name acryourname
-</code></pre>
-<h2 id="push-the-image-to-acr">Push the Image to ACR</h2>
-<ul>
-<li>Log in to ACR:</li>
-</ul>
-<pre><code class="language-powershell">docker login acryourname.azurecr.io --username &lt;username&gt; --password &lt;password&gt;.
-</code></pre>
-<ul>
-<li>Tag the image:</li>
-</ul>
-<pre><code class="language-powershell">docker tag myapp:1.0 acryourname.azurecr.io/myapp:1.0.
-</code></pre>
-<ul>
-<li>Push the image:</li>
-</ul>
-<pre><code class="language-powershell">docker push acryourname.azurecr.io/myapp:1.0.
-</code></pre>
-<ul>
-<li>In the Azure Portal, go to your ACR, click "Repositories," and verify yourapp is there.</li>
-</ul>
-<h2 id="deploy-container-to-aci">Deploy container to ACI</h2>
-<pre><code class="language-powershell">az container create `
-  --resource-group az204 `
-  --name az204viacli `
-  --os-type Linux `
-  --cpu 1 `
-  --memory 1 `
-  --image acryourname.azurecr.io/myapp:1.0 `
-  --registry-login-server acryourname.azurecr.io `
-  --registry-username &lt;username&gt; `
-  --registry-password &lt;password&gt; `
-  --ports 5000 `
-  --dns-name-label az204viacli `
-  --location westus3
-  ```
+<h3 id="modify-the-home-page-view-to-add-a-form">Modify the Home Page View to Add a Form</h3>
+<p>The view (Index.cshtml) defines the UI, including the form for adding tasks and a list to display them.
+1. Open Views/Home/Index.cshtml.
+Replace the default content with:</p>
+<pre><code class="language-html">@model List&lt;TaskManagerWeb.Models.TaskItem&gt;
 
-- Test your container
-```powershell
-az container show --resource-group az204 --name az204viacli --query ipAddress.fqdn --output tsv 
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot; /&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+    &lt;title&gt;Task Manager&lt;/title&gt;
+    &lt;style&gt;
+        &lt;text&gt;
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+        }
+
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        div {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+
+        input[type=&quot;text&quot;],
+        textarea,
+        input[type=&quot;date&quot;] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        li {
+            background: #fff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        li.no-tasks {
+            color: #7f8c8d;
+            font-style: italic;
+            text-align: center;
+            box-shadow: none;
+        }
+
+        .task-info {
+            flex-grow: 1;
+        }
+
+        .task-info strong {
+            color: #2c3e50;
+        }
+
+        @@media (max-width: 600px) {
+            form, ul {
+                padding: 10px;
+            }
+
+            li {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+        &lt;/text&gt;
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Task Manager&lt;/h1&gt;
+
+    &lt;form asp-action=&quot;Create&quot; method=&quot;post&quot;&gt;
+        &lt;div&gt;
+            &lt;label&gt;Title:&lt;/label&gt;
+            &lt;input type=&quot;text&quot; name=&quot;title&quot; required /&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+            &lt;label&gt;Description:&lt;/label&gt;
+            &lt;textarea name=&quot;description&quot;&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+            &lt;label&gt;Due Date:&lt;/label&gt;
+            &lt;input type=&quot;date&quot; name=&quot;dueDate&quot; required /&gt;
+        &lt;/div&gt;
+        &lt;button type=&quot;submit&quot;&gt;Add Task&lt;/button&gt;
+    &lt;/form&gt;
+
+    &lt;h2&gt;Tasks&lt;/h2&gt;
+    &lt;ul&gt;
+        @if (Model != null &amp;&amp; Model.Any())
+        {
+            foreach (var task in Model)
+            {
+                &lt;li&gt;
+                    &lt;div class=&quot;task-info&quot;&gt;
+                        &lt;strong&gt;@task.Title&lt;/strong&gt; - @task.Description
+                        &lt;br /&gt;
+                        &lt;small&gt;Due: @(task.DueDate ?? &quot;No due date&quot;)&lt;/small&gt;
+                    &lt;/div&gt;
+                &lt;/li&gt;
+            }
+        }
+        else
+        {
+            &lt;li class=&quot;no-tasks&quot;&gt;No tasks yet.&lt;/li&gt;
+        }
+    &lt;/ul&gt;
+&lt;/body&gt;
+&lt;/html&gt;
 </code></pre>
-<ul>
-<li>Open http://<fqdn>:5000 in a browser (should show "Hello from Docker!").</li>
-<li>In the Azure Portal, go to your Container Instance and you will see your Container Instance</li>
-</ul>
-<h2 id="deploy-to-container-apps-environment">Deploy to Container Apps Environment</h2>
-<ul>
-<li>Create the Container Apps Environment</li>
-</ul>
-<pre><code class="language-powershell">az containerapp env create `
-  --name az204AppEnv `
-  --resource-group az204 `
-  --location westus3
+<ol>
+<li>Test the app works locally</li>
+</ol>
+<pre><code class="language-powershell">dotnet run
 </code></pre>
-<ul>
-<li>Deploy the app</li>
-</ul>
-<pre><code class="language-powershell">az containerapp create `
-  --name az204containerapp `
-  --resource-group az204 `
-  --environment az204AppEnv `
-  --image acryourname.azurecr.io/myapp:1.0 `
-  --registry-server acryourname.azurecr.io `
-  --registry-username &lt;username&gt; `
-  --registry-password &lt;password&gt; `
-  --target-port 5000 `
-  --ingress external
+<h3 id="deploy-to-azure-app-service">Deploy to Azure App Service</h3>
+<ol>
+<li>Push the app you created up to the Azure App Service we previously made.</li>
+</ol>
+<pre><code class="language-bash">az webapp up --name taskmanagerweb-yourname --resource-group az204exam --sku F1 --location yourlocation --runtime &quot;dotnet:8&quot;
 </code></pre>
-<ul>
-<li>In the Azure Portal, go to your Resource Group and click on your Container App.  Click the URL to make sure you see Hello from Docker!.</li>
-</ul>
-<h2 id="clean-up">Clean up</h2>
-<ul>
-<li>Optional but recommended</li>
-<li>Delete all you resources to not go over $200 limit</li>
-</ul>
-<pre><code class="language-powershell">az group delete -n az204 --no-wait --yes y
-</code></pre>
+<ol>
+<li>Test the app in your browser.  You should be able to get the URL from the App Service Overview page</li>
+</ol>
 <h2 id="next-steps">Next Steps</h2>
 <ul>
-<li>Do everything again, but this time use only the Portal</li>
+<li>Do everything again, but this time use the CLI to build the Web App.</li>
+<li>If you are going to take break, you could clean up here, but the next section builds on what we have done here.</li>
 </ul>
 
 

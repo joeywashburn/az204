@@ -1002,6 +1002,10 @@ app.Run();
 az webapp up --name taskmanagerweb-jwashburn --resource-group az204exam --sku F1 --location westus
 ```
 
+BROKEN HERE
+
+Uploads seem to fail silently
+
 ## Application Insights
 At this point you are likely hitting app errors and other problems as this code is AI generated and not tested at any real level of scrutiny.  So lets get App Insights going to help troubleshoot the problem
 

@@ -9,18 +9,20 @@
       
       
       
+        <link rel="prev" href="../webapp/">
       
       
-      <link rel="icon" href="/assets/images/favicon.png">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.11">
     
     
       
-        <title>AZ-204 Study Materials</title>
+        <title>Implement Azure Functions - AZ-204 Study Materials</title>
       
     
     
-      <link rel="stylesheet" href="/assets/stylesheets/main.4af4bdda.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.4af4bdda.min.css">
       
       
 
@@ -39,7 +41,7 @@
       
     
     
-    <script>__md_scope=new URL("/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -57,6 +59,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#create-azure-functions-for-apis" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -69,7 +76,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/." title="AZ-204 Study Materials" class="md-header__button md-logo" aria-label="AZ-204 Study Materials" data-md-component="logo">
+    <a href=".." title="AZ-204 Study Materials" class="md-header__button md-logo" aria-label="AZ-204 Study Materials" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -89,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Implement Azure Functions
             
           </span>
         </div>
@@ -167,7 +174,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/." title="AZ-204 Study Materials" class="md-nav__button md-logo" aria-label="AZ-204 Study Materials" data-md-component="logo">
+    <a href=".." title="AZ-204 Study Materials" class="md-nav__button md-logo" aria-label="AZ-204 Study Materials" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -185,7 +192,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/." class="md-nav__link">
+      <a href=".." class="md-nav__link">
         
   
   
@@ -204,18 +211,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
           <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
@@ -231,7 +240,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             Develop Azure compute solutions
@@ -245,7 +254,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/acr/" class="md-nav__link">
+      <a href="../acr/" class="md-nav__link">
         
   
   
@@ -268,7 +277,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/webapp/" class="md-nav__link">
+      <a href="../webapp/" class="md-nav__link">
         
   
   
@@ -288,10 +297,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="/functions/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Implement Azure Functions
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -302,6 +333,53 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-azure-functions-app" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup Azure Functions App
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Steps
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -331,6 +409,43 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-azure-functions-app" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup Azure Functions App
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Steps
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -342,8 +457,111 @@
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+
+
+<h1 id="create-azure-functions-for-apis">Create Azure Functions for APIs</h1>
+<p>Functions App to hit the AZ-204 Exam Topics:</p>
+<ul>
+<li>Create and configure an Azure Functions app</li>
+<li>Implement input and output bindings</li>
+<li>Implement function triggers by using data operations, timers, and webhooks</li>
+</ul>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li><strong>.NET SDK 8.0</strong> (<a href="https://learn.microsoft.com/en-us/dotnet/core/install/windows?tabs=net80#install-with-windows-package-manager-winget">Install via winget</a>: <code>winget install Microsoft.DotNet.SDK.8</code>)</li>
+<li><strong>Azure CLI</strong> (<a href="https://learn.microsoft.com/en-us/cli/azure/install-azure-cli">Install</a>)</li>
+<li><strong>Azure Functions Core Tools</strong> (<a href="https://github.com/Azure/azure-functions-core-tools/releases">Install</a>)</li>
+<li><strong>Azure Subscription</strong> (Free tier or $200 credit recommended for minimal costs)</li>
+<li><strong>Existing Resource Group</strong></li>
+</ul>
+<h2 id="setup-azure-functions-app">Setup Azure Functions App</h2>
+<ol>
+<li>In the <a href="https://portal.azure.com">Azure Portal</a>, create a new Function App:</li>
+<li>Check out the tabs for learning experience, we are leaving them default</li>
+</ol>
+<p><img alt="consumption" src="../images/consumption.PNG" /></p>
+<ol>
+<li>From your root directory build your function</li>
+</ol>
+<pre><code class="language-bash">func init TaskManagerFunctions --dotnet
+</code></pre>
+<ol>
+<li>Move into the TaskManagerFunctions dir</li>
+</ol>
+<pre><code class="language-bash">cd TaskManagerFunctions
+</code></pre>
+<ol>
+<li>Build the function</li>
+</ol>
+<pre><code class="language-bash">func new --template &quot;HttpTrigger&quot; --name CreateTask
+</code></pre>
+<ol>
+<li>Test your function locally first</li>
+</ol>
+<pre><code class="language-bash">func start
+</code></pre>
+<p>You should see output like</p>
+<pre><code class="language-text">Functions:
+    CreateTask: [GET,POST] http://localhost:7071/api/CreateTask
+</code></pre>
+<p>Open a browser and go to:</p>
+<pre><code class="language-text">http://localhost:7071/api/CreateTask?name=Test
+</code></pre>
+<p>Expected response should be something like this:</p>
+<pre><code class="language-text">This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.
+</code></pre>
+<ol>
+<li>Deploy to Azure: </li>
+</ol>
+<pre><code class="language-bash">func azure functionapp publish taskmanagerfunc-yourname #replace with your function name
+</code></pre>
+<p>Watch for the “Functions in taskmanagerfunc-yourname” section in the output. It should list:</p>
+<pre><code class="language-text">Functions in taskmanagerfunc-yourname:
+    CreateTask - [httpTrigger]
+        Invoke url: https://taskmanagerfunc-yourname.azurewebsites.net/api/createtask?code=...
+</code></pre>
+<ol>
+<li>Retrieve the Function Key</li>
+</ol>
+<pre><code class="language-bash">az functionapp function keys list --resource-group az204exam --name taskmanagerfunc-yourname --function-name CreateTask
+</code></pre>
+<ol>
+<li>
+<p>Save the default key value.  We are going to use it in the next step.</p>
+</li>
+<li>
+<p>Test it out:</p>
+</li>
+<li>Construct the URL you need to test</li>
+<li>Take your invoke url from Step 5 and append your default key.  It should look something like this</li>
+</ol>
+<pre><code class="language-bash">https://taskmanagerfunc-jwashburn.azurewebsites.net/api/createtask?code=THISISYOURCODEFROMSTEP7&amp;name=Test
+</code></pre>
+<ul>
+<li>You should see something like:</li>
+</ul>
+<pre><code class="language-text">Hello, Test. This HTTP triggered function executed successfully.
+</code></pre>
+<h2 id="next-steps">Next Steps</h2>
+<ul>
+<li>Do everything again, but this time use the CLI to build the Functions App.</li>
+<li>If you are going to take break, you could clean up here, but the next section builds on what we have done here.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -379,10 +597,10 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "/", "features": [], "search": "/assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="/assets/javascripts/bundle.c8b220af.min.js"></script>
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
       
     
   </body>

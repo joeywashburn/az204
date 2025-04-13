@@ -28,7 +28,7 @@ A simple task management web application built with .NET, hosted on Azure App Se
 ## Getting Started
 Follow these steps to set up and deploy the app locally and on Azure (~2.5 hours total).
 
-### 1. Set Up Azure App Service
+## Set Up Azure App Service
 
 1. In the [Azure Portal](https://portal.azure.com), create a new App Service:
    - Use the **Free F1 tier** to avoid costs.
@@ -100,38 +100,181 @@ Replace the default content with:
 ```html
 @model List<TaskManagerWeb.Models.TaskItem>
 
-<h1>Task Manager</h1>
-
-<form asp-action="Create" method="post">
-    <div>
-        <label>Title:</label>
-        <input type="text" name="title" required />
-    </div>
-    <div>
-        <label>Description:</label>
-        <textarea name="description"></textarea>
-    </div>
-    <div>
-        <label>Due Date:</label>
-        <input type="date" name="dueDate" required />
-    </div>
-    <button type="submit">Add Task</button>
-</form>
-
-<h2>Tasks</h2>
-<ul>
-    @if (Model != null && Model.Any())
-    {
-        foreach (var task in Model)
-        {
-            <li>@task.Title - @task.Description (Due: @(task.DueDate ?? "No due date"))</li>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Manager</title>
+    <style>
+        <text>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
         }
-    }
-    else
-    {
-        <li>No tasks yet.</li>
-    }
-</ul>
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+        }
+
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        div {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+
+        input[type="text"],
+        textarea,
+        input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        li {
+            background: #fff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        li.no-tasks {
+            color: #7f8c8d;
+            font-style: italic;
+            text-align: center;
+            box-shadow: none;
+        }
+
+        .task-info {
+            flex-grow: 1;
+        }
+
+        .task-info strong {
+            color: #2c3e50;
+        }
+
+        @@media (max-width: 600px) {
+            form, ul {
+                padding: 10px;
+            }
+
+            li {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+        </text>
+    </style>
+</head>
+<body>
+    <h1>Task Manager</h1>
+
+    <form asp-action="Create" method="post">
+        <div>
+            <label>Title:</label>
+            <input type="text" name="title" required />
+        </div>
+        <div>
+            <label>Description:</label>
+            <textarea name="description"></textarea>
+        </div>
+        <div>
+            <label>Due Date:</label>
+            <input type="date" name="dueDate" required />
+        </div>
+        <button type="submit">Add Task</button>
+    </form>
+
+    <h2>Tasks</h2>
+    <ul>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var task in Model)
+            {
+                <li>
+                    <div class="task-info">
+                        <strong>@task.Title</strong> - @task.Description
+                        <br />
+                        <small>Due: @(task.DueDate ?? "No due date")</small>
+                    </div>
+                </li>
+            }
+        }
+        else
+        {
+            <li class="no-tasks">No tasks yet.</li>
+        }
+    </ul>
+</body>
+</html>
 ```
 2.  Test the app works locally
 ```powershell
@@ -147,10 +290,9 @@ az webapp up --name taskmanagerweb-yourname --resource-group az204exam --sku F1 
 
 ### You have completed the Set Up Azure App Service section.
 ---
-
-###	Create Azure Functions for APIs 
-In the [Azure Portal](https://portal.azure.com), create a new Function App:
-- Check out the tabs for learning experience, we are leaving them default
+##	Create Azure Functions for APIs 
+1. In the [Azure Portal](https://portal.azure.com), create a new Function App:
+   - Check out the tabs for learning experience, we are leaving them default
 
 ![consumption](images/consumption.PNG)
    

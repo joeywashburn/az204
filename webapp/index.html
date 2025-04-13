@@ -365,6 +365,33 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#configure-settings-tls-api-settings-service-connections" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Settings (TLS, API Settings, Service Connections)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implement-autoscaling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implement Autoscaling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-deployment-slots" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Deployment Slots
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -544,6 +571,33 @@
   <a href="#deploy-to-azure-app-service" class="md-nav__link">
     <span class="md-ellipsis">
       Deploy to Azure App Service
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-settings-tls-api-settings-service-connections" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Settings (TLS, API Settings, Service Connections)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implement-autoscaling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implement Autoscaling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-deployment-slots" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Deployment Slots
     </span>
   </a>
   
@@ -855,8 +909,47 @@ Replace the default content with:</p>
 <ol>
 <li>Test the app in your browser.  You should be able to get the URL from the App Service Overview page</li>
 </ol>
+<h3 id="configure-settings-tls-api-settings-service-connections">Configure Settings (TLS, API Settings, Service Connections)</h3>
+<ol>
+<li><strong>Enable TLS</strong>:</li>
+<li>In the Azure Portal, go to your App Service (<code>taskmanagerweb-yourname</code>).</li>
+<li>Click <strong>TLS/SSL settings</strong>.</li>
+<li>Turn <strong>HTTPS Only</strong> to <strong>On</strong> &gt; Save.</li>
+<li>
+<p>Test: Visit <code>http://taskmanagerweb-yourname.azurewebsites.net</code> (it should redirect to HTTPS).</p>
+</li>
+<li>
+<p><strong>Add App Settings</strong>:</p>
+</li>
+<li>Go to <strong>Configuration</strong> &gt; <strong>Application settings</strong>.</li>
+<li>Click <strong>New application setting</strong>.</li>
+<li>Name: <code>CosmosDBConnection</code>, Value: <code>placeholder</code> (we’ll use this later for Cosmos DB).</li>
+<li>
+<p>Click <strong>OK</strong> &gt; <strong>Save</strong> &gt; <strong>Continue</strong> to restart the app.</p>
+</li>
+<li>
+<p><strong>Set Up Managed Identity</strong>:</p>
+</li>
+<li>Go to <strong>Identity</strong> &gt; <strong>System assigned</strong>.</li>
+<li>Turn <strong>Status</strong> to <strong>On</strong> &gt; Save.</li>
+<li>
+<p>Note: This lets the app securely connect to other Azure services (like Cosmos DB) without passwords later.</p>
+</li>
+<li>
+<p><strong>Verify</strong>:</p>
+</li>
+<li>Open <code>https://taskmanagerweb-yourname.azurewebsites.net</code> and confirm it works.</li>
+<li>Check <strong>Configuration</strong> in the Portal to see <code>CosmosDBConnection</code>.</li>
+<li>No code changes needed, but the app is ready for future connections.</li>
+</ol>
+<h3 id="implement-autoscaling">Implement Autoscaling</h3>
+<p><em>Note</em>: Autoscaling requires a Standard (S1) or higher tier.  You will have to chase this thread on your own</p>
+<h3 id="configure-deployment-slots">Configure Deployment Slots</h3>
+<p><em>Note</em>: Deployment slots need a Standard (S1) or higher tier, not Free F1. You will have to chase this thread on your own</p>
 <h2 id="next-steps">Next Steps</h2>
 <ul>
+<li>Add diagnostics and logging (Application Insights, logs).</li>
+<li>Later, connect to Cosmos DB for task storage and function app for triggers.</li>
 <li>Do everything again, but this time use the CLI to build the Web App.</li>
 <li>If you are going to take break, you could clean up here, but the next section builds on what we have done here.</li>
 </ul>

@@ -466,7 +466,7 @@ Go into the Azure Portal > CosmosDB and drill down using Data Explorer and find 
 ---
 
 ## Update the HomeController with the Function App changes.
-Now we need to add some more settings to Environment Variables and update HomeController.cs
+Now we need to add some more settings to Environment Variables and update HomeController.cs This section updates the HomeController.cs file in the TaskManagerWeb project to integrate the web app’s frontend with the Azure Function created earlier, enabling tasks to be saved to Azure Cosmos DB.
 
 Go to the Azure Portal and go to your Web App.  Service > Setting > Environment Variables
 
@@ -682,48 +682,202 @@ func azure functionapp publish taskmanagerfunc-jwashburn
 ```csharp
 @model List<TaskManagerWeb.Models.TaskItem>
 
-<h1>Task Manager</h1>
-
-<form asp-action="Create" method="post" enctype="multipart/form-data">
-    <div>
-        <label>Title:</label>
-        <input type="text" name="title" required />
-    </div>
-    <div>
-        <label>Description:</label>
-        <textarea name="description"></textarea>
-    </div>
-    <div>
-        <label>Due Date:</label>
-        <input type="date" name="dueDate" required />
-    </div>
-    <div>
-        <label>Attachment:</label>
-        <input type="file" name="attachment" />
-    </div>
-    <button type="submit">Add Task</button>
-</form>
-
-<h2>Tasks</h2>
-<ul>
-    @if (Model != null && Model.Any())
-    {
-        foreach (var task in Model)
-        {
-            <li>
-                @task.Title - @task.Description (Due: @(task.DueDate ?? "No due date"))
-                @if (!string.IsNullOrEmpty(task.AttachmentUrl))
-                {
-                    <a href="@task.AttachmentUrl" target="_blank">View Attachment</a>
-                }
-            </li>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Manager</title>
+    <style>
+        <text>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
         }
-    }
-    else
-    {
-        <li>No tasks yet.</li>
-    }
-</ul>
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+        }
+
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        div {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+
+        input[type="text"],
+        textarea,
+        input[type="date"],
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        input:focus,
+        textarea:focus,
+        input[type="file"]:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        li {
+            background: #fff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        li.no-tasks {
+            color: #7f8c8d;
+            font-style: italic;
+            text-align: center;
+            box-shadow: none;
+        }
+
+        .task-info {
+            flex-grow: 1;
+        }
+
+        .task-info strong {
+            color: #2c3e50;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        @@media (max-width: 600px) {
+            form, ul {
+                padding: 10px;
+            }
+
+            li {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+        </text>
+    </style>
+</head>
+<body>
+    <h1>Task Manager</h1>
+
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+        <div>
+            <label>Title:</label>
+            <input type="text" name="title" required />
+        </div>
+        <div>
+            <label>Description:</label>
+            <textarea name="description"></textarea>
+        </div>
+        <div>
+            <label>Due Date:</label>
+            <input type="date" name="dueDate" required />
+        </div>
+        <div>
+            <label>Attachment:</label>
+            <input type="file" name="attachment" />
+        </div>
+        <button type="submit">Add Task</button>
+    </form>
+
+    <h2>Tasks</h2>
+    <ul>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var task in Model)
+            {
+                <li>
+                    <div class="task-info">
+                        <strong>@task.Title</strong> - @task.Description
+                        <br />
+                        <small>Due: @(task.DueDate ?? "No due date")</small>
+                        @if (!string.IsNullOrEmpty(task.AttachmentUrl))
+                        {
+                            <br />
+                            <a href="@task.AttachmentUrl" target="_blank">View Attachment</a>
+                        }
+                    </div>
+                </li>
+            }
+        }
+        else
+        {
+            <li class="no-tasks">No tasks yet.</li>
+        }
+    </ul>
+</body>
+</html>
 ```
 #### Update HomeController.cs to Handle File Upload:
 - Update TaskMangerWeb/Controllers/HomeController.cs to send the form data (including the file) to the Function with these code changes:
@@ -806,7 +960,7 @@ namespace TaskManagerWeb.Models
     }
 }
 ```
-- Change back to the TaskManagerWeb Directory and push up the change
+
 
 - Adjust TaskManagerWeb/Program.cs to include the AddHttpClient
 
@@ -842,6 +996,8 @@ app.MapControllerRoute(
 app.Run();
 ```
 
+- Change back to the TaskManagerWeb Directory and push up the change
+
 ```powershell
 az webapp up --name taskmanagerweb-jwashburn --resource-group az204exam --sku F1 --location westus
 ```
@@ -849,105 +1005,12 @@ az webapp up --name taskmanagerweb-jwashburn --resource-group az204exam --sku F1
 ## Application Insights
 At this point you are likely hitting app errors and other problems as this code is AI generated and not tested at any real level of scrutiny.  So lets get App Insights going to help troubleshoot the problem
 
-### Create Application Insights
-In the Azure Portal create an Appliction Insights resource
-- Use the same resource group you have been using
-- Setup a name like taskmanager-insights
-- Leave the rest defaults
-- Retrieve the Connection String
--- Go to the new Application Insights resource > Overview tab.
-- Copy the Connection String (e.g., InstrumentationKey=...;IngestionEndpoint=...). - Save this for later we are going to need it.
-
-### Integrate with App Service
-Navigate to the TaskManagerWeb directory and add the required package
-```powershell
-dotnet add package Microsoft.ApplicationInsights.AspNetCore
-```
-
-Modify TaskManagerWeb/Program.cs to initialize Application Insights.
-
-Replace the existing code with
-
-```csharp
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.ApplicationInsights.AspNetCore.Extensions; // Add this
-
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container
-builder.Services.AddControllersWithViews();
-builder.Services.AddHttpClient();
-
-// Add Application Insights
-builder.Services.AddApplicationInsightsTelemetry();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
-}
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.UseRouting();
-app.UseAuthorization();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-app.Run();
-```
-
-### Add Connection String to App Service
-- In the Azure Portal, go to your App Service (taskmanagerweb-yourname).
-- Navigate to Settings > Environment Variables (or Configuration).
-- Add a new application setting:
-- Name: APPLICATIONINSIGHTS_CONNECTION_STRING
-- Value: Paste the Connection String from Step 1.
-
-### Redeploy the Web App
-- Ensure you’re in the TaskManagerWeb directory
-```powershell
-cd TaskManagerWeb
-dotnet build
-az webapp up --name taskmanagerweb-yourname --resource-group az204exam --sku F1 --location westus
-```
-
-### You have completed the Add App Insights to App Service Section.
----
-
-### Integrate with Azure Function
-- Add the Application Insights SDK:
-- In the TaskManagerFunctions directory:
-```powershell
-dotnet add package Microsoft.Azure.WebJobs.Logging.ApplicationInsights
-```
-
-- Add Connection String to Function App:
-- In the Azure Portal, go to your Function App (taskmanagerfunc-yourname).
-- Navigate to Settings > Environment Variables.
-- Add a new application setting:
-- Name: APPLICATIONINSIGHTS_CONNECTION_STRING
-- Value: Paste the same Connection String from Step 1.
-
-### Redeploy the Function App:
-- Ensure you’re in the TaskManagerFunctions directory:
-```powershell
-cd TaskManagerFunctions
-func azure functionapp publish taskmanagerfunc-yourname
-```
 
 ## Go Test in Azure
 
 STILL to DO
 AD Auth
-App Insights
+
 
 
 # Cost Estimate

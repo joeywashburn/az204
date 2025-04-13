@@ -1,4 +1,11 @@
 test.txt
+
+mkdocs.yml
+
+
 TaskManagerFunctions/
 TaskManagerWeb/
-ImageProcessor/
+acr/
+az204/
+site/
+docs/

@@ -284,7 +284,7 @@ dotnet run
 ### Deploy to Azure App Service
 1. Push the app you created up to the Azure App Service we previously made.
 ```bash
-az webapp up --name taskmanagerweb-yourname --resource-group az204exam --sku F1 --location yourlocation
+az webapp up --name taskmanagerweb-yourname --resource-group az204exam --sku F1 --location yourlocation --runtime "dotnet:8"
 ```
 2. Test the app in your browser.  You should be able to get the URL from the App Service Overview page
 

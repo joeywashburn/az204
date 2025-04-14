@@ -675,41 +675,43 @@
 <li><strong>Existing Resource Group</strong></li>
 </ul>
 <h2 id="set-up-azure-app-service">Set Up Azure App Service</h2>
-<ol>
-<li>In the <a href="https://portal.azure.com">Azure Portal</a>, create a new App Service:</li>
+<p>In the <a href="https://portal.azure.com">Azure Portal</a>, create a new App Service:</p>
+<ul>
 <li>Use the <strong>Free F1 tier</strong> to avoid costs.</li>
 <li>Note the app name (e.g., <code>taskmanagerweb-yourname</code>) and resource group (e.g., <code>az204exam</code>).</li>
 <li>Check out the tabs for learning experience, we are leaving them default</li>
-</ol>
-<p><img alt="Portal Screenshot" src="../images/image1.png" />
-2. Create a .NET Core MVC app locally:
-   <code>bash
-   dotnet new mvc -o TaskManagerWeb
-   cd TaskManagerWeb
-   dotnet run</code>
-3. Verify the app runs at http://localhost:port
-4. Launch your editor of choice:
-   <code>bash
-   code.</code>
-5. Browse into the Models directory under TaskManagerWeb.
-6. Add TaskItem.cs:
-    <code>csharp
-        namespace TaskManagerWeb.Models
+</ul>
+<p><img alt="Portal Screenshot" src="../images/image1.png" /></p>
+<p>Once its built, hit the URL to see that its up</p>
+<p><img alt="Portal Screenshot" src="../images/webapp.PNG" />
+Create a .NET Core MVC app locally:</p>
+<pre><code class="language-bash">dotnet new mvc -o TaskManagerWeb
+cd TaskManagerWeb
+dotnet run
+</code></pre>
+<p>Verify the app runs at http://localhost:port</p>
+<p>Launch vscode or whatever editor you like.</p>
+<pre><code class="language-powershell">code.
+</code></pre>
+<p>Browse into the Models directory under TaskManagerWeb.</p>
+<p>Add TaskItem.cs:</p>
+<pre><code class="language-csharp">    namespace TaskManagerWeb.Models
+    {
+        public class TaskItem
         {
-            public class TaskItem
-            {
-                public string id { get; set; } = System.Guid.NewGuid().ToString();
-                public string? Title { get; set; }
-                public string? Description { get; set; }
-                public string? DueDate { get; set; } // Changed to string
-            }
-        }</code>
-7. Update Controllers/HomeController.cs to handle tasks (in-memory for now):
-    ```csharp
-    using Microsoft.AspNetCore.Mvc;
-    using TaskManagerWeb.Models;
-    using System.Collections.Generic;</p>
-<pre><code>namespace TaskManagerWeb.Controllers
+            public string id { get; set; } = System.Guid.NewGuid().ToString();
+            public string? Title { get; set; }
+            public string? Description { get; set; }
+            public string? DueDate { get; set; }
+        }
+    }
+</code></pre>
+<p>Update Controllers/HomeController.cs to handle tasks (in-memory for now):</p>
+<pre><code class="language-csharp">using Microsoft.AspNetCore.Mvc;
+using TaskManagerWeb.Models;
+using System.Collections.Generic;
+
+namespace TaskManagerWeb.Controllers
 {
     public class HomeController : Controller
     {
@@ -727,19 +729,18 @@
             {
                 Title = title,
                 Description = description,
-                DueDate = dueDate.ToString("yyyy-MM-dd") // Convert DateTime to string
+                DueDate = dueDate.ToString(&quot;yyyy-MM-dd&quot;) // Convert DateTime to string
             };
             _tasks.Add(task);
-            return RedirectToAction("Index");
+            return RedirectToAction(&quot;Index&quot;);
         }
     }
 }
-```
 </code></pre>
 <h3 id="modify-the-home-page-view-to-add-a-form">Modify the Home Page View to Add a Form</h3>
-<p>The view (Index.cshtml) defines the UI, including the form for adding tasks and a list to display them.
-1. Open Views/Home/Index.cshtml.
-Replace the default content with:</p>
+<p>The view (Index.cshtml) defines the UI, including the form for adding tasks and a list to display them.</p>
+<p>Open Views/Home/Index.cshtml.</p>
+<p>Replace the default content with:</p>
 <pre><code class="language-html">@model List&lt;TaskManagerWeb.Models.TaskItem&gt;
 
 &lt;!DOCTYPE html&gt;
@@ -918,53 +919,33 @@ Replace the default content with:</p>
 &lt;/body&gt;
 &lt;/html&gt;
 </code></pre>
-<ol>
-<li>Test the app works locally</li>
-</ol>
+<p>Test the app works locally</p>
 <pre><code class="language-powershell">dotnet run
 </code></pre>
 <h3 id="deploy-to-azure-app-service">Deploy to Azure App Service</h3>
-<ol>
-<li>Push the app you created up to the Azure App Service we previously made.</li>
-</ol>
-<pre><code class="language-bash">az webapp up --name taskmanagerweb-yourname --resource-group az204exam --sku F1 --location yourlocation --runtime &quot;dotnet:8&quot;
+<p>Push the app you created up to the Azure App Service we previously made.</p>
+<pre><code class="language-powershell">az webapp up --name taskmanagerweb-yourname --resource-group az204exam --sku F1 --location yourlocation --runtime &quot;dotnet:8&quot;
 </code></pre>
-<ol>
-<li>Test the app in your browser.  You should be able to get the URL from the App Service Overview page</li>
-</ol>
+<p>Test the app in your browser.  You should be able to get the URL from the App Service Overview page</p>
 <h3 id="configure-settings-tls-api-settings-service-connections">Configure Settings (TLS, API Settings, Service Connections)</h3>
-<ol>
-<li><strong>Enable TLS</strong>:</li>
-<li>In the Azure Portal, go to your App Service (<code>taskmanagerweb-yourname</code>).</li>
-<li>Click <strong>TLS/SSL settings</strong>.</li>
-<li>Turn <strong>HTTPS Only</strong> to <strong>On</strong> &gt; Save.</li>
-<li>
-<p>Test: Visit <code>http://taskmanagerweb-yourname.azurewebsites.net</code> (it should redirect to HTTPS).</p>
-</li>
-<li>
 <p><strong>Add App Settings</strong>:</p>
-</li>
-<li>Go to <strong>Configuration</strong> &gt; <strong>Application settings</strong>.</li>
-<li>Click <strong>New application setting</strong>.</li>
+<ul>
+<li>Go to <strong>Settings</strong> &gt; <strong>Environment Variables</strong>.</li>
+<li>Click <strong>+ Add Button</strong>.</li>
 <li>Name: <code>CosmosDBConnection</code>, Value: <code>placeholder</code> (we’ll use this later for Cosmos DB).</li>
-<li>
-<p>Click <strong>OK</strong> &gt; <strong>Save</strong> &gt; <strong>Continue</strong> to restart the app.</p>
-</li>
-<li>
+<li>Click <strong>Apply</strong> &gt; <strong>Apply</strong> &gt; <strong>Confirm</strong> to restart the app.</li>
+</ul>
 <p><strong>Set Up Managed Identity</strong>:</p>
-</li>
+<ul>
 <li>Go to <strong>Identity</strong> &gt; <strong>System assigned</strong>.</li>
 <li>Turn <strong>Status</strong> to <strong>On</strong> &gt; Save.</li>
-<li>
-<p>Note: This lets the app securely connect to other Azure services (like Cosmos DB) without passwords later.</p>
-</li>
-<li>
+<li>Note: This lets the app securely connect to other Azure services (like Cosmos DB) without passwords later.</li>
+</ul>
 <p><strong>Verify</strong>:</p>
-</li>
-<li>Open <code>https://taskmanagerweb-yourname.azurewebsites.net</code> and confirm it works.</li>
-<li>Check <strong>Configuration</strong> in the Portal to see <code>CosmosDBConnection</code>.</li>
+<ul>
+<li>Check <strong>Environment Variables</strong> in the Portal to see <code>CosmosDBConnection</code>.</li>
 <li>No code changes needed, but the app is ready for future connections.</li>
-</ol>
+</ul>
 <h3 id="implement-autoscaling">Implement Autoscaling</h3>
 <p><em>Note</em>: Autoscaling requires a Standard (S1) or higher tier.  You will have to chase this thread on your own</p>
 <h3 id="configure-deployment-slots">Configure Deployment Slots</h3>

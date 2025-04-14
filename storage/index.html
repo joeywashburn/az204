@@ -448,15 +448,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#set-and-retrieve-properties-and-metadata" class="md-nav__link">
-    <span class="md-ellipsis">
-      Set and Retrieve Properties and Metadata
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#implement-storage-policies-and-data-lifecycle-management" class="md-nav__link">
     <span class="md-ellipsis">
       Implement Storage Policies and Data Lifecycle Management
@@ -573,15 +564,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#set-and-retrieve-properties-and-metadata" class="md-nav__link">
-    <span class="md-ellipsis">
-      Set and Retrieve Properties and Metadata
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#implement-storage-policies-and-data-lifecycle-management" class="md-nav__link">
     <span class="md-ellipsis">
       Implement Storage Policies and Data Lifecycle Management
@@ -621,10 +603,12 @@
 
 
 <h1 id="develop-solutions-that-use-azure-blob-storage">Develop solutions that use Azure Blob Storage</h1>
-<p>Blob Storage to hit the AZ-204 Exam Topics:
-- Set and retrieve properties and metadata
-- Perform operations on data by using the appropriate SDK
-- Implement storage policies and data lifecycle management</p>
+<p>Blob Storage to hit the AZ-204 Exam Topics:</p>
+<ul>
+<li>Set and retrieve properties and metadata</li>
+<li>Perform operations on data by using the appropriate SDK</li>
+<li>Implement storage policies and data lifecycle management</li>
+</ul>
 <h2 id="prerequisites">Prerequisites</h2>
 <ul>
 <li><strong>.NET SDK 8.0</strong> (<a href="https://learn.microsoft.com/en-us/dotnet/core/install/windows?tabs=net80#install-with-windows-package-manager-winget">Install via winget</a>: `winget install Microsoft.DotNet.SDK.8))</li>
@@ -634,272 +618,260 @@
 <li><strong>Existing Resource Group</strong> (<code>az204exam</code>)</li>
 </ul>
 <h3 id="set-up-blob-storage">Set Up Blob Storage</h3>
-<p><em>Note</em>: We set up <code>taskmanagerstore</code> in Functions for task JSONs (<code>tasks</code> container). Here, we’ll add <code>attachments</code> for files to keep them separate.</p>
-<ol>
-<li><strong>Verify Storage Account</strong>:</li>
-<li>In the Azure Portal, go to <strong>Storage accounts</strong>.</li>
-<li>Find <code>taskmanagerstore</code> (or <code>taskmanagerstoreyourname</code>).</li>
-<li>
-<p>If missing, create:</p>
+<p><em>Note</em>: We set up <code>taskmanagerstoreyourname</code> in Functions for task JSONs (<code>tasks</code> container). Here, we’ll add <code>attachments</code> for files to keep them separate.</p>
+<p><strong>Verify Storage Account</strong>:</p>
 <ul>
-<li>Name: <code>taskmanagerstoreyourname</code>.</li>
-<li>Resource group: <code>az204exam</code>.</li>
-<li>Defaults: Standard, General-purpose v2.</li>
+<li>In the Azure Portal, go to <strong>Storage accounts</strong>.</li>
+<li>Find <code>taskmanagerstoreyiourname</code></li>
+<li>If missing, create:</li>
+</ul>
+<p>Name: <code>taskmanagerstoreyourname</code>.</p>
+<p>Resource group: <code>az204</code></p>
+<p>Region: <code>West US3</code></p>
+<p>Primary Service: <code>Azure Blob Storage or Azure Data Lake Storage Gen 2</code></p>
+<p>Redundacy: <code>LRS</code></p>
+<p>After Creation:</p>
+<p><strong>Create Attachments Container</strong>:</p>
+<ul>
+<li>In <code>taskmanagerstoreyourname</code>, go to <strong>Containers</strong> &gt; <strong>+ Container</strong>.</li>
+<li>Name: <code>attachments</code>.</li>
 <li>Click <strong>Create</strong>.</li>
 </ul>
-</li>
-<li>
-<p><strong>Create Attachments Container</strong>:</p>
-</li>
-<li>In <code>taskmanagerstore</code>, go to <strong>Containers</strong> &gt; <strong>+ Container</strong>.</li>
-<li>Name: <code>attachments</code>.</li>
-<li>
-<p>Click <strong>Create</strong>.</p>
-</li>
-<li>
 <p><strong>Confirm Connection String</strong>:</p>
-</li>
+<ul>
 <li>Go to <strong>Access keys</strong> &gt; Copy <strong>Connection string</strong> for <code>key1</code>.</li>
 <li>In your Function App (<code>taskmanagerfunc-yourname</code>), go to <strong>Configuration</strong> &gt; <strong>Application settings</strong>.</li>
-<li>Verify <code>StorageConnection</code> (from Functions). If missing, add:<ul>
+<li>Verify <code>StorageConnection</code> (from Functions). If missing, add:</li>
 <li>Name: <code>StorageConnection</code>, Value: <code>[your-connection-string]</code>.</li>
 <li>Save and restart.</li>
 </ul>
-</li>
-</ol>
 <h3 id="perform-operations-with-the-sdk">Perform Operations with the SDK</h3>
 <p><em>Note</em>: We’ll add Functions to upload and download files to <code>attachments</code> using the Blob SDK, prepping for web app file uploads.</p>
-<ol>
-<li><strong>Add Blob SDK</strong>:</li>
-<li>
-<p>In <code>TaskManagerFunctions</code>, run (if not added):
-     <code>bash
-     dotnet add package Azure.Storage.Blobs</code></p>
-</li>
-<li>
+<p><strong>Add Blob SDK</strong>:
+ - In <code>TaskManagerFunctions</code>, run (if not added):</p>
+<pre><code class="language-bash">dotnet add package Azure.Storage.Blobs
+</code></pre>
 <p><strong>Create Upload Function</strong>:</p>
-</li>
-<li>Run:
-     <code>bash
-     cd TaskManagerFunctions
-     func new --template "HttpTrigger" --name UploadAttachment</code></li>
-<li>
-<p>Edit <code>UploadAttachment.cs</code>:
-     ```csharp
-     using System.IO;
-     using System.Threading.Tasks;
-     using Microsoft.AspNetCore.Mvc;
-     using Microsoft.Azure.Functions.Worker;
-     using Microsoft.AspNetCore.Http;
-     using Microsoft.Extensions.Logging;
-     using Azure.Storage.Blobs;
-     using Azure.Storage.Blobs.Models;</p>
-<p>namespace TaskManagerFunctions
- {
-     public class UploadAttachment
-     {
-         private readonly ILogger<UploadAttachment> _logger;</p>
-<pre><code>     public UploadAttachment(ILogger&lt;UploadAttachment&gt; logger)
-     {
-         _logger = logger;
-     }
-
-     [Function("UploadAttachment")]
-     public async Task&lt;IActionResult&gt; Run(
-         [HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequest req)
-     {
-         _logger.LogInformation("Uploading file to attachments.");
-
-         if (!req.HasFormContentType)
-         {
-             return new BadRequestObjectResult("Please send a multipart form.");
-         }
-
-         var form = await req.ReadFormAsync();
-         var file = form.Files.FirstOrDefault();
-         var taskId = form["taskId"];
-
-         if (file == null || string.IsNullOrEmpty(taskId))
-         {
-             return new BadRequestObjectResult("Please provide a file and taskId.");
-         }
-
-         var blobServiceClient = new BlobServiceClient(Environment.GetEnvironmentVariable("StorageConnection"));
-         var containerClient = blobServiceClient.GetBlobContainerClient("attachments");
-         var blobName = $"{taskId}/{file.FileName}";
-         var blobClient = containerClient.GetBlobClient(blobName);
-
-         using (var stream = file.OpenReadStream())
-         {
-             await blobClient.UploadAsync(stream, new BlobUploadOptions
-             {
-                 HttpHeaders = new BlobHttpHeaders { ContentType = file.ContentType },
-                 Metadata = new Dictionary&lt;string, string&gt; { { "TaskId", taskId } }
-             });
-         }
-
-         _logger.LogInformation($"Uploaded: {blobName}");
-         return new OkObjectResult($"File uploaded: {blobName}");
-     }
- }
+<ul>
+<li>Run:</li>
+</ul>
+<pre><code class="language-bash">cd TaskManagerFunctions
+func new --template &quot;HttpTrigger&quot; --name UploadAttachment
 </code></pre>
-<p>}
- ```</p>
-</li>
-<li>
-<p><strong>Test Locally</strong>:</p>
-</li>
-<li>Update <code>local.settings.json</code>:
-     <code>json
-     {
-         "IsEncrypted": false,
-         "Values": {
-             "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-             "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-             "StorageConnection": "[your-connection-string]"
-         }
-     }</code></li>
-<li>Run:
-     <code>bash
-     func start</code></li>
-<li>POST (use Postman or curl, with a file like <code>test.txt</code>):
-     <code>bash
-     curl -X POST http://localhost:7071/api/UploadAttachment -F "taskId=test123" -F "file=@test.txt"</code></li>
-<li>
-<p>Check <code>attachments</code> container (Azurite or Portal) for <code>test123/test.txt</code>.</p>
-</li>
-<li>
-<p><strong>Deploy and Test</strong>:</p>
-</li>
-<li>Deploy:
-     <code>bash
-     func azure functionapp publish taskmanagerfunc-yourname</code></li>
-<li>Test:
-     <code>bash
-     curl -X POST https://taskmanagerfunc-yourname.azurewebsites.net/api/uploadattachment?code=[your-key] -F "taskId=test123" -F "file=@test.txt"</code></li>
-<li>Verify in Portal &gt; <code>taskmanagerstore</code> &gt; <code>attachments</code>.</li>
-</ol>
-<p><em>Why do this?</em> Uploads files with the SDK, showing create operations for the exam.</p>
-<h3 id="set-and-retrieve-properties-and-metadata">Set and Retrieve Properties and Metadata</h3>
-<p><em>Note</em>: We’ll get the file’s content type and metadata (task ID) to show exam skills.</p>
-<ol>
-<li><strong>Create Download Function</strong>:</li>
-<li>Run:
-     <code>bash
-     cd TaskManagerFunctions
-     func new --template "HttpTrigger" --name GetAttachment</code></li>
-<li>
-<p>Edit <code>GetAttachment.cs</code>:
-     ```csharp
-     using System.Threading.Tasks;
-     using Microsoft.AspNetCore.Mvc;
-     using Microsoft.Azure.Functions.Worker;
-     using Microsoft.AspNetCore.Http;
-     using Microsoft.Extensions.Logging;
-     using Azure.Storage.Blobs;</p>
-<p>namespace TaskManagerFunctions
- {
-     public class GetAttachment
-     {
-         private readonly ILogger<GetAttachment> _logger;</p>
-<pre><code>     public GetAttachment(ILogger&lt;GetAttachment&gt; logger)
-     {
-         _logger = logger;
-     }
+<ul>
+<li>Edit <code>UploadAttachment.cs</code>:</li>
+</ul>
+<pre><code class="language-csharp">using System.IO;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 
-     [Function("GetAttachment")]
-     public async Task&lt;IActionResult&gt; Run(
-         [HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequest req)
-     {
-         _logger.LogInformation("Retrieving file metadata.");
+namespace TaskManagerFunctions
+{
+    public class UploadAttachment
+    {
+        private readonly ILogger&lt;UploadAttachment&gt; _logger;
 
-         string taskId = req.Query["taskId"];
-         string fileName = req.Query["fileName"];
+        public UploadAttachment(ILogger&lt;UploadAttachment&gt; logger)
+        {
+            _logger = logger;
+        }
 
-         if (string.IsNullOrEmpty(taskId) || string.IsNullOrEmpty(fileName))
-         {
-             return new BadRequestObjectResult("Please provide taskId and fileName.");
-         }
+        [Function(&quot;UploadAttachment&quot;)]
+        public async Task&lt;IActionResult&gt; Run(
+            [HttpTrigger(AuthorizationLevel.Function, &quot;post&quot;)] HttpRequest req)
+        {
+            _logger.LogInformation(&quot;Uploading file to attachments.&quot;);
 
-         var blobServiceClient = new BlobServiceClient(Environment.GetEnvironmentVariable("StorageConnection"));
-         var containerClient = blobServiceClient.GetBlobContainerClient("attachments");
-         var blobClient = containerClient.GetBlobClient($"{taskId}/{fileName}");
+            if (!req.HasFormContentType)
+            {
+                return new BadRequestObjectResult(&quot;Please send a multipart form.&quot;);
+            }
 
-         try
-         {
-             var properties = await blobClient.GetPropertiesAsync();
-             var metadata = properties.Value.Metadata;
-             var contentType = properties.Value.ContentType;
+            var form = await req.ReadFormAsync();
+            var file = form.Files.FirstOrDefault();
+            var taskId = form[&quot;taskId&quot;];
 
-             _logger.LogInformation($"Metadata: TaskId={metadata.GetValueOrDefault("TaskId")}");
+            if (file == null || string.IsNullOrEmpty(taskId))
+            {
+                return new BadRequestObjectResult(&quot;Please provide a file and taskId.&quot;);
+            }
 
-             return new OkObjectResult(new
-             {
-                 TaskId = metadata.GetValueOrDefault("TaskId"),
-                 ContentType = contentType,
-                 Uri = blobClient.Uri
-             });
-         }
-         catch (Azure.RequestFailedException ex) when (ex.Status == 404)
-         {
-             return new NotFoundResult();
-         }
-     }
- }
+            var blobServiceClient = new BlobServiceClient(Environment.GetEnvironmentVariable(&quot;StorageConnection&quot;));
+            var containerClient = blobServiceClient.GetBlobContainerClient(&quot;attachments&quot;);
+            var blobName = $&quot;{taskId}/{file.FileName}&quot;;
+            var blobClient = containerClient.GetBlobClient(blobName);
+
+            using (var stream = file.OpenReadStream())
+            {
+                await blobClient.UploadAsync(stream, new BlobUploadOptions
+                {
+                    HttpHeaders = new BlobHttpHeaders { ContentType = file.ContentType },
+                    Metadata = new Dictionary&lt;string, string&gt; { { &quot;TaskId&quot;, taskId } }
+                });
+            }
+
+            _logger.LogInformation($&quot;Uploaded: {blobName}&quot;);
+            return new OkObjectResult($&quot;File uploaded: {blobName}&quot;);
+        }
+    }
+}
 </code></pre>
-<p>}
- ```</p>
-</li>
-<li>
 <p><strong>Test Locally</strong>:</p>
-</li>
-<li>Run:
-     <code>bash
-     func start</code></li>
-<li>GET:
-     <code>bash
-     curl http://localhost:7071/api/GetAttachment?taskId=test123&amp;fileName=test.txt</code></li>
-<li>
-<p>Expect JSON: <code>{"TaskId":"test123","ContentType":"text/plain","Uri":"..."}</code>.</p>
-</li>
-<li>
-<p><strong>Deploy and Test</strong>:</p>
-</li>
-<li>Deploy:
-     <code>bash
-     func azure functionapp publish taskmanagerfunc-yourname</code></li>
-<li>Test:
-     <code>bash
-     curl https://taskmanagerfunc-yourname.azurewebsites.net/api/getattachment?code=[your-key]&amp;taskId=test123&amp;fileName=test.txt</code></li>
+<ul>
+<li>Update <code>local.settings.json</code>:</li>
+</ul>
+<pre><code class="language-json">{
+    &quot;IsEncrypted&quot;: false,
+    &quot;Values&quot;: {
+        &quot;AzureWebJobsStorage&quot;: &quot;UseDevelopmentStorage=true&quot;,
+        &quot;FUNCTIONS_WORKER_RUNTIME&quot;: &quot;dotnet-isolated&quot;,
+        &quot;StorageConnection&quot;: &quot;[your-connection-string]&quot;
+    }
+}
+</code></pre>
+<ul>
+<li>Run:</li>
+</ul>
+<pre><code class="language-bash">func start
+</code></pre>
+<ul>
+<li>POST (use Postman or curl, with a file like <code>test.txt</code>):</li>
+</ul>
+<pre><code class="language-bash">curl -X POST http://localhost:7071/api/UploadAttachment -F &quot;taskId=test123&quot; -F &quot;file=@test.txt&quot;
+</code></pre>
+<ul>
+<li>Check <code>attachments</code> container (Azurite or Portal) for <code>test123/test.txt</code>.</li>
+</ul>
+<p><strong>Deploy and Test</strong>:
+ - Deploy:</p>
+<pre><code class="language-bash">  func azure functionapp publish taskmanagerfunc-yourname
+  ```
+- Test:
+  ```bash
+  curl -X POST https://taskmanagerfunc-yourname.azurewebsites.net/api/uploadattachment?code=[your-key] -F &quot;taskId=test123&quot; -F &quot;file=@test.txt&quot;
+  ```
+- Verify in Portal &gt; `taskmanagerstore` &gt; `attachments`.
+
+*Why do this?* Uploads files with the SDK, showing create operations for the exam.
+
+### Set and Retrieve Properties and Metadata
+
+*Note*: We’ll get the file’s content type and metadata (task ID) to show exam skills.
+
+**Create Download Function**:
+ - Run:
+```bash
+cd TaskManagerFunctions
+func new --template &quot;HttpTrigger&quot; --name GetAttachment
+</code></pre>
+<ul>
+<li>Edit <code>GetAttachment.cs</code>:</li>
+</ul>
+<pre><code class="language-csharp">using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Azure.Storage.Blobs;
+
+namespace TaskManagerFunctions
+{
+    public class GetAttachment
+    {
+        private readonly ILogger&lt;GetAttachment&gt; _logger;
+
+        public GetAttachment(ILogger&lt;GetAttachment&gt; logger)
+        {
+            _logger = logger;
+        }
+
+        [Function(&quot;GetAttachment&quot;)]
+        public async Task&lt;IActionResult&gt; Run(
+            [HttpTrigger(AuthorizationLevel.Function, &quot;get&quot;)] HttpRequest req)
+        {
+            _logger.LogInformation(&quot;Retrieving file metadata.&quot;);
+
+            string taskId = req.Query[&quot;taskId&quot;];
+            string fileName = req.Query[&quot;fileName&quot;];
+
+            if (string.IsNullOrEmpty(taskId) || string.IsNullOrEmpty(fileName))
+            {
+                return new BadRequestObjectResult(&quot;Please provide taskId and fileName.&quot;);
+            }
+
+            var blobServiceClient = new BlobServiceClient(Environment.GetEnvironmentVariable(&quot;StorageConnection&quot;));
+            var containerClient = blobServiceClient.GetBlobContainerClient(&quot;attachments&quot;);
+            var blobClient = containerClient.GetBlobClient($&quot;{taskId}/{fileName}&quot;);
+
+            try
+            {
+                var properties = await blobClient.GetPropertiesAsync();
+                var metadata = properties.Value.Metadata;
+                var contentType = properties.Value.ContentType;
+
+                _logger.LogInformation($&quot;Metadata: TaskId={metadata.GetValueOrDefault(&quot;TaskId&quot;)}&quot;);
+
+                return new OkObjectResult(new
+                {
+                    TaskId = metadata.GetValueOrDefault(&quot;TaskId&quot;),
+                    ContentType = contentType,
+                    Uri = blobClient.Uri
+                });
+            }
+            catch (Azure.RequestFailedException ex) when (ex.Status == 404)
+            {
+                return new NotFoundResult();
+            }
+        }
+    }
+}
+</code></pre>
+<p><strong>Test Locally</strong>:
+ - Run:</p>
+<pre><code class="language-bash">func start
+</code></pre>
+<ul>
+<li>GET:</li>
+</ul>
+<pre><code class="language-bash">curl http://localhost:7071/api/GetAttachment?taskId=test123&amp;fileName=test.txt
+</code></pre>
+<ul>
+<li>Expect JSON: <code>{"TaskId":"test123","ContentType":"text/plain","Uri":"..."}</code>.</li>
+</ul>
+<p><strong>Deploy and Test</strong>:
+- Deploy:</p>
+<pre><code class="language-bash">func azure functionapp publish taskmanagerfunc-yourname
+</code></pre>
+<ul>
+<li>Test:</li>
+</ul>
+<pre><code class="language-bash">curl https://taskmanagerfunc-yourname.azurewebsites.net/api/getattachment?code=[your-key]&amp;taskId=test123&amp;fileName=test.txt
+</code></pre>
+<ul>
 <li>Verify metadata and properties.</li>
-</ol>
+</ul>
 <p><em>Why do this?</em> Shows setting and getting metadata/properties, a key exam topic.</p>
 <h3 id="implement-storage-policies-and-data-lifecycle-management">Implement Storage Policies and Data Lifecycle Management</h3>
 <p><em>Note</em>: We’ll archive old files in <code>attachments</code> to manage costs.</p>
-<ol>
-<li><strong>Create Lifecycle Rule</strong>:</li>
-<li>In the Portal, go to <code>taskmanagerstore</code> &gt; <strong>Lifecycle management</strong> &gt; <strong>Add rule</strong>.</li>
-<li>Rule name: <code>ArchiveOldFiles</code>.</li>
-<li>Scope: Filter to <code>attachments/</code> (type <code>attachments/</code> in <strong>Blob prefix</strong>).</li>
-<li>Conditions:<ul>
-<li>Blob type: Block blobs.</li>
-<li>Not modified for <strong>30 days</strong>.</li>
-</ul>
-</li>
-<li>Actions:<ul>
-<li>Move to <strong>Cool</strong> storage.</li>
-</ul>
-</li>
-<li>
-<p>Click <strong>Add</strong>.</p>
-</li>
-<li>
-<p><strong>Verify</strong>:</p>
-</li>
-<li>Upload a file via <code>UploadAttachment</code>.</li>
-<li>Wait 30 days (or use a test account to simulate).</li>
-<li>Check <code>attachments</code> &gt; Confirm old files show <strong>Cool</strong> tier in <strong>Access tier</strong>.</li>
-</ol>
+<p><strong>Create Lifecycle Rule</strong>:
+ - In the Portal, go to <code>taskmanagerstore</code> &gt; <strong>Lifecycle management</strong> &gt; <strong>Add rule</strong>.
+ - Rule name: <code>ArchiveOldFiles</code>.
+ - Scope: Filter to <code>attachments/</code> (type <code>attachments/</code> in <strong>Blob prefix</strong>).
+ - Conditions:
+   - Blob type: Block blobs.
+   - Not modified for <strong>30 days</strong>.
+ - Actions:
+   - Move to <strong>Cool</strong> storage.
+ - Click <strong>Add</strong>.</p>
+<p><strong>Verify</strong>:
+ - Upload a file via <code>UploadAttachment</code>.
+ - Wait 30 days (or use a test account to simulate).
+ - Check <code>attachments</code> &gt; Confirm old files show <strong>Cool</strong> tier in <strong>Access tier</strong>.</p>
 <p><em>Why do this?</em> Lifecycle rules reduce storage costs, an exam must-know.</p>
 <h2 id="next-steps">Next Steps</h2>
 <ul>

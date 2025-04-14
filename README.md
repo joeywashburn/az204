@@ -1,3 +1,10 @@
+Everything has been moved to GitHub Pages
+
+I found it easier to work from beginning to end that way.
+
+https://joeywashburn.github.io/az204/
+
+
 ## Skills at a glance
 - Develop Azure compute solutions (25–30%)
 - Develop for Azure storage (15–20%)

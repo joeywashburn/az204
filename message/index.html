@@ -976,7 +976,7 @@
 
 
 <h1 id="develop-message-based-solutions">Develop Message-Based Solutions</h1>
-<p>This guide covers the AZ-204 exam topics for developing message-based solutions using Azure Service Bus and Azure Queue Storage. We’ll extend our <code>TaskManagerWeb</code> (WebApp) and <code>TaskManagerFunctions</code> (Function App) to handle task-related messages, integrating with our existing setup (Cosmos DB, API Management, Event Grid, and Event Hub). We’ll use Service Bus for reliable task notifications and Queue Storage for background task processing.</p>
+<p>This guide covers the AZ-204 exam topics for developing message-based solutions using Azure Service Bus and Azure Queue Storage. We'll extend our <code>TaskManagerWeb</code> (WebApp) and <code>TaskManagerFunctions</code> (Function App) to handle task-related messages, integrating with our existing setup (Cosmos DB, API Management, Event Grid, and Event Hub). We'll use Service Bus for reliable task notifications and Queue Storage for background task processing.</p>
 <h2 id="prerequisites">Prerequisites</h2>
 <ul>
 <li><strong>Azure Subscription</strong> (Free tier or $200 credit recommended).</li>
@@ -992,330 +992,377 @@
 <li><a href="https://github.com/Azure/azure-functions-core-tools/releases">Azure Functions Core Tools</a>.</li>
 </ul>
 <h2 id="implement-solutions-that-use-azure-service-bus">Implement Solutions that Use Azure Service Bus</h2>
-<p>We’ll use Azure Service Bus to send task creation notifications from the WebApp, processed by a Function App to log or simulate sending emails.</p>
+<p>We'll use Azure Service Bus to send task creation notifications from the WebApp, processed by a Function App to log or simulate sending emails.</p>
 <h3 id="steps">Steps</h3>
+<p>Follow these steps to implement Azure Service Bus:</p>
 <ol>
-<li><strong>Create Service Bus Namespace and Queue</strong>:</li>
-<li>In Azure Portal, go to <strong>Create a resource</strong> &gt; <strong>Service Bus</strong> &gt; <strong>Create</strong>.</li>
-<li>Configure:<ul>
+<li>
+<p>Create a Service Bus Namespace and Queue.</p>
+</li>
+<li>
+<p>Get the Service Bus connection string and add it to the Function App.</p>
+</li>
+<li>
+<p>Update the WebApp to send messages to Service Bus.</p>
+</li>
+<li>
+<p>Create a Service Bus Trigger Function to process messages.</p>
+</li>
+<li>
+<p>Test locally (optional).</p>
+</li>
+<li>
+<p>Deploy and test the solution in Azure.</p>
+</li>
+</ol>
+<p><strong>Step 1: Create Service Bus Namespace and Queue</strong></p>
+<p>In the Azure Portal, go to <strong>Create a resource</strong> &gt; <strong>Service Bus</strong> &gt; <strong>Create</strong>. Configure:</p>
+<ul>
 <li>Resource group: <code>az204exam</code>.</li>
 <li>Namespace name: <code>taskmanagersb-yourname</code> (globally unique).</li>
 <li>Location: Same as apps (e.g., West US 3).</li>
 <li>Pricing tier: <strong>Basic</strong> (exam-friendly, low cost).</li>
 </ul>
-</li>
-<li>Create.</li>
-<li>Inside the namespace, create a queue:<ul>
+<p>Inside the namespace, create a queue:</p>
+<ul>
 <li>Name: <code>tasknotifications</code>.</li>
 <li>Defaults: Max size 1 GB, message TTL 14 days.</li>
 </ul>
-</li>
-<li>Run via CLI (alternative):
-     <code>bash
-     az servicebus namespace create --name taskmanagersb-yourname --resource-group az204exam --location westus3 --sku Basic
-     az servicebus queue create --name tasknotifications --namespace-name taskmanagersb-yourname --resource-group az204exam</code></li>
-<li><strong>Get Connection String</strong>:</li>
-<li>In <code>taskmanagersb-yourname</code> &gt; <strong>Shared access policies</strong> &gt; <strong>RootManageSharedAccessKey</strong>.</li>
-<li>Copy the <strong>Primary Connection String</strong>.</li>
-<li>Add to Function App:<ul>
+<p>Alternatively, use the Azure CLI:</p>
+<pre><code class="language-bash">az servicebus namespace create --name taskmanagersb-yourname --resource-group az204exam --location westus3 --sku Basic
+az servicebus queue create --name tasknotifications --namespace-name taskmanagersb-yourname --resource-group az204exam
+</code></pre>
+<p><strong>Step 2: Get Connection String and Add to Function App</strong></p>
+<p>In <code>taskmanagersb-yourname</code> &gt; <strong>Shared access policies</strong> &gt; <strong>RootManageSharedAccessKey</strong>, copy the <strong>Primary Connection String</strong>.</p>
+<p>Add it to the Function App:</p>
+<ul>
 <li>In <code>taskmanagerfunc-yourname</code> &gt; <strong>Settings</strong> &gt; <strong>Environment Variables</strong>.</li>
 <li>Add:</li>
 <li>Name: <code>ServiceBusConnection</code>.</li>
 <li>Value: <code>[your-connection-string]</code>.</li>
 <li>Save.</li>
 </ul>
-</li>
-<li><strong>Update WebApp to Send Messages</strong>:</li>
-<li>In <code>TaskManagerWeb</code>, add Service Bus SDK:
-     <code>bash
-     cd TaskManagerWeb
-     dotnet add package Azure.Messaging.ServiceBus</code></li>
-<li>
-<p>Update <code>Controllers/HomeController.cs</code>:
-     ```csharp
-     using Microsoft.AspNetCore.Mvc;
-     using TaskManagerWeb.Models;
-     using System.Collections.Generic;
-     using Azure.Messaging.ServiceBus;
-     using System.Text.Json;</p>
-<p>namespace TaskManagerWeb.Controllers
- {
-     public class HomeController : Controller
-     {
-         private static List<TaskItem> _tasks = new List<TaskItem>();
-         private readonly ServiceBusClient _serviceBusClient;</p>
-<pre><code>     public HomeController()
-     {
-         var connectionString = Environment.GetEnvironmentVariable("ServiceBusConnection") ?? "your-local-connection-string";
-         _serviceBusClient = new ServiceBusClient(connectionString);
-     }
-
-     public IActionResult Index()
-     {
-         return View(_tasks);
-     }
-
-     [HttpPost]
-     public async Task&lt;IActionResult&gt; Create(string title, string description, string dueDate)
-     {
-         var task = new TaskItem
-         {
-             Title = title,
-             Description = description,
-             DueDate = dueDate
-         };
-         _tasks.Add(task);
-
-         // Send message to Service Bus
-         var sender = _serviceBusClient.CreateSender("tasknotifications");
-         var message = new ServiceBusMessage(JsonSerializer.Serialize(task));
-         await sender.SendMessageAsync(message);
-         await sender.DisposeAsync();
-
-         return RedirectToAction("Index");
-     }
- }
+<p><strong>Step 3: Update WebApp to Send Messages</strong></p>
+<p>In <code>TaskManagerWeb</code>, add the Service Bus SDK and update the controller to send messages.</p>
+<pre><code class="language-bash">cd TaskManagerWeb
+dotnet add package Azure.Messaging.ServiceBus
 </code></pre>
-<p>}
- <code>- Update `appsettings.json`:</code>json
- {
-   "ServiceBusConnection": "",
-   "EventHubConnection": ""
- }
- <code>- Deploy WebApp:</code>bash
- az webapp up --name taskmanagerweb-yourname --resource-group az204exam
- <code>- In `taskmanagerweb-yourname` &gt; **Settings** &gt; **Environment Variables**, add:
- - Name: `ServiceBusConnection`.
- - Value: `[your-connection-string]`.
-4. **Create Service Bus Trigger Function**:
-   - In `TaskManagerFunctions`:</code>bash
- cd TaskManagerFunctions
- func new --template "Azure Service Bus Queue Trigger" --name ProcessTaskNotification
- <code>- Update `ProcessTaskNotification.cs`:</code>csharp
- using Microsoft.Azure.Functions.Worker;
- using Microsoft.Extensions.Logging;</p>
-<p>namespace TaskManagerFunctions
- {
-     public class ProcessTaskNotification
-     {
-         private readonly ILogger<ProcessTaskNotification> _logger;</p>
-<pre><code>     public ProcessTaskNotification(ILogger&lt;ProcessTaskNotification&gt; logger)
-     {
-         _logger = logger;
-     }
+<p>Update <code>Controllers/HomeController.cs</code>:</p>
+<pre><code class="language-csharp">using Microsoft.AspNetCore.Mvc;
+using TaskManagerWeb.Models;
+using System.Collections.Generic;
+using Azure.Messaging.ServiceBus;
+using System.Text.Json;
 
-     [Function("ProcessTaskNotification")]
-     public void Run([ServiceBusQueueTrigger("tasknotifications", Connection = "ServiceBusConnection")] string message)
-     {
-         _logger.LogInformation($"Service Bus message: {message}");
-         // Simulate email notification or logging
-     }
- }
+namespace TaskManagerWeb.Controllers
+{
+    public class HomeController : Controller
+    {
+        private static List&lt;TaskItem&gt; _tasks = new List&lt;TaskItem&gt;();
+        private readonly ServiceBusClient _serviceBusClient;
+
+        public HomeController()
+        {
+            var connectionString = Environment.GetEnvironmentVariable(&quot;ServiceBusConnection&quot;) ?? &quot;your-local-connection-string&quot;;
+            _serviceBusClient = new ServiceBusClient(connectionString);
+        }
+
+        public IActionResult Index()
+        {
+            return View(_tasks);
+        }
+
+        [HttpPost]
+        public async Task&lt;IActionResult&gt; Create(string title, string description, string dueDate)
+        {
+            var task = new TaskItem
+            {
+                Title = title,
+                Description = description,
+                DueDate = dueDate
+            };
+            _tasks.Add(task);
+
+            // Send message to Service Bus
+            var sender = _serviceBusClient.CreateSender(&quot;tasknotifications&quot;);
+            var message = new ServiceBusMessage(JsonSerializer.Serialize(task));
+            await sender.SendMessageAsync(message);
+            await sender.DisposeAsync();
+
+            return RedirectToAction(&quot;Index&quot;);
+        }
+    }
+}
 </code></pre>
-<p>}
- <code>5. **Test Locally (Optional)**:
-   - Update `local.settings.json`:</code>json
- {
-     "IsEncrypted": false,
-     "Values": {
-         "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-         "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-         "CosmosDBConnection": "[your-cosmos-connection]",
-         "EventHubConnection": "[your-eventhub-connection]",
-         "ServiceBusConnection": "[your-servicebus-connection]"
-     }
- }
- <code>- Run WebApp:</code>bash
- cd TaskManagerWeb
- dotnet run
- <code>- Create a task via `https://localhost:5001`.
-   - Run Function:</code>bash
- cd ../TaskManagerFunctions
- func start
- <code>- Check console for `Service Bus message: {"id":"[guid]","Title":"Test Task",...}`.
-6. **Deploy and Test**:
-   - Deploy Function:</code>bash
- func azure functionapp publish taskmanagerfunc-yourname
- <code>``
-   - Test:
- - Access</code>https://taskmanagerweb-yourname.azurewebsites.net<code>, create a task.
- - In Portal, go to</code>taskmanagerfunc-yourname<code>&gt; **Functions** &gt;</code>ProcessTaskNotification<code>&gt; **Monitor** &gt; **Logs**.
- - Verify logs show</code>Service Bus message<code>with task data.
-   - Check Service Bus metrics:
- - In</code>taskmanagersb-yourname<code>&gt; **Queues** &gt;</code>tasknotifications<code>&gt; **Metrics**.
- - Confirm</code>Messages` count increases.</p>
-</li>
-</ol>
+<p>Update <code>appsettings.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;ServiceBusConnection&quot;: &quot;&quot;,
+  &quot;EventHubConnection&quot;: &quot;&quot;
+}
+</code></pre>
+<p>Deploy the WebApp and add the environment variable:</p>
+<pre><code class="language-bash">az webapp up --name taskmanagerweb-yourname --resource-group az204exam
+</code></pre>
+<p>In <code>taskmanagerweb-yourname</code> &gt; <strong>Settings</strong> &gt; <strong>Environment Variables</strong>, add:</p>
+<ul>
+<li>Name: <code>ServiceBusConnection</code>.</li>
+<li>Value: <code>[your-connection-string]</code>.</li>
+</ul>
+<p><strong>Step 4: Create Service Bus Trigger Function</strong></p>
+<p>In <code>TaskManagerFunctions</code>, create the Service Bus Trigger Function and update its code.</p>
+<pre><code class="language-bash">cd TaskManagerFunctions
+func new --template &quot;Azure Service Bus Queue Trigger&quot; --name ProcessTaskNotification
+</code></pre>
+<p>Update <code>ProcessTaskNotification.cs</code>:</p>
+<pre><code class="language-csharp">using Microsoft.Azure.Functions.Worker;
+using Microsoft.Extensions.Logging;
+
+namespace TaskManagerFunctions
+{
+    public class ProcessTaskNotification
+    {
+        private readonly ILogger&lt;ProcessTaskNotification&gt; _logger;
+
+        public ProcessTaskNotification(ILogger&lt;ProcessTaskNotification&gt; logger)
+        {
+            _logger = logger;
+        }
+
+        [Function(&quot;ProcessTaskNotification&quot;)]
+        public void Run([ServiceBusQueueTrigger(&quot;tasknotifications&quot;, Connection = &quot;ServiceBusConnection&quot;)] string message)
+        {
+            _logger.LogInformation($&quot;Service Bus message: {message}&quot;);
+            // Simulate email notification or logging
+        }
+    }
+}
+</code></pre>
+<p><strong>Step 5: Test Locally (Optional)</strong></p>
+<p>Update <code>local.settings.json</code> in <code>TaskManagerFunctions</code>:</p>
+<pre><code class="language-json">{
+    &quot;IsEncrypted&quot;: false,
+    &quot;Values&quot;: {
+        &quot;AzureWebJobsStorage&quot;: &quot;UseDevelopmentStorage=true&quot;,
+        &quot;FUNCTIONS_WORKER_RUNTIME&quot;: &quot;dotnet-isolated&quot;,
+        &quot;CosmosDBConnection&quot;: &quot;[your-cosmos-connection]&quot;,
+        &quot;EventHubConnection&quot;: &quot;[your-eventhub-connection]&quot;,
+        &quot;ServiceBusConnection&quot;: &quot;[your-servicebus-connection]&quot;
+    }
+}
+</code></pre>
+<p>Run the WebApp and Function locally to test:</p>
+<pre><code class="language-bash">cd TaskManagerWeb
+dotnet run
+</code></pre>
+<p>Create a task via <code>https://localhost:5001</code>.</p>
+<p>Run the Function in a separate terminal:</p>
+<pre><code class="language-bash">cd ../TaskManagerFunctions
+func start
+</code></pre>
+<p>Check the Function's console for <code>Service Bus message: {"id":"[guid]","Title":"Test Task",...}</code>.</p>
+<p><strong>Step 6: Deploy and Test</strong></p>
+<p>Deploy the Function and test in Azure.</p>
+<pre><code class="language-bash">func azure functionapp publish taskmanagerfunc-yourname
+</code></pre>
+<p>Test:</p>
+<ul>
+<li>Access <code>https://taskmanagerweb-yourname.azurewebsites.net</code> and create a task.</li>
+<li>In the Azure Portal, go to <code>taskmanagerfunc-yourname</code> &gt; <strong>Functions</strong> &gt; <code>ProcessTaskNotification</code> &gt; <strong>Monitor</strong> &gt; <strong>Logs</strong>.</li>
+<li>Verify logs show <code>Service Bus message</code> with task data.</li>
+<li>Check Service Bus metrics in <code>taskmanagersb-yourname</code> &gt; <strong>Queues</strong> &gt; <code>tasknotifications</code> &gt; <strong>Metrics</strong>; confirm <code>Messages</code> count increases.</li>
+</ul>
 <h3 id="why">Why</h3>
 <p>Service Bus ensures reliable, ordered message delivery for notifications, a key exam topic, integrating seamlessly with our WebApp.</p>
 <h2 id="implement-solutions-that-use-azure-queue-storage-queues">Implement Solutions that Use Azure Queue Storage Queues</h2>
-<p>We’ll use Queue Storage to queue tasks for background processing (e.g., validation or formatting), triggered by a Function.</p>
+<p>We'll use Queue Storage to queue tasks for background processing (e.g., validation or formatting), triggered by a Function.</p>
 <h3 id="steps_1">Steps</h3>
+<p>Follow these steps to implement Azure Queue Storage:</p>
 <ol>
-<li><strong>Create Storage Account (if not exists)</strong>:</li>
-<li>Note: From <code>functions.md</code>, we have <code>taskmanagerstoreyourname</code>. If not, create:
-     <code>bash
-     az storage account create --name taskmanagerstoreyourname --resource-group az204exam --location westus3 --sku Standard_LRS</code></li>
-<li>Create a queue:<ul>
-<li>In Portal, go to <code>taskmanagerstoreyourname</code> &gt; <strong>Queues</strong> &gt; <strong>+ Queue</strong>.</li>
-<li>Name: <code>taskqueue</code>.</li>
-<li>Run via CLI:
-   <code>bash
-   az storage queue create --name taskqueue --account-name taskmanagerstoreyourname</code></li>
-</ul>
+<li>
+<p>Create a Storage Account and Queue (if not already created).</p>
 </li>
-<li><strong>Get Connection String</strong>:</li>
-<li>In <code>taskmanagerstoreyourname</code> &gt; <strong>Access keys</strong> &gt; Copy <strong>Connection string</strong> for <code>key1</code>.</li>
-<li>Add to Function App (already added as <code>StorageConnection</code> in <code>functions.md</code>):<ul>
+<li>
+<p>Get the Storage connection string and confirm it's in the Function App.</p>
+</li>
+<li>
+<p>Update the Function App to enqueue tasks.</p>
+</li>
+<li>
+<p>Create a Queue Trigger Function to process queue messages.</p>
+</li>
+<li>
+<p>Test locally (optional).</p>
+</li>
+<li>
+<p>Deploy and test the solution in Azure.</p>
+</li>
+</ol>
+<p><strong>Step 1: Create Storage Account and Queue</strong></p>
+<p>If not already created (from <code>functions.md</code>), create a Storage Account:</p>
+<pre><code class="language-bash">az storage account create --name taskmanagerstoreyourname --resource-group az204exam --location westus3 --sku Standard_LRS
+</code></pre>
+<p>Create a queue in the Storage Account:</p>
+<p>In the Azure Portal, go to <code>taskmanagerstoreyourname</code> &gt; <strong>Queues</strong> &gt; <strong>+ Queue</strong>. Name: <code>taskqueue</code>.</p>
+<p>Alternatively, use the Azure CLI:</p>
+<pre><code class="language-bash">az storage queue create --name taskqueue --account-name taskmanagerstoreyourname
+</code></pre>
+<p><strong>Step 2: Get Connection String and Confirm in Function App</strong></p>
+<p>In <code>taskmanagerstoreyourname</code> &gt; <strong>Access keys</strong>, copy the <strong>Connection string</strong> for <code>key1</code>.</p>
+<p>Confirm it's added to the Function App (should already be added as <code>StorageConnection</code> from <code>functions.md</code>):</p>
+<ul>
 <li>In <code>taskmanagerfunc-yourname</code> &gt; <strong>Settings</strong> &gt; <strong>Environment Variables</strong>.</li>
 <li>Confirm:</li>
 <li>Name: <code>StorageConnection</code>.</li>
 <li>Value: <code>[your-connection-string]</code>.</li>
 </ul>
-</li>
-<li><strong>Update Function App to Enqueue Tasks</strong>:</li>
-<li>
-<p>In <code>TaskManagerFunctions</code>, modify <code>ManageTask.cs</code> to send tasks to Queue Storage:
-     ```csharp
-     using System.IO;
-     using System.Threading.Tasks;
-     using Microsoft.AspNetCore.Mvc;
-     using Microsoft.Azure.Functions.Worker;
-     using Microsoft.AspNetCore.Http;
-     using Microsoft.Extensions.Logging;
-     using Newtonsoft.Json;
-     using Microsoft.Azure.Cosmos;
-     using Microsoft.Azure.Functions.Worker.Extensions.Storage;</p>
-<p>namespace TaskManagerFunctions
- {
-     public class ManageTask
-     {
-         private readonly ILogger<ManageTask> _logger;
-         private readonly CosmosClient _cosmosClient;</p>
-<pre><code>     public ManageTask(ILogger&lt;ManageTask&gt; logger)
-     {
-         _logger = logger;
-         _cosmosClient = new CosmosClient(Environment.GetEnvironmentVariable("CosmosDBConnection"), new CosmosClientOptions { ConnectionMode = ConnectionMode.Direct });
-     }
-
-     public class TaskItem
-     {
-         public string id { get; set; } = Guid.NewGuid().ToString();
-         public string Title { get; set; }
-         public string Description { get; set; }
-         public string DueDate { get; set; }
-     }
-
-     [Function("ManageTask")]
-     public async Task&lt;IActionResult&gt; Run(
-         [HttpTrigger(AuthorizationLevel.Function, "post", "get")] HttpRequest req,
-         [QueueOutput("taskqueue", Connection = "StorageConnection")] IAsyncCollector&lt;string&gt; queueOutput)
-     {
-         _logger.LogInformation("Processing task in Cosmos DB.");
-
-         var container = _cosmosClient.GetContainer("TasksDB", "Tasks");
-
-         if (req.Method == "POST")
-         {
-             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-             TaskItem task = JsonConvert.DeserializeObject&lt;TaskItem&gt;(requestBody);
-
-             if (string.IsNullOrEmpty(task?.Title))
-             {
-                 return new BadRequestObjectResult("Please provide a title.");
-             }
-
-             task.id = Guid.NewGuid().ToString();
-             await container.CreateItemAsync(task, new PartitionKey(task.id));
-             _logger.LogInformation($"Created task: {task.Title}");
-
-             // Add task to queue
-             await queueOutput.AddAsync(JsonConvert.SerializeObject(task));
-
-             return new OkObjectResult(task);
-         }
-         else // GET
-         {
-             string taskId = req.Query["taskId"];
-             if (string.IsNullOrEmpty(taskId))
-             {
-                 return new BadRequestObjectResult("Please provide taskId.");
-             }
-
-             try
-             {
-                 var task = await container.ReadItemAsync&lt;TaskItem&gt;(taskId, new PartitionKey(taskId));
-                 _logger.LogInformation($"Read task: {task.Resource.Title}");
-                 return new OkObjectResult(task.Resource);
-             }
-             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
-             {
-                 return new NotFoundResult();
-             }
-         }
-     }
- }
+<p><strong>Step 3: Update Function App to Enqueue Tasks</strong></p>
+<p>In <code>TaskManagerFunctions</code>, modify <code>ManageTask.cs</code> to send tasks to Queue Storage and add the Storage SDK.</p>
+<pre><code class="language-bash">dotnet add package Microsoft.Azure.Functions.Worker.Extensions.Storage
 </code></pre>
-<p>}
- <code>- Add Storage SDK:</code>bash
- dotnet add package Microsoft.Azure.Functions.Worker.Extensions.Storage
- <code>4. **Create Queue Trigger Function**:
-   - In `TaskManagerFunctions`:</code>bash
- func new --template "Azure Queue Storage Trigger" --name ProcessTaskQueue
- <code>- Update `ProcessTaskQueue.cs`:</code>csharp
- using Microsoft.Azure.Functions.Worker;
- using Microsoft.Extensions.Logging;</p>
-<p>namespace TaskManagerFunctions
- {
-     public class ProcessTaskQueue
-     {
-         private readonly ILogger<ProcessTaskQueue> _logger;</p>
-<pre><code>     public ProcessTaskQueue(ILogger&lt;ProcessTaskQueue&gt; logger)
-     {
-         _logger = logger;
-     }
+<p>Update <code>ManageTask.cs</code>:</p>
+<pre><code class="language-csharp">using System.IO;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Microsoft.Azure.Cosmos;
+using Microsoft.Azure.Functions.Worker.Extensions.Storage;
 
-     [Function("ProcessTaskQueue")]
-     public void Run([QueueTrigger("taskqueue", Connection = "StorageConnection")] string queueMessage)
-     {
-         _logger.LogInformation($"Queue message: {queueMessage}");
-         // Simulate task validation or processing
-     }
- }
+namespace TaskManagerFunctions
+{
+    public class ManageTask
+    {
+        private readonly ILogger&lt;ManageTask&gt; _logger;
+        private readonly CosmosClient _cosmosClient;
+
+        public ManageTask(ILogger&lt;ManageTask&gt; logger)
+        {
+            _logger = logger;
+            _cosmosClient = new CosmosClient(Environment.GetEnvironmentVariable(&quot;CosmosDBConnection&quot;), new CosmosClientOptions { ConnectionMode = ConnectionMode.Direct });
+        }
+
+        public class TaskItem
+        {
+            public string id { get; set; } = Guid.NewGuid().ToString();
+            public string Title { get; set; }
+            public string Description { get; set; }
+            public string DueDate { get; set; }
+        }
+
+        [Function(&quot;ManageTask&quot;)]
+        public async Task&lt;IActionResult&gt; Run(
+            [HttpTrigger(AuthorizationLevel.Function, &quot;post&quot;, &quot;get&quot;)] HttpRequest req,
+            [QueueOutput(&quot;taskqueue&quot;, Connection = &quot;StorageConnection&quot;)] IAsyncCollector&lt;string&gt; queueOutput)
+        {
+            _logger.LogInformation(&quot;Processing task in Cosmos DB.&quot;);
+
+            var container = _cosmosClient.GetContainer(&quot;TasksDB&quot;, &quot;Tasks&quot;);
+
+            if (req.Method == &quot;POST&quot;)
+            {
+                string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+                TaskItem task = JsonConvert.DeserializeObject&lt;TaskItem&gt;(requestBody);
+
+                if (string.IsNullOrEmpty(task?.Title))
+                {
+                    return new BadRequestObjectResult(&quot;Please provide a title.&quot;);
+                }
+
+                task.id = Guid.NewGuid().ToString();
+                await container.CreateItemAsync(task, new PartitionKey(task.id));
+                _logger.LogInformation($&quot;Created task: {task.Title}&quot;);
+
+                // Add task to queue
+                await queueOutput.AddAsync(JsonConvert.SerializeObject(task));
+
+                return new OkObjectResult(task);
+            }
+            else // GET
+            {
+                string taskId = req.Query[&quot;taskId&quot;];
+                if (string.IsNullOrEmpty(taskId))
+                {
+                    return new BadRequestObjectResult(&quot;Please provide taskId.&quot;);
+                }
+
+                try
+                {
+                    var task = await container.ReadItemAsync&lt;TaskItem&gt;(taskId, new PartitionKey(taskId));
+                    _logger.LogInformation($&quot;Read task: {task.Resource.Title}&quot;);
+                    return new OkObjectResult(task.Resource);
+                }
+                catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    return new NotFoundResult();
+                }
+            }
+        }
+    }
+}
 </code></pre>
-<p>}
- <code>5. **Test Locally (Optional)**:
-   - Update `local.settings.json`:</code>json
- {
-     "IsEncrypted": false,
-     "Values": {
-         "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-         "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-         "CosmosDBConnection": "[your-cosmos-connection]",
-         "EventHubConnection": "[your-eventhub-connection]",
-         "ServiceBusConnection": "[your-servicebus-connection]",
-         "StorageConnection": "[your-storage-connection]"
-     }
- }
- <code>- Run Function:</code>bash
- cd TaskManagerFunctions
- func start
- <code>- Trigger via APIM:</code>bash
- curl -X POST https://taskmanagerapim-yourname.azure-api.net/functions/managetask -H "Ocp-Apim-Subscription-Key: [your-key]" -H "Content-Type: application/json" -d '{"Title":"Queue Task","Description":"Test","DueDate":"2025-04-15"}'
- <code>- Check console for `Queue message: {"id":"[guid]","Title":"Queue Task",...}`.
-6. **Deploy and Test**:
-   - Deploy Function:</code>bash
- func azure functionapp publish taskmanagerfunc-yourname
- <code>``
-   - Test:
- - Trigger via APIM (same curl command as above).
- - In Portal, go to</code>taskmanagerfunc-yourname<code>&gt; **Functions** &gt;</code>ProcessTaskQueue<code>&gt; **Monitor** &gt; **Logs**.
- - Verify logs show</code>Queue message<code>with task data.
-   - Check Queue metrics:
- - In</code>taskmanagerstoreyourname<code>&gt; **Queues** &gt;</code>taskqueue<code>&gt; **Metrics**.
- - Confirm</code>Queue Message Count` increases.</p>
-</li>
-</ol>
+<p><strong>Step 4: Create Queue Trigger Function</strong></p>
+<p>In <code>TaskManagerFunctions</code>, create the Queue Trigger Function and update its code.</p>
+<pre><code class="language-bash">func new --template &quot;Azure Queue Storage Trigger&quot; --name ProcessTaskQueue
+</code></pre>
+<p>Update <code>ProcessTaskQueue.cs</code>:</p>
+<pre><code class="language-csharp">using Microsoft.Azure.Functions.Worker;
+using Microsoft.Extensions.Logging;
+
+namespace TaskManagerFunctions
+{
+    public class ProcessTaskQueue
+    {
+        private readonly ILogger&lt;ProcessTaskQueue&gt; _logger;
+
+        public ProcessTaskQueue(ILogger&lt;ProcessTaskQueue&gt; logger)
+        {
+            _logger = logger;
+        }
+
+        [Function(&quot;ProcessTaskQueue&quot;)]
+        public void Run([QueueTrigger(&quot;taskqueue&quot;, Connection = &quot;StorageConnection&quot;)] string queueMessage)
+        {
+            _logger.LogInformation($&quot;Queue message: {queueMessage}&quot;);
+            // Simulate task validation or processing
+        }
+    }
+}
+</code></pre>
+<p><strong>Step 5: Test Locally (Optional)</strong></p>
+<p>Update <code>local.settings.json</code> in <code>TaskManagerFunctions</code>:</p>
+<pre><code class="language-json">{
+    &quot;IsEncrypted&quot;: false,
+    &quot;Values&quot;: {
+        &quot;AzureWebJobsStorage&quot;: &quot;UseDevelopmentStorage=true&quot;,
+        &quot;FUNCTIONS_WORKER_RUNTIME&quot;: &quot;dotnet-isolated&quot;,
+        &quot;CosmosDBConnection&quot;: &quot;[your-cosmos-connection]&quot;,
+        &quot;EventHubConnection&quot;: &quot;[your-eventhub-connection]&quot;,
+        &quot;ServiceBusConnection&quot;: &quot;[your-servicebus-connection]&quot;,
+        &quot;StorageConnection&quot;: &quot;[your-storage-connection]&quot;
+    }
+}
+</code></pre>
+<p>Run the Function locally to test:</p>
+<pre><code class="language-bash">cd TaskManagerFunctions
+func start
+</code></pre>
+<p>Trigger a task creation via APIM:</p>
+<pre><code class="language-bash">curl -X POST https://taskmanagerapim-yourname.azure-api.net/functions/managetask -H &quot;Ocp-Apim-Subscription-Key: [your-key]&quot; -H &quot;Content-Type: application/json&quot; -d '{&quot;Title&quot;:&quot;Queue Task&quot;,&quot;Description&quot;:&quot;Test&quot;,&quot;DueDate&quot;:&quot;2025-04-15&quot;}'
+</code></pre>
+<p>Check the Function's console for <code>Queue message: {"id":"[guid]","Title":"Queue Task",...}</code>.</p>
+<p><strong>Step 6: Deploy and Test</strong></p>
+<p>Deploy the Function and test in Azure.</p>
+<pre><code class="language-bash">func azure functionapp publish taskmanagerfunc-yourname
+</code></pre>
+<p>Test:</p>
+<ul>
+<li>Trigger a task creation via APIM (same curl command as above).</li>
+<li>In the Azure Portal, go to <code>taskmanagerfunc-yourname</code> &gt; <strong>Functions</strong> &gt; <code>ProcessTaskQueue</code> &gt; <strong>Monitor</strong> &gt; <strong>Logs</strong>.</li>
+<li>Verify logs show <code>Queue message</code> with task data.</li>
+<li>Check Queue metrics in <code>taskmanagerstoreyourname</code> &gt; <strong>Queues</strong> &gt; <code>taskqueue</code> &gt; <strong>Metrics</strong>; confirm <code>Queue Message Count</code> increases.</li>
+</ul>
 <h3 id="why_1">Why</h3>
 <p>Queue Storage provides simple, cost-effective message queuing for background tasks, complementing Service Bus and covering the exam’s requirements.</p>
 <h2 id="verify-all-topics">Verify All Topics</h2>
@@ -1324,7 +1371,7 @@
 <li><strong>Queue Storage</strong>: Enqueued tasks from <code>ManageTask</code>, processed by <code>ProcessTaskQueue</code>.</li>
 </ul>
 <h2 id="clean-up-optional">Clean Up (Optional)</h2>
-<p>To avoid costs:</p>
+<p>To avoid costs, delete all resources:</p>
 <pre><code class="language-bash">az group delete -n az204exam --no-wait --yes
 </code></pre>
 <h2 id="next-steps">Next Steps</h2>

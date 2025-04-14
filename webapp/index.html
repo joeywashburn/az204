@@ -344,37 +344,9 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Set Up Azure App Service">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#modify-the-home-page-view-to-add-a-form" class="md-nav__link">
-    <span class="md-ellipsis">
-      Modify the Home Page View to Add a Form
-    </span>
-  </a>
-  
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#deploy-to-azure-app-service" class="md-nav__link">
-    <span class="md-ellipsis">
-      Deploy to Azure App Service
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#configure-settings-tls-api-settings-service-connections" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configure Settings (TLS, API Settings, Service Connections)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#implement-autoscaling" class="md-nav__link">
     <span class="md-ellipsis">
       Implement Autoscaling
@@ -382,18 +354,13 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#configure-deployment-slots" class="md-nav__link">
     <span class="md-ellipsis">
       Configure Deployment Slots
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -851,37 +818,9 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Set Up Azure App Service">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#modify-the-home-page-view-to-add-a-form" class="md-nav__link">
-    <span class="md-ellipsis">
-      Modify the Home Page View to Add a Form
-    </span>
-  </a>
-  
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#deploy-to-azure-app-service" class="md-nav__link">
-    <span class="md-ellipsis">
-      Deploy to Azure App Service
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#configure-settings-tls-api-settings-service-connections" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configure Settings (TLS, API Settings, Service Connections)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#implement-autoscaling" class="md-nav__link">
     <span class="md-ellipsis">
       Implement Autoscaling
@@ -889,18 +828,13 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#configure-deployment-slots" class="md-nav__link">
     <span class="md-ellipsis">
       Configure Deployment Slots
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -930,7 +864,7 @@
 
 
 <h1 id="implement-azure-app-service-web-apps">Implement Azure App Service Web Apps</h1>
-<p>Web App to hit the AZ-204 Exam Topics:</p>
+<p>This guide covers the AZ-204 exam topics for implementing Azure App Service Web Apps:</p>
 <ul>
 <li>Create an Azure App Service Web App</li>
 <li>Configure and implement diagnostics and logging</li>
@@ -948,38 +882,68 @@
 <li><strong>Existing Resource Group</strong></li>
 </ul>
 <h2 id="set-up-azure-app-service">Set Up Azure App Service</h2>
+<p>Follow these steps to set up an Azure App Service and create a .NET Core MVC app:</p>
+<ol>
+<li>
+<p>Create a new App Service in the Azure Portal.</p>
+</li>
+<li>
+<p>Create a .NET Core MVC app locally.</p>
+</li>
+<li>
+<p>Add a model for tasks.</p>
+</li>
+<li>
+<p>Update the controller to handle tasks.</p>
+</li>
+<li>
+<p>Modify the home page view to add a form.</p>
+</li>
+<li>
+<p>Test the app locally.</p>
+</li>
+<li>
+<p>Deploy the app to Azure App Service.</p>
+</li>
+<li>
+<p>Configure settings (TLS, API settings, service connections).</p>
+</li>
+</ol>
+<p><strong>Step 1: Create a New App Service</strong></p>
 <p>In the <a href="https://portal.azure.com">Azure Portal</a>, create a new App Service:</p>
 <ul>
 <li>Use the <strong>Free F1 tier</strong> to avoid costs.</li>
 <li>Note the app name (e.g., <code>taskmanagerweb-yourname</code>) and resource group (e.g., <code>az204exam</code>).</li>
-<li>Check out the tabs for learning experience, we are leaving them default</li>
+<li>Check out the tabs for a learning experience; we are leaving them as default.</li>
 </ul>
 <p><img alt="Portal Screenshot" src="../images/image1.png" /></p>
-<p>Once its built, hit the URL to see that its up</p>
-<p><img alt="Portal Screenshot" src="../images/webapp.PNG" />
-Create a .NET Core MVC app locally:</p>
+<p>Once it's built, hit the URL to confirm it's up.</p>
+<p><img alt="Portal Screenshot" src="../images/webapp.PNG" /></p>
+<p><strong>Step 2: Create a .NET Core MVC App Locally</strong></p>
+<p>Create and run the app locally.</p>
 <pre><code class="language-bash">dotnet new mvc -o TaskManagerWeb
 cd TaskManagerWeb
 dotnet run
 </code></pre>
-<p>Verify the app runs at http://localhost:port</p>
-<p>Launch vscode or whatever editor you like.</p>
-<pre><code class="language-powershell">code.
+<p>Verify the app runs at <code>http://localhost:port</code>.</p>
+<p>Launch your preferred editor (e.g., VS Code).</p>
+<pre><code class="language-powershell">code .
 </code></pre>
-<p>Browse into the Models directory under TaskManagerWeb.</p>
-<p>Add TaskItem.cs:</p>
-<pre><code class="language-csharp">    namespace TaskManagerWeb.Models
+<p><strong>Step 3: Add a Model for Tasks</strong></p>
+<p>Browse into the <code>Models</code> directory under <code>TaskManagerWeb</code> and add <code>TaskItem.cs</code>.</p>
+<pre><code class="language-csharp">namespace TaskManagerWeb.Models
+{
+    public class TaskItem
     {
-        public class TaskItem
-        {
-            public string id { get; set; } = System.Guid.NewGuid().ToString();
-            public string? Title { get; set; }
-            public string? Description { get; set; }
-            public string? DueDate { get; set; }
-        }
+        public string id { get; set; } = System.Guid.NewGuid().ToString();
+        public string? Title { get; set; }
+        public string? Description { get; set; }
+        public string? DueDate { get; set; }
     }
+}
 </code></pre>
-<p>Update Controllers/HomeController.cs to handle tasks (in-memory for now):</p>
+<p><strong>Step 4: Update the Controller to Handle Tasks</strong></p>
+<p>Update <code>Controllers/HomeController.cs</code> to handle tasks (in-memory for now).</p>
 <pre><code class="language-csharp">using Microsoft.AspNetCore.Mvc;
 using TaskManagerWeb.Models;
 using System.Collections.Generic;
@@ -1010,10 +974,9 @@ namespace TaskManagerWeb.Controllers
     }
 }
 </code></pre>
-<h3 id="modify-the-home-page-view-to-add-a-form">Modify the Home Page View to Add a Form</h3>
-<p>The view (Index.cshtml) defines the UI, including the form for adding tasks and a list to display them.</p>
-<p>Open Views/Home/Index.cshtml.</p>
-<p>Replace the default content with:</p>
+<p><strong>Step 5: Modify the Home Page View to Add a Form</strong></p>
+<p>The view (<code>Index.cshtml</code>) defines the UI, including the form for adding tasks and a list to display them.</p>
+<p>Open <code>Views/Home/Index.cshtml</code> and replace the default content with:</p>
 <pre><code class="language-html">@model List&lt;TaskManagerWeb.Models.TaskItem&gt;
 
 &lt;!DOCTYPE html&gt;
@@ -1192,41 +1155,42 @@ namespace TaskManagerWeb.Controllers
 &lt;/body&gt;
 &lt;/html&gt;
 </code></pre>
-<p>Test the app works locally</p>
+<p><strong>Step 6: Test the App Locally</strong></p>
+<p>Test the app to ensure it works locally.</p>
 <pre><code class="language-powershell">dotnet run
 </code></pre>
-<h3 id="deploy-to-azure-app-service">Deploy to Azure App Service</h3>
-<p>Push the app you created up to the Azure App Service we previously made.</p>
+<p><strong>Step 7: Deploy to Azure App Service</strong></p>
+<p>Push the app to the Azure App Service created earlier.</p>
 <pre><code class="language-powershell">az webapp up --name taskmanagerweb-yourname --resource-group az204exam --sku F1 --location yourlocation --runtime &quot;dotnet:8&quot;
 </code></pre>
-<p>Test the app in your browser.  You should be able to get the URL from the App Service Overview page</p>
-<h3 id="configure-settings-tls-api-settings-service-connections">Configure Settings (TLS, API Settings, Service Connections)</h3>
-<p><strong>Add App Settings</strong>:</p>
+<p>Test the app in your browser. You can get the URL from the App Service <strong>Overview</strong> page.</p>
+<p><strong>Step 8: Configure Settings (TLS, API Settings, Service Connections)</strong></p>
+<p>Add App Settings:</p>
 <ul>
 <li>Go to <strong>Settings</strong> &gt; <strong>Environment Variables</strong>.</li>
 <li>Click <strong>+ Add Button</strong>.</li>
 <li>Name: <code>CosmosDBConnection</code>, Value: <code>placeholder</code> (we’ll use this later for Cosmos DB).</li>
 <li>Click <strong>Apply</strong> &gt; <strong>Apply</strong> &gt; <strong>Confirm</strong> to restart the app.</li>
 </ul>
-<p><strong>Set Up Managed Identity</strong>:</p>
+<p>Set Up Managed Identity:</p>
 <ul>
 <li>Go to <strong>Identity</strong> &gt; <strong>System assigned</strong>.</li>
 <li>Turn <strong>Status</strong> to <strong>On</strong> &gt; Save.</li>
 <li>Note: This lets the app securely connect to other Azure services (like Cosmos DB) without passwords later.</li>
 </ul>
-<p><strong>Verify</strong>:</p>
+<p>Verify:</p>
 <ul>
 <li>Check <strong>Environment Variables</strong> in the Portal to see <code>CosmosDBConnection</code>.</li>
 <li>No code changes needed, but the app is ready for future connections.</li>
 </ul>
-<h3 id="implement-autoscaling">Implement Autoscaling</h3>
-<p><em>Note</em>: Autoscaling requires a Standard (S1) or higher tier.  You will have to chase this thread on your own</p>
-<h3 id="configure-deployment-slots">Configure Deployment Slots</h3>
-<p><em>Note</em>: Deployment slots need a Standard (S1) or higher tier, not Free F1. You will have to chase this thread on your own</p>
+<h2 id="implement-autoscaling">Implement Autoscaling</h2>
+<p><em>Note</em>: Autoscaling requires a Standard (S1) or higher tier. You will have to chase this thread on your own.</p>
+<h2 id="configure-deployment-slots">Configure Deployment Slots</h2>
+<p><em>Note</em>: Deployment slots need a Standard (S1) or higher tier, not Free F1. You will have to chase this thread on your own.</p>
 <h2 id="next-steps">Next Steps</h2>
 <ul>
 <li>Do everything again, but this time use the CLI to build the Web App.</li>
-<li>If you are going to take break, you could clean up here, but the next section builds on what we have done here.</li>
+<li>If you are going to take a break, you could clean up here, but the next section builds on what we have done here.</li>
 </ul>
 
 

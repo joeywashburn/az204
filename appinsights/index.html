@@ -1062,276 +1062,344 @@
 
 
 <h1 id="monitor-troubleshoot-and-optimize-azure-solutions-with-application-insights">Monitor, Troubleshoot, and Optimize Azure Solutions with Application Insights</h1>
-<p>This guide covers the AZ-204 exam topics for monitoring, troubleshooting, and optimizing Azure solutions using Application Insights, building on our existing <code>TaskManagerWeb</code> (WebApp) and <code>TaskManagerFunctions</code> (Function App). Both apps have Application Insights enabled from their Azure Portal deployment. We’ll use these to monitor metrics/logs/traces, implement web tests/alerts, and instrument custom telemetry.</p>
+<p>This guide covers the AZ-204 exam topics for monitoring, troubleshooting, and optimizing Azure solutions using Application Insights, building on our existing <code>TaskManagerWeb</code> (WebApp) and <code>TaskManagerFunctions</code> (Function App). Both apps have Application Insights enabled from their Azure Portal deployment. We'll use these to monitor metrics/logs/traces, implement web tests/alerts, and instrument custom telemetry.</p>
 <h2 id="prerequisites">Prerequisites</h2>
 <ul>
 <li><strong>Azure Subscription</strong> (Free tier or $200 credit recommended).</li>
 <li><strong>Existing Resource Group</strong> (<code>az204exam</code>).</li>
 <li><strong>Deployed Apps</strong>:</li>
 <li>WebApp: <code>taskmanagerweb-yourname</code> (ASP.NET Core MVC, Free F1 tier).</li>
-<li>Function App: <code>taskmanagerfunc-yourname</code> (NET 8 isolated, Consumption plan).</li>
+<li>Function App: <code>taskmanagerfunc-yourname</code> (.NET 8 isolated, Consumption plan).</li>
 <li><strong>Tools</strong>:</li>
 <li><a href="https://learn.microsoft.com/en-us/dotnet/core/install/windows?tabs=net80#install-with-windows-package-manager-winget">.NET SDK 8.0</a>: <code>winget install Microsoft.DotNet.SDK.8</code>.</li>
 <li><a href="https://learn.microsoft.com/en-us/cli/azure/install-azure-cli">Azure CLI</a>.</li>
 <li><a href="https://github.com/Azure/azure-functions-core-tools/releases">Azure Functions Core Tools</a>.</li>
 </ul>
 <h2 id="monitor-and-analyze-metrics-logs-and-traces">Monitor and Analyze Metrics, Logs, and Traces</h2>
-<p>Application Insights is already enabled for both apps, capturing default telemetry (requests, exceptions). We’ll analyze this data in the Azure Portal.</p>
+<p>Application Insights is already enabled for both apps, capturing default telemetry (requests, exceptions). We'll analyze this data in the Azure Portal.</p>
 <h3 id="steps">Steps</h3>
+<p>Follow these steps to monitor and analyze metrics, logs, and traces:</p>
 <ol>
-<li><strong>Access Application Insights</strong>:</li>
+<li>
+<p>Access Application Insights for both apps.</p>
+</li>
+<li>
+<p>Check metrics for the WebApp and Function App.</p>
+</li>
+<li>
+<p>Query logs to analyze app behavior.</p>
+</li>
+<li>
+<p>Verify traces for detailed event tracking.</p>
+</li>
+</ol>
+<p><strong>Step 1: Access Application Insights</strong></p>
+<ul>
 <li>In the Azure Portal, go to the resource group <code>az204exam</code>.</li>
 <li>Select Application Insights for <code>taskmanagerweb-yourname</code> (WebApp) and <code>taskmanagerfunc-yourname</code> (Function App). If not visible, find them under each app’s <strong>Application Insights</strong> settings.</li>
-<li><strong>Check Metrics</strong>:</li>
-<li>In Application Insights for the WebApp:<ul>
+</ul>
+<p><strong>Step 2: Check Metrics</strong></p>
+<p>For the WebApp:</p>
+<ul>
 <li>Go to <strong>Metrics</strong> &gt; Select <code>Server requests</code> &gt; Filter by <code>cloud_RoleName == "taskmanagerweb-yourname"</code>.</li>
 <li>Verify request counts, response times, and failure rates for <code>GET /</code>.</li>
 </ul>
-</li>
-<li>For the Function App:<ul>
+<p>For the Function App:</p>
+<ul>
 <li>Select <code>Function Execution Count</code> &gt; Filter by <code>cloud_RoleName == "taskmanagerfunc-yourname"</code>.</li>
 <li>Check executions for <code>CreateTask</code> or <code>ManageTask</code> (e.g., <code>POST /api/managetask</code>).</li>
 </ul>
-</li>
-<li><strong>Query Logs</strong>:</li>
-<li>Go to <strong>Logs</strong> in Application Insights.</li>
-<li>Run queries:<ul>
+<p><strong>Step 3: Query Logs</strong></p>
+<p>In Application Insights, go to <strong>Logs</strong> and run the following queries:</p>
+<ul>
 <li>WebApp: <code>requests | where cloud_RoleName == "taskmanagerweb-yourname" | summarize count() by timestamp</code> (shows request trends).</li>
 <li>Function App: <code>traces | where cloud_RoleName == "taskmanagerfunc-yourname" and message contains "Creating new task"</code> (logs from <code>CreateTask</code>).</li>
 </ul>
-</li>
-<li>Save queries for reuse.</li>
-<li><strong>Verify Traces</strong>:</li>
-<li>For WebApp: In <strong>Logs</strong>, run <code>traces | where cloud_RoleName == "taskmanagerweb-yourname"</code> to see request traces (e.g., page loads, form submissions).</li>
-<li>For Function App: Check <code>traces | where message contains "Processing task in Cosmos DB"</code> (from <code>ManageTask</code>).</li>
-<li>Confirm traces show up in <strong>Transaction search</strong> for specific actions (e.g., POST requests).</li>
-</ol>
+<p>Save queries for reuse.</p>
+<p><strong>Step 4: Verify Traces</strong></p>
+<p>For the WebApp:</p>
+<ul>
+<li>In <strong>Logs</strong>, run <code>traces | where cloud_RoleName == "taskmanagerweb-yourname"</code> to see request traces (e.g., page loads, form submissions).</li>
+</ul>
+<p>For the Function App:</p>
+<ul>
+<li>Check <code>traces | where message contains "Processing task in Cosmos DB"</code> (from <code>ManageTask</code>).</li>
+</ul>
+<p>Confirm traces show up in <strong>Transaction search</strong> for specific actions (e.g., POST requests).</p>
 <h3 id="why">Why</h3>
 <p>Analyzing metrics (requests, performance), logs (app behavior), and traces (detailed events) ensures we understand app health, a core AZ-204 skill.</p>
 <h2 id="implement-application-insights-web-tests-and-alerts">Implement Application Insights Web Tests and Alerts</h2>
-<p>We’ll set up a web test for the WebApp’s availability and create alerts for both apps to monitor issues.</p>
+<p>We'll set up a web test for the WebApp’s availability and create alerts for both apps to monitor issues.</p>
 <h3 id="steps_1">Steps</h3>
+<p>Follow these steps to implement web tests and alerts:</p>
 <ol>
-<li><strong>Create a Web Test</strong>:</li>
-<li>In Application Insights for <code>taskmanagerweb-yourname</code>, go to <strong>Availability</strong> &gt; <strong>Add classic test</strong>.</li>
-<li>Configure:<ul>
+<li>
+<p>Create a web test for the WebApp.</p>
+</li>
+<li>
+<p>Set up alerts for both apps.</p>
+</li>
+<li>
+<p>Verify the web test and alert functionality.</p>
+</li>
+</ol>
+<p><strong>Step 1: Create a Web Test</strong></p>
+<p>In Application Insights for <code>taskmanagerweb-yourname</code>, go to <strong>Availability</strong> &gt; <strong>Add classic test</strong>. Configure:</p>
+<ul>
 <li>Test type: <strong>URL ping test</strong>.</li>
 <li>URL: <code>https://taskmanagerweb-yourname.azurewebsites.net</code>.</li>
 <li>Frequency: Every 5 minutes.</li>
 <li>Locations: Select 3 (e.g., West US, East US, West Europe).</li>
 <li>Success criteria: HTTP 200, timeout &lt; 30s.</li>
 </ul>
-</li>
-<li>Save and run the test.</li>
-<li>Check results in <strong>Availability</strong> after 10-15 minutes.</li>
-<li><strong>Set Up Alerts</strong>:</li>
-<li>For WebApp:<ul>
+<p>Save and run the test. Check results in <strong>Availability</strong> after 10-15 minutes.</p>
+<p><strong>Step 2: Set Up Alerts</strong></p>
+<p>For the WebApp:</p>
+<ul>
 <li>Go to <strong>Alerts</strong> &gt; <strong>Create alert rule</strong>.</li>
 <li>Condition: <code>Availability test failures</code> &gt; 0 in last 5 minutes.</li>
 <li>Action: Select <strong>Log alert to Azure Monitor</strong> (no email setup needed for exam prep).</li>
 <li>Name: <code>WebAppAvailabilityAlert</code>.</li>
 </ul>
-</li>
-<li>For Function App:<ul>
+<p>For the Function App:</p>
+<ul>
 <li>Go to Application Insights for <code>taskmanagerfunc-yourname</code> &gt; <strong>Alerts</strong> &gt; <strong>Create alert rule</strong>.</li>
 <li>Condition: <code>Server response time</code> &gt; 3 seconds for <code>CreateTask</code> or <code>ManageTask</code>.</li>
 <li>Action: Log to Azure Monitor.</li>
 <li>Name: <code>FunctionResponseTimeAlert</code>.</li>
 </ul>
-</li>
-<li>Test alerts:<ul>
+<p>Test alerts:</p>
+<ul>
 <li>Temporarily stop the WebApp (via <strong>Overview</strong> &gt; <strong>Stop</strong>) to trigger the availability alert.</li>
 <li>Simulate slow Function App responses (e.g., add delay in code, redeploy, and test).</li>
 <li>Check <strong>Alerts</strong> &gt; <strong>View alerts</strong> for triggered rules.</li>
 </ul>
-</li>
-<li><strong>Verify</strong>:</li>
+<p><strong>Step 3: Verify</strong></p>
+<ul>
 <li>In WebApp’s Application Insights, confirm <strong>Availability</strong> shows test results (green for success, red for failures).</li>
 <li>In <strong>Alerts</strong>, ensure rules logged incidents during tests.</li>
-</ol>
+</ul>
 <h3 id="why_1">Why</h3>
 <p>Web tests validate app uptime, and alerts enable proactive issue detection, both critical for the exam.</p>
 <h2 id="instrument-an-app-or-service-to-use-application-insights">Instrument an App or Service to Use Application Insights</h2>
-<p>Automatic instrumentation captures basic telemetry. We’ll add custom telemetry to track specific actions in both apps.</p>
+<p>Automatic instrumentation captures basic telemetry. We'll add custom telemetry to track specific actions in both apps.</p>
 <h3 id="instrument-webapp">Instrument WebApp</h3>
+<p>Follow these steps to instrument the WebApp with custom telemetry:</p>
 <ol>
-<li><strong>Add Application Insights SDK</strong>:</li>
-<li>In the <code>TaskManagerWeb</code> directory, run:
-     <code>bash
-     dotnet add package Microsoft.ApplicationInsights.AspNetCore</code></li>
-<li><strong>Update HomeController.cs</strong>:</li>
 <li>
-<p>Modify <code>Controllers/HomeController.cs</code>:
-     ```csharp
-     using Microsoft.ApplicationInsights;
-     using Microsoft.AspNetCore.Mvc;
-     using TaskManagerWeb.Models;
-     using System.Collections.Generic;</p>
-<p>namespace TaskManagerWeb.Controllers
- {
-     public class HomeController : Controller
-     {
-         private static List<TaskItem> _tasks = new List<TaskItem>();
-         private readonly TelemetryClient _telemetryClient;</p>
-<pre><code>     public HomeController(TelemetryClient telemetryClient)
-     {
-         _telemetryClient = telemetryClient;
-     }
-
-     public IActionResult Index()
-     {
-         _telemetryClient.TrackPageView("TaskManagerIndex");
-         return View(_tasks);
-     }
-
-     [HttpPost]
-     public IActionResult Create(string title, string description, string dueDate)
-     {
-         _telemetryClient.TrackEvent("TaskCreated", new Dictionary&lt;string, string&gt; { { "Title", title } });
-         var task = new TaskItem
-         {
-             Title = title,
-             Description = description,
-             DueDate = dueDate
-         };
-         _tasks.Add(task);
-         return RedirectToAction("Index");
-     }
- }
-</code></pre>
-<p>}
- <code>3. **Test Locally**:
-   - Run:</code>bash
- cd TaskManagerWeb
- dotnet run
- <code>- Access `https://localhost:5001`, create a task, and reload the page.
-4. **Deploy**:
-   - Deploy to Azure:</code>bash
- az webapp up --name taskmanagerweb-yourname --resource-group az204exam
- <code>``
-   - Test at</code>https://taskmanagerweb-yourname.azurewebsites.net<code>.
-5. **Verify**:
-   - In Application Insights for</code>taskmanagerweb-yourname<code>, go to **Events**.
-   - Search for</code>TaskCreated<code>(filter by</code>event name<code>) and</code>TaskManagerIndex<code>(under **Page Views**).
-   - Confirm properties like</code>Title<code>appear for</code>TaskCreated`.</p>
+<p>Add the Application Insights SDK.</p>
+</li>
+<li>
+<p>Update the HomeController to track custom events and page views.</p>
+</li>
+<li>
+<p>Test locally.</p>
+</li>
+<li>
+<p>Deploy to Azure.</p>
+</li>
+<li>
+<p>Verify custom telemetry in Application Insights.</p>
 </li>
 </ol>
+<p><strong>Step 1: Add Application Insights SDK</strong></p>
+<p>In the <code>TaskManagerWeb</code> directory, add the SDK.</p>
+<pre><code class="language-bash">dotnet add package Microsoft.ApplicationInsights.AspNetCore
+</code></pre>
+<p><strong>Step 2: Update HomeController.cs</strong></p>
+<p>Modify <code>Controllers/HomeController.cs</code>:</p>
+<pre><code class="language-csharp">using Microsoft.ApplicationInsights;
+using Microsoft.AspNetCore.Mvc;
+using TaskManagerWeb.Models;
+using System.Collections.Generic;
+
+namespace TaskManagerWeb.Controllers
+{
+    public class HomeController : Controller
+    {
+        private static List&lt;TaskItem&gt; _tasks = new List&lt;TaskItem&gt;();
+        private readonly TelemetryClient _telemetryClient;
+
+        public HomeController(TelemetryClient telemetryClient)
+        {
+            _telemetryClient = telemetryClient;
+        }
+
+        public IActionResult Index()
+        {
+            _telemetryClient.TrackPageView(&quot;TaskManagerIndex&quot;);
+            return View(_tasks);
+        }
+
+        [HttpPost]
+        public IActionResult Create(string title, string description, string dueDate)
+        {
+            _telemetryClient.TrackEvent(&quot;TaskCreated&quot;, new Dictionary&lt;string, string&gt; { { &quot;Title&quot;, title } });
+            var task = new TaskItem
+            {
+                Title = title,
+                Description = description,
+                DueDate = dueDate
+            };
+            _tasks.Add(task);
+            return RedirectToAction(&quot;Index&quot;);
+        }
+    }
+}
+</code></pre>
+<p><strong>Step 3: Test Locally</strong></p>
+<p>Run the WebApp locally to test.</p>
+<pre><code class="language-bash">cd TaskManagerWeb
+dotnet run
+</code></pre>
+<p>Access <code>https://localhost:5001</code>, create a task, and reload the page.</p>
+<p><strong>Step 4: Deploy</strong></p>
+<p>Deploy to Azure.</p>
+<pre><code class="language-bash">az webapp up --name taskmanagerweb-yourname --resource-group az204exam
+</code></pre>
+<p>Test at <code>https://taskmanagerweb-yourname.azurewebsites.net</code>.</p>
+<p><strong>Step 5: Verify</strong></p>
+<p>In Application Insights for <code>taskmanagerweb-yourname</code>, go to <strong>Events</strong>.</p>
+<ul>
+<li>Search for <code>TaskCreated</code> (filter by <code>event name</code>) and <code>TaskManagerIndex</code> (under <strong>Page Views</strong>).</li>
+<li>Confirm properties like <code>Title</code> appear for <code>TaskCreated</code>.</li>
+</ul>
 <h3 id="instrument-function-app">Instrument Function App</h3>
+<p>Follow these steps to instrument the Function App with custom telemetry:</p>
 <ol>
-<li><strong>Add Application Insights SDK</strong>:</li>
-<li>In <code>TaskManagerFunctions</code>, ensure the SDK is included (already added for .NET isolated Functions).</li>
-<li><strong>Update ManageTask.cs</strong>:</li>
 <li>
-<p>Modify <code>ManageTask.cs</code>:
-     ```csharp
-     using System.IO;
-     using System.Threading.Tasks;
-     using Microsoft.AspNetCore.Mvc;
-     using Microsoft.Azure.Functions.Worker;
-     using Microsoft.AspNetCore.Http;
-     using Microsoft.Extensions.Logging;
-     using Newtonsoft.Json;
-     using Microsoft.Azure.Cosmos;
-     using Microsoft.ApplicationInsights;
-     using System.Diagnostics;</p>
-<p>namespace TaskManagerFunctions
- {
-     public class ManageTask
-     {
-         private readonly ILogger<ManageTask> _logger;
-         private readonly CosmosClient _cosmosClient;
-         private readonly TelemetryClient _telemetryClient;</p>
-<pre><code>     public ManageTask(ILogger&lt;ManageTask&gt; logger, TelemetryClient telemetryClient)
-     {
-         _logger = logger;
-         _telemetryClient = telemetryClient;
-         _cosmosClient = new CosmosClient(Environment.GetEnvironmentVariable("CosmosDBConnection"), new CosmosClientOptions { ConnectionMode = ConnectionMode.Direct });
-     }
-
-     public class TaskItem
-     {
-         public string id { get; set; } = Guid.NewGuid().ToString();
-         public string Title { get; set; }
-         public string Description { get; set; }
-         public string DueDate { get; set; }
-     }
-
-     [Function("ManageTask")]
-     public async Task&lt;IActionResult&gt; Run(
-         [HttpTrigger(AuthorizationLevel.Function, "post", "get")] HttpRequest req)
-     {
-         _logger.LogInformation("Processing task in Cosmos DB.");
-         var stopwatch = Stopwatch.StartNew();
-
-         var container = _cosmosClient.GetContainer("TasksDB", "Tasks");
-
-         if (req.Method == "POST")
-         {
-             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-             TaskItem task = JsonConvert.DeserializeObject&lt;TaskItem&gt;(requestBody);
-
-             if (string.IsNullOrEmpty(task?.Title))
-             {
-                 return new BadRequestObjectResult("Please provide a title.");
-             }
-
-             task.id = Guid.NewGuid().ToString();
-             await container.CreateItemAsync(task, new PartitionKey(task.id));
-             stopwatch.Stop();
-             _telemetryClient.TrackMetric("TaskCreationTime", stopwatch.ElapsedMilliseconds);
-             _telemetryClient.TrackEvent("TaskCreatedInCosmos", new Dictionary&lt;string, string&gt; { { "Title", task.Title } });
-             _logger.LogInformation($"Created task: {task.Title}");
-             return new OkObjectResult(task);
-         }
-         else // GET
-         {
-             string taskId = req.Query["taskId"];
-             if (string.IsNullOrEmpty(taskId))
-             {
-                 return new BadRequestObjectResult("Please provide taskId.");
-             }
-
-             try
-             {
-                 var task = await container.ReadItemAsync&lt;TaskItem&gt;(taskId, new PartitionKey(taskId));
-                 _logger.LogInformation($" W task: {task.Resource.Title}");
-                 return new OkObjectResult(task.Resource);
-             }
-             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
-             {
-                 return new NotFoundResult();
-             }
-         }
-     }
- }
-</code></pre>
-<p>}
- <code>3. **Test Locally**:
-   - Update `local.settings.json` (if needed):</code>json
- {
-     "IsEncrypted": false,
-     "Values": {
-         "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-         "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-         "CosmosDBConnection": "[your-connection-string]"
-     }
- }
- <code>- Run:</code>bash
- func start
- <code>- POST a task:</code>bash
- curl -X POST http://localhost:7071/api/ManageTask -H "Content-Type: application/json" -d '{"Title":"Cosmos Task","Description":"Test SDK","DueDate":"2025-04-15"}'
- <code>4. **Deploy**:
-   - Deploy to Azure:</code>bash
- func azure functionapp publish taskmanagerfunc-yourname
- <code>- Test:</code>bash
- curl -X POST https://taskmanagerfunc-yourname.azurewebsites.net/api/managetask?code=[your-key] -H "Content-Type: application/json" -d '{"Title":"Azure Cosmos","Description":"Deployed","DueDate":"2025-04-15"}'
- <code>``
-5. **Verify**:
-   - In Application Insights for</code>taskmanagerfunc-yourname<code>, go to **Metrics** &gt; Filter for</code>TaskCreationTime<code>.
-   - Go to **Events** &gt; Search for</code>TaskCreatedInCosmos<code>and check properties (e.g.,</code>Title<code>).
-   - Confirm logs in **Logs** with</code>traces | where message contains "Created task"`.</p>
+<p>Add the Application Insights SDK (already included for .NET isolated Functions).</p>
+</li>
+<li>
+<p>Update ManageTask.cs to track custom events and metrics.</p>
+</li>
+<li>
+<p>Test locally.</p>
+</li>
+<li>
+<p>Deploy to Azure.</p>
+</li>
+<li>
+<p>Verify custom telemetry in Application Insights.</p>
 </li>
 </ol>
+<p><strong>Step 2: Update ManageTask.cs</strong></p>
+<p>Modify <code>ManageTask.cs</code>:</p>
+<pre><code class="language-csharp">using System.IO;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Microsoft.Azure.Cosmos;
+using Microsoft.ApplicationInsights;
+using System.Diagnostics;
+
+namespace TaskManagerFunctions
+{
+    public class ManageTask
+    {
+        private readonly ILogger&lt;ManageTask&gt; _logger;
+        private readonly CosmosClient _cosmosClient;
+        private readonly TelemetryClient _telemetryClient;
+
+        public ManageTask(ILogger&lt;ManageTask&gt; logger, TelemetryClient telemetryClient)
+        {
+            _logger = logger;
+            _telemetryClient = telemetryClient;
+            _cosmosClient = new CosmosClient(Environment.GetEnvironmentVariable(&quot;CosmosDBConnection&quot;), new CosmosClientOptions { ConnectionMode = ConnectionMode.Direct });
+        }
+
+        public class TaskItem
+        {
+            public string id { get; set; } = Guid.NewGuid().ToString();
+            public string Title { get; set; }
+            public string Description { get; set; }
+            public string DueDate { get; set; }
+        }
+
+        [Function(&quot;ManageTask&quot;)]
+        public async Task&lt;IActionResult&gt; Run(
+            [HttpTrigger(AuthorizationLevel.Function, &quot;post&quot;, &quot;get&quot;)] HttpRequest req)
+        {
+            _logger.LogInformation(&quot;Processing task in Cosmos DB.&quot;);
+            var stopwatch = Stopwatch.StartNew();
+
+            var container = _cosmosClient.GetContainer(&quot;TasksDB&quot;, &quot;Tasks&quot;);
+
+            if (req.Method == &quot;POST&quot;)
+            {
+                string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+                TaskItem task = JsonConvert.DeserializeObject&lt;TaskItem&gt;(requestBody);
+
+                if (string.IsNullOrEmpty(task?.Title))
+                {
+                    return new BadRequestObjectResult(&quot;Please provide a title.&quot;);
+                }
+
+                task.id = Guid.NewGuid().ToString();
+                await container.CreateItemAsync(task, new PartitionKey(task.id));
+                stopwatch.Stop();
+                _telemetryClient.TrackMetric(&quot;TaskCreationTime&quot;, stopwatch.ElapsedMilliseconds);
+                _telemetryClient.TrackEvent(&quot;TaskCreatedInCosmos&quot;, new Dictionary&lt;string, string&gt; { { &quot;Title&quot;, task.Title } });
+                _logger.LogInformation($&quot;Created task: {task.Title}&quot;);
+                return new OkObjectResult(task);
+            }
+            else // GET
+            {
+                string taskId = req.Query[&quot;taskId&quot;];
+                if (string.IsNullOrEmpty(taskId))
+                {
+                    return new BadRequestObjectResult(&quot;Please provide taskId.&quot;);
+                }
+
+                try
+                {
+                    var task = await container.ReadItemAsync&lt;TaskItem&gt;(taskId, new PartitionKey(taskId));
+                    _logger.LogInformation($&quot;Read task: {task.Resource.Title}&quot;);
+                    return new OkObjectResult(task.Resource);
+                }
+                catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    return new NotFoundResult();
+                }
+            }
+        }
+    }
+}
+</code></pre>
+<p><strong>Step 3: Test Locally</strong></p>
+<p>Update <code>local.settings.json</code> (if needed):</p>
+<pre><code class="language-json">{
+    &quot;IsEncrypted&quot;: false,
+    &quot;Values&quot;: {
+        &quot;AzureWebJobsStorage&quot;: &quot;UseDevelopmentStorage=true&quot;,
+        &quot;FUNCTIONS_WORKER_RUNTIME&quot;: &quot;dotnet-isolated&quot;,
+        &quot;CosmosDBConnection&quot;: &quot;[your-connection-string]&quot;
+    }
+}
+</code></pre>
+<p>Run the Function locally to test.</p>
+<pre><code class="language-bash">func start
+</code></pre>
+<p>POST a task:</p>
+<pre><code class="language-bash">curl -X POST http://localhost:7071/api/ManageTask -H &quot;Content-Type: application/json&quot; -d '{&quot;Title&quot;:&quot;Cosmos Task&quot;,&quot;Description&quot;:&quot;Test SDK&quot;,&quot;DueDate&quot;:&quot;2025-04-15&quot;}'
+</code></pre>
+<p><strong>Step 4: Deploy</strong></p>
+<p>Deploy to Azure.</p>
+<pre><code class="language-bash">func azure functionapp publish taskmanagerfunc-yourname
+</code></pre>
+<p>Test:</p>
+<pre><code class="language-bash">curl -X POST https://taskmanagerfunc-yourname.azurewebsites.net/api/managetask?code=[your-key] -H &quot;Content-Type: application/json&quot; -d '{&quot;Title&quot;:&quot;Azure Cosmos&quot;,&quot;Description&quot;:&quot;Deployed&quot;,&quot;DueDate&quot;:&quot;2025-04-15&quot;}'
+</code></pre>
+<p><strong>Step 5: Verify</strong></p>
+<p>In Application Insights for <code>taskmanagerfunc-yourname</code>:</p>
+<ul>
+<li>Go to <strong>Metrics</strong> &gt; Filter for <code>TaskCreationTime</code>.</li>
+<li>Go to <strong>Events</strong> &gt; Search for <code>TaskCreatedInCosmos</code> and check properties (e.g., <code>Title</code>).</li>
+<li>Confirm logs in <strong>Logs</strong> with <code>traces | where message contains "Created task"</code>.</li>
+</ul>
 <h3 id="why_2">Why</h3>
 <p>Custom instrumentation tracks specific behaviors (e.g., task creation, performance), exceeding auto-instrumentation and meeting exam requirements.</p>
 <h2 id="verify-all-topics">Verify All Topics</h2>
@@ -1341,13 +1409,13 @@
 <li><strong>Instrumentation</strong>: Added custom events (<code>TaskCreated</code>, <code>TaskCreatedInCosmos</code>) and metrics (<code>TaskCreationTime</code>) to both apps.</li>
 </ul>
 <h2 id="clean-up-optional">Clean Up (Optional)</h2>
-<p>To avoid costs:</p>
+<p>To avoid costs, delete all resources:</p>
 <pre><code class="language-bash">az group delete -n az204exam --no-wait --yes
 </code></pre>
 <h2 id="next-steps">Next Steps</h2>
 <ul>
 <li>Review telemetry in Application Insights to prepare exam-style questions.</li>
-<li>Move to “Connect to and consume Azure services and third-party services” (e.g., integrate with Microsoft Graph or APIs).</li>
+<li>Move to "Connect to and consume Azure services and third-party services" (e.g., integrate with Microsoft Graph or APIs).</li>
 </ul>
 
 

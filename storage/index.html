@@ -426,10 +426,9 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Prerequisites">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#set-up-blob-storage" class="md-nav__link">
     <span class="md-ellipsis">
       Set Up Blob Storage
@@ -437,29 +436,69 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#perform-operations-with-the-sdk" class="md-nav__link">
     <span class="md-ellipsis">
       Perform Operations with the SDK
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="Perform Operations with the SDK">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#why" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#set-and-retrieve-properties-and-metadata" class="md-nav__link">
     <span class="md-ellipsis">
       Set and Retrieve Properties and Metadata
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="Set and Retrieve Properties and Metadata">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#why_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#implement-storage-policies-and-data-lifecycle-management" class="md-nav__link">
     <span class="md-ellipsis">
       Implement Storage Policies and Data Lifecycle Management
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implement Storage Policies and Data Lifecycle Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why
     </span>
   </a>
   
@@ -815,10 +854,9 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Prerequisites">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#set-up-blob-storage" class="md-nav__link">
     <span class="md-ellipsis">
       Set Up Blob Storage
@@ -826,29 +864,69 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#perform-operations-with-the-sdk" class="md-nav__link">
     <span class="md-ellipsis">
       Perform Operations with the SDK
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="Perform Operations with the SDK">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#why" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#set-and-retrieve-properties-and-metadata" class="md-nav__link">
     <span class="md-ellipsis">
       Set and Retrieve Properties and Metadata
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="Set and Retrieve Properties and Metadata">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#why_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#implement-storage-policies-and-data-lifecycle-management" class="md-nav__link">
     <span class="md-ellipsis">
       Implement Storage Policies and Data Lifecycle Management
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implement Storage Policies and Data Lifecycle Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why
     </span>
   </a>
   
@@ -875,8 +953,8 @@
 
 
 
-<h1 id="develop-solutions-that-use-azure-blob-storage">Develop solutions that use Azure Blob Storage</h1>
-<p>Blob Storage to hit the AZ-204 Exam Topics:</p>
+<h1 id="develop-solutions-that-use-azure-blob-storage">Develop Solutions that Use Azure Blob Storage</h1>
+<p>This guide covers the AZ-204 exam topics for developing solutions with Azure Blob Storage:</p>
 <ul>
 <li>Set and retrieve properties and metadata</li>
 <li>Perform operations on data by using the appropriate SDK</li>
@@ -890,49 +968,65 @@
 <li><strong>Azure Subscription</strong> (Free tier or $200 credit recommended)</li>
 <li><strong>Existing Resource Group</strong> (<code>az204exam</code>)</li>
 </ul>
-<h3 id="set-up-blob-storage">Set Up Blob Storage</h3>
+<h2 id="set-up-blob-storage">Set Up Blob Storage</h2>
 <p><em>Note</em>: We set up <code>taskmanagerstoreyourname</code> in Functions for task JSONs (<code>tasks</code> container). Here, we’ll add <code>attachments</code> for files to keep them separate.</p>
-<p><strong>Verify Storage Account</strong>:</p>
+<p>Follow these steps to set up Blob Storage:</p>
+<ol>
+<li>
+<p>Verify the Storage Account.</p>
+</li>
+<li>
+<p>Create an <code>attachments</code> container.</p>
+</li>
+<li>
+<p>Confirm the connection string in the Function App.</p>
+</li>
+</ol>
+<p><strong>Step 1: Verify Storage Account</strong></p>
+<p>In the Azure Portal, go to <strong>Storage accounts</strong>. Find <code>taskmanagerstoreyourname</code>. If missing, create:</p>
 <ul>
-<li>In the Azure Portal, go to <strong>Storage accounts</strong>.</li>
-<li>Find <code>taskmanagerstoreyiourname</code></li>
-<li>If missing, create:</li>
+<li>Name: <code>taskmanagerstoreyourname</code>.</li>
+<li>Resource group: <code>az204</code>.</li>
+<li>Region: <code>West US3</code>.</li>
+<li>Primary Service: <code>Azure Blob Storage or Azure Data Lake Storage Gen 2</code>.</li>
+<li>Redundancy: <code>LRS</code>.</li>
 </ul>
-<p>Name: <code>taskmanagerstoreyourname</code>.</p>
-<p>Resource group: <code>az204</code></p>
-<p>Region: <code>West US3</code></p>
-<p>Primary Service: <code>Azure Blob Storage or Azure Data Lake Storage Gen 2</code></p>
-<p>Redundacy: <code>LRS</code></p>
-<p>After Creation:</p>
-<p><strong>Create Attachments Container</strong>:</p>
+<p><strong>Step 2: Create Attachments Container</strong></p>
+<p>In <code>taskmanagerstoreyourname</code>, go to <strong>Containers</strong> &gt; <strong>+ Container</strong>. Name: <code>attachments</code>. Click <strong>Create</strong>.</p>
+<p><strong>Step 3: Confirm Connection String</strong></p>
+<p>Go to <strong>Access keys</strong> &gt; Copy <strong>Connection string</strong> for <code>key1</code>.</p>
+<p>In your Function App (<code>taskmanagerfunc-yourname</code>), go to <strong>Configuration</strong> &gt; <strong>Application settings</strong>. Verify <code>StorageConnection</code> (from Functions). If missing, add:</p>
 <ul>
-<li>In <code>taskmanagerstoreyourname</code>, go to <strong>Containers</strong> &gt; <strong>+ Container</strong>.</li>
-<li>Name: <code>attachments</code>.</li>
-<li>Click <strong>Create</strong>.</li>
-</ul>
-<p><strong>Confirm Connection String</strong>:</p>
-<ul>
-<li>Go to <strong>Access keys</strong> &gt; Copy <strong>Connection string</strong> for <code>key1</code>.</li>
-<li>In your Function App (<code>taskmanagerfunc-yourname</code>), go to <strong>Configuration</strong> &gt; <strong>Application settings</strong>.</li>
-<li>Verify <code>StorageConnection</code> (from Functions). If missing, add:</li>
 <li>Name: <code>StorageConnection</code>, Value: <code>[your-connection-string]</code>.</li>
 <li>Save and restart.</li>
 </ul>
-<h3 id="perform-operations-with-the-sdk">Perform Operations with the SDK</h3>
+<h2 id="perform-operations-with-the-sdk">Perform Operations with the SDK</h2>
 <p><em>Note</em>: We’ll add Functions to upload and download files to <code>attachments</code> using the Blob SDK, prepping for web app file uploads.</p>
-<p><strong>Add Blob SDK</strong>:</p>
-<ul>
-<li>In <code>TaskManagerFunctions</code>, run (if not added):</li>
-</ul>
+<p>Follow these steps to perform operations with the Blob Storage SDK:</p>
+<ol>
+<li>
+<p>Add the Blob Storage SDK.</p>
+</li>
+<li>
+<p>Create an Upload Function.</p>
+</li>
+<li>
+<p>Test locally (optional).</p>
+</li>
+<li>
+<p>Deploy and test in Azure.</p>
+</li>
+</ol>
+<p><strong>Step 1: Add Blob SDK</strong></p>
+<p>In <code>TaskManagerFunctions</code>, run (if not added):</p>
 <pre><code class="language-bash">dotnet add package Azure.Storage.Blobs
 </code></pre>
-<p><strong>Create Upload Function</strong>:</p>
+<p><strong>Step 2: Create Upload Function</strong></p>
+<p>Create a new HTTP-triggered Function.</p>
 <pre><code class="language-bash">cd TaskManagerFunctions
 func new --template &quot;HttpTrigger&quot; --name UploadAttachment
 </code></pre>
-<ul>
-<li>Edit <code>UploadAttachment.cs</code>:</li>
-</ul>
+<p>Edit <code>UploadAttachment.cs</code>:</p>
 <pre><code class="language-csharp">using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -1026,10 +1120,8 @@ namespace TaskManagerFunctions
     }
 }
 </code></pre>
-<p><strong>Test Locally</strong>: OPTIONAL</p>
-<ul>
-<li>Update <code>local.settings.json</code>:</li>
-</ul>
+<p><strong>Step 3: Test Locally (Optional)</strong></p>
+<p>Update <code>local.settings.json</code>:</p>
 <pre><code class="language-json">{
     &quot;IsEncrypted&quot;: false,
     &quot;Values&quot;: {
@@ -1039,32 +1131,42 @@ namespace TaskManagerFunctions
     }
 }
 </code></pre>
-<p>Run:</p>
+<p>Run the Function locally:</p>
 <pre><code class="language-bash">func start
 </code></pre>
-<ul>
-<li>POST (use Postman or curl, with a file like <code>test.txt</code>):</li>
-</ul>
+<p>POST (use Postman or curl, with a file like <code>test.txt</code>):</p>
 <pre><code class="language-bash">curl -X POST http://localhost:7071/api/UploadAttachment -F &quot;taskId=test123&quot; -F &quot;file=@test.txt&quot;
 </code></pre>
-<p>Check <code>attachments</code> container (Azurite or Portal) for <code>test123/test.txt</code>.</p>
-<p><strong>Deploy and Test</strong>:</p>
-<p>Deploy:</p>
+<p>Check the <code>attachments</code> container (Azurite or Azure Portal) for <code>test123/test.txt</code>.</p>
+<p><strong>Step 4: Deploy and Test</strong></p>
+<p>Deploy the Function to Azure:</p>
 <pre><code class="language-bash">func azure functionapp publish taskmanagerfunc-yourname
 </code></pre>
-<pre><code class="language-powershell">az functionapp function keys list --name TaskManagerFunc-jwashburn --resource-group az204 --function-name UplpadAttachment
+<p>Retrieve the Function key:</p>
+<pre><code class="language-powershell">az functionapp function keys list --name taskmanagerfunc-yourname --resource-group az204 --function-name UploadAttachment
 </code></pre>
 <p>Test:</p>
 <pre><code class="language-bash">curl -X POST https://taskmanagerfunc-yourname.azurewebsites.net/api/uploadattachment?code=[your-key] -F &quot;taskId=test123&quot; -F &quot;file=@test.txt&quot;
 </code></pre>
-<ul>
-<li>Verify in Portal &gt; <code>taskmanagerstore</code> &gt; <code>attachments</code>.</li>
-</ul>
-<p><em>Why do this?</em> Uploads files with the SDK, showing create operations for the exam.</p>
-<h3 id="set-and-retrieve-properties-and-metadata">Set and Retrieve Properties and Metadata</h3>
+<p>Verify in Azure Portal &gt; <code>taskmanagerstoreyourname</code> &gt; <code>attachments</code>.</p>
+<h3 id="why">Why</h3>
+<p>Uploads files with the SDK, showing create operations for the exam.</p>
+<h2 id="set-and-retrieve-properties-and-metadata">Set and Retrieve Properties and Metadata</h2>
 <p><em>Note</em>: We’ll get the file’s content type and metadata (task ID) to show exam skills.</p>
-<p><strong>Create Download Function</strong>:</p>
-<p>Run:</p>
+<p>Follow these steps to set and retrieve properties and metadata:</p>
+<ol>
+<li>
+<p>Create a Download Function.</p>
+</li>
+<li>
+<p>Test locally (optional).</p>
+</li>
+<li>
+<p>Deploy and test in Azure.</p>
+</li>
+</ol>
+<p><strong>Step 1: Create Download Function</strong></p>
+<p>Create a new HTTP-triggered Function.</p>
 <pre><code class="language-bash">cd TaskManagerFunctions
 func new --template &quot;HttpTrigger&quot; --name GetAttachment
 </code></pre>
@@ -1157,62 +1259,59 @@ namespace TaskManagerFunctions
     }
 }
 </code></pre>
-<p><strong>Test Locally</strong>: OPTIONAL</p>
-<p>Run:</p>
+<p><strong>Step 2: Test Locally (Optional)</strong></p>
+<p>Run the Function locally:</p>
 <pre><code class="language-bash">func start
 </code></pre>
 <p>GET:</p>
 <pre><code class="language-bash">curl http://localhost:7071/api/GetAttachment?taskId=test123&amp;fileName=test.txt
 </code></pre>
-<ul>
-<li>Expect JSON: <code>{"TaskId":"test123","ContentType":"text/plain","Uri":"..."}</code>.</li>
-</ul>
-<p><strong>Deploy and Test</strong>:</p>
-<p>Deploy:</p>
+<p>Expect JSON: <code>{"TaskId":"test123","ContentType":"text/plain","Uri":"..."}</code>.</p>
+<p><strong>Step 3: Deploy and Test</strong></p>
+<p>Deploy the Function to Azure:</p>
 <pre><code class="language-bash">func azure functionapp publish taskmanagerfunc-yourname
 </code></pre>
-<p>Retrive your Key:</p>
-<pre><code class="language-powershell">az functionapp function keys list --name TaskManagerFunc-jwashburn --resource-group az204 --function-name GetAttachment
+<p>Retrieve the Function key:</p>
+<pre><code class="language-powershell">az functionapp function keys list --name taskmanagerfunc-yourname --resource-group az204 --function-name GetAttachment
 </code></pre>
 <p>Test:</p>
-<pre><code class="language-bash">curl https://taskmanagerfunc-jwashburn.azurewebsites.net/api/GetAttachment?code=[yourkey]&amp;taskId=test123&amp;fileName=test.txt
+<pre><code class="language-bash">curl https://taskmanagerfunc-yourname.azurewebsites.net/api/getattachment?code=[your-key]&amp;taskId=test123&amp;fileName=test.txt
 </code></pre>
 <p>Verify metadata and properties.</p>
-<p><em>Why do this?</em> Shows setting and getting metadata/properties, a key exam topic.</p>
-<h3 id="implement-storage-policies-and-data-lifecycle-management">Implement Storage Policies and Data Lifecycle Management</h3>
-<p><em>Note</em>: We’ll archive old files in <code>attachments</code> to manage costs.</p>
-<p><strong>Create Lifecycle Rule</strong>:</p>
-<ul>
-<li>In the Portal, go to <code>taskmanagerstore</code> &gt; <strong>Data Management</strong> &gt; Lifecycle management<strong> &gt; </strong>Add rule**.</li>
-<li>Rule name: <code>ArchiveOldFiles</code>.</li>
+<h3 id="why_1">Why</h3>
+<p>Shows setting and getting metadata/properties, a key exam topic.</p>
+<h2 id="implement-storage-policies-and-data-lifecycle-management">Implement Storage Policies and Data Lifecycle Management</h2>
+<p><em>Note</em>: We’ll delete old files in <code>attachments</code> to manage costs.</p>
+<p>Follow these steps to implement storage policies and data lifecycle management:</p>
+<ol>
 <li>
-<p>Scope: Filter to <code>attachments/</code> (type <code>attachments/</code> in <strong>Blob prefix</strong>).</p>
+<p>Create a lifecycle rule.</p>
 </li>
 <li>
-<p>Conditions:</p>
+<p>Verify the lifecycle rule.</p>
+</li>
+</ol>
+<p><strong>Step 1: Create Lifecycle Rule</strong></p>
+<p>In the Azure Portal, go to <code>taskmanagerstoreyourname</code> &gt; <strong>Data Management</strong> &gt; <strong>Lifecycle management</strong> &gt; <strong>Add rule</strong>.</p>
 <ul>
+<li>Rule name: <code>ArchiveOldFiles</code>.</li>
+<li>Scope: Filter to <code>attachments/</code> (type <code>attachments/</code> in <strong>Blob prefix</strong>).</li>
+<li>Conditions:</li>
 <li>Blob type: Block blobs.</li>
 <li>Not modified for <strong>1 days</strong>.</li>
+<li>Actions:</li>
+<li>Delete Blob.</li>
+<li>Feel free to set up your own rules here.</li>
+<li>Click <strong>Add</strong>.</li>
 </ul>
-</li>
-<li>
-<p>Actions:</p>
-<ul>
-<li>Delete Blob</li>
-<li>Feel free to set up your own rules here</li>
-</ul>
-</li>
-<li>
-<p>Click <strong>Add</strong>.</p>
-</li>
-</ul>
-<p><strong>Verify</strong>:</p>
+<p><strong>Step 2: Verify</strong></p>
 <ul>
 <li>Upload a file via <code>UploadAttachment</code>.</li>
-<li>Wait 30 days (or use a test account to simulate).</li>
-<li>Check <code>attachments</code> &gt; Confirm old files show <strong>Cool</strong> tier in <strong>Access tier</strong>.</li>
+<li>Wait 1 day (or use a test account to simulate).</li>
+<li>Check <code>attachments</code> &gt; Confirm old files are deleted.</li>
 </ul>
-<p><em>Why do this?</em> Lifecycle rules reduce storage costs, an exam must-know.</p>
+<h3 id="why_2">Why</h3>
+<p>Lifecycle rules reduce storage costs, an exam must-know.</p>
 
 
 

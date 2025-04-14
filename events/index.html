@@ -718,6 +718,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-an-event-grid-trigger-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create an Event Grid Trigger Function
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
       </ul>
@@ -867,6 +882,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-an-event-grid-trigger-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create an Event Grid Trigger Function
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
       </ul>
@@ -942,7 +972,7 @@
 
 
 <h1 id="develop-event-based-solutions">Develop Event-Based Solutions</h1>
-<p>This guide covers the AZ-204 exam topics for developing event-based solutions using Azure Event Grid and Azure Event Hub. We’ll enhance our <code>TaskManagerWeb</code> (WebApp) and <code>TaskManagerFunctions</code> (Function App) to handle events, integrating with our existing setup (including Cosmos DB and API Management). We’ll use Event Grid to trigger actions on task creation and Event Hub to stream task updates for processing.</p>
+<p>This guide covers the AZ-204 exam topics for developing event-based solutions using Azure Event Grid and Azure Event Hub. We'll enhance our <code>TaskManagerWeb</code> (WebApp) and <code>TaskManagerFunctions</code> (Function App) to handle events, integrating with our existing setup (including Cosmos DB and API Management). We'll use Event Grid to trigger actions on task creation and Event Hub to stream task updates for processing.</p>
 <h2 id="prerequisites">Prerequisites</h2>
 <ul>
 <li><strong>Azure Subscription</strong> (Free tier or $200 credit recommended).</li>
@@ -958,10 +988,32 @@
 <li><a href="https://github.com/Azure/azure-functions-core-tools/releases">Azure Functions Core Tools</a>.</li>
 </ul>
 <h2 id="implement-solutions-that-use-azure-event-grid">Implement Solutions that Use Azure Event Grid</h2>
-<p>We’ll use Event Grid to trigger a new Function when a task is created in Cosmos DB, sending a notification via a webhook (simulated by another Function).</p>
+<p>We'll use Event Grid to trigger a new Function when a task is created in Cosmos DB, sending a notification via a webhook (simulated by another Function).</p>
 <h3 id="steps">Steps</h3>
-<p><strong>Create an Event Grid Trigger Function</strong>:</p>
-<p>In <code>TaskManagerFunctions</code> directory:</p>
+<h4 id="create-an-event-grid-trigger-function">Create an Event Grid Trigger Function</h4>
+<p>Follow these steps to create an Event Grid Trigger Function:</p>
+<ol>
+<li>
+<p>Create the function in the <code>TaskManagerFunctions</code> directory and update its code.</p>
+</li>
+<li>
+<p>Set up an Event Grid Topic in the Azure Portal.</p>
+</li>
+<li>
+<p>Configure Cosmos DB as an Event Grid event source.</p>
+</li>
+<li>
+<p>Subscribe to the Event Grid Topic using the Azure Function as the endpoint.</p>
+</li>
+<li>
+<p>Deploy the updated Function App.</p>
+</li>
+<li>
+<p>Test the Event Grid integration by triggering a task creation.</p>
+</li>
+</ol>
+<p><strong>Step 1: Create and Update the Event Grid Trigger Function</strong></p>
+<p>In the <code>TaskManagerFunctions</code> directory, create the function and update <code>TaskCreatedNotification.cs</code>.</p>
 <pre><code class="language-bash">cd TaskManagerFunctions
 func new --template &quot;Azure Event Grid Trigger&quot; --name TaskCreatedNotification
 </code></pre>
@@ -1008,76 +1060,93 @@ namespace TaskManagerFunctions
     }
 }
 </code></pre>
-<p><strong>Set Up Event Grid Topic</strong>:</p>
-<p>In Azure Portal, go to <strong>Create a resource</strong> &gt; <strong>Event Grid Topic</strong> &gt; <strong>Create</strong>.</p>
-<p>Configure:</p>
+<p><strong>Step 2: Set Up Event Grid Topic</strong></p>
+<p>In the Azure Portal, go to <strong>Create a resource</strong> &gt; <strong>Event Grid Topic</strong> &gt; <strong>Create</strong>. Configure as follows:</p>
 <ul>
 <li>Resource group: <code>az204exam</code>.</li>
 <li>Name: <code>taskcreatedtopic</code>.</li>
 <li>Location: Same as apps (e.g., West US 3).</li>
 </ul>
-<p><strong>Configure Cosmos DB Event Source</strong>:</p>
-<p>In <code>taskmanagercosmos</code> &gt; <strong>Events</strong> &gt; <strong>Add Event Grid integration</strong>.</p>
-<p>Select:</p>
+<p><strong>Step 3: Configure Cosmos DB Event Source</strong></p>
+<p>In <code>taskmanagercosmos</code> &gt; <strong>Events</strong> &gt; <strong>Add Event Grid integration</strong>. Select:</p>
 <ul>
 <li>Topic: <code>taskcreatedtopic</code>.</li>
 <li>Event types: <code>Microsoft.Azure.CosmosDB.DocumentCreated</code>.</li>
 <li>Container: <code>TasksDB/Tasks</code>.</li>
 </ul>
 <p>Save.</p>
-<p><strong>Subscribe to Event Grid Topic</strong>:</p>
-<p>In Portal, go to <strong>Event Grid Topics</strong> &gt; <code>taskcreatedtopic</code> &gt; <strong>+ Event Subscription</strong>.</p>
-<p>Configure:</p>
+<p><strong>Step 4: Subscribe to Event Grid Topic</strong></p>
+<p>In the Azure Portal, go to <strong>Event Grid Topics</strong> &gt; <code>taskcreatedtopic</code> &gt; <strong>+ Event Subscription</strong>. Configure:</p>
 <ul>
 <li>Name: <code>taskcreatedsub</code>.</li>
 <li>Event type: <code>DocumentCreated</code>.</li>
 <li>Endpoint type: <strong>Azure Function</strong>.</li>
 <li>Endpoint: Select <code>taskmanagerfunc-yourname</code> &gt; <code>TaskCreatedNotification</code>.</li>
 </ul>
-<p><strong>Deploy Function</strong>:</p>
-<ul>
-<li>Deploy updated Function App:</li>
-</ul>
+<p><strong>Step 5: Deploy the Function</strong></p>
+<p>Deploy the updated Function App.</p>
 <pre><code class="language-bash">func azure functionapp publish taskmanagerfunc-yourname
 </code></pre>
-<p><strong>Test Event Grid</strong>:
-- Trigger a task creation via APIM (from <code>apimanagement.md</code>):</p>
+<p><strong>Step 6: Test Event Grid</strong></p>
+<p>Trigger a task creation via APIM (as set up in <code>apimanagement.md</code>).</p>
 <pre><code class="language-bash">curl -X POST https://taskmanagerapim-yourname.azure-api.net/functions/managetask -H &quot;Ocp-Apim-Subscription-Key: [your-key]&quot; -H &quot;Content-Type: application/json&quot; -d '{&quot;Title&quot;:&quot;Event Grid Task&quot;,&quot;Description&quot;:&quot;Test&quot;,&quot;DueDate&quot;:&quot;2025-04-15&quot;}'
 </code></pre>
+<p>Verify:</p>
 <ul>
-<li>Verify:</li>
-<li>In Portal, go to <code>taskmanagerfunc-yourname</code> &gt; <strong>Functions</strong> &gt; <code>TaskCreatedNotification</code> &gt; <strong>Monitor</strong> &gt; <strong>Logs</strong>.</li>
+<li>In the Azure Portal, go to <code>taskmanagerfunc-yourname</code> &gt; <strong>Functions</strong> &gt; <code>TaskCreatedNotification</code> &gt; <strong>Monitor</strong> &gt; <strong>Logs</strong>.</li>
 <li>Look for <code>Task created: Event Grid Task, ID: [guid]</code>.</li>
 <li>Check Cosmos DB &gt; <code>TasksDB/Tasks</code> to confirm the task exists.</li>
 </ul>
 <h2 id="implement-solutions-that-use-azure-event-hub">Implement Solutions that Use Azure Event Hub</h2>
-<p>We’ll use Event Hub to stream task updates from the WebApp, processing them with a new Function to log or analyze changes.</p>
+<p>We'll use Event Hub to stream task updates from the WebApp, processing them with a new Function to log or analyze changes.</p>
 <h3 id="steps_1">Steps</h3>
-<p><strong>Create Event Hub Namespace and Hub</strong>:</p>
-<p>In Portal, go to <strong>Create a resource</strong> &gt; <strong>Event Hubs</strong> &gt; <strong>Create</strong>.</p>
-<p>Configure:</p>
+<p>Follow these steps to implement Event Hub:</p>
+<ol>
+<li>
+<p>Create an Event Hub Namespace and Hub.</p>
+</li>
+<li>
+<p>Get the Event Hub connection string and add it to the Function App.</p>
+</li>
+<li>
+<p>Update the WebApp to send events to Event Hub.</p>
+</li>
+<li>
+<p>Create an Event Hub Trigger Function to process events.</p>
+</li>
+<li>
+<p>Test locally (optional).</p>
+</li>
+<li>
+<p>Deploy and test the solution in Azure.</p>
+</li>
+</ol>
+<p><strong>Step 1: Create Event Hub Namespace and Hub</strong></p>
+<p>In the Azure Portal, go to <strong>Create a resource</strong> &gt; <strong>Event Hubs</strong> &gt; <strong>Create</strong>. Configure:</p>
 <ul>
 <li>Resource group: <code>az204exam</code>.</li>
 <li>Namespace name: <code>taskmanagerhub-yourname</code>.</li>
 <li>Location: West US 3.</li>
 <li>Pricing tier: <strong>Basic</strong> (exam-friendly).</li>
-<li>Create.</li>
-<li>Inside the namespace, create an Event Hub:</li>
+</ul>
+<p>Inside the namespace, create an Event Hub:</p>
+<ul>
 <li>Name: <code>taskevents</code>.</li>
 <li>Partition count: 2 (minimal for exam).</li>
 <li>Message retention: 1 day.</li>
 </ul>
-<p><strong>Get Connection String</strong>:</p>
-<p>In <code>taskmanagerhub-yourname</code> &gt; <strong>Shared access policies</strong> &gt; <strong>RootManageSharedAccessKey</strong>.</p>
-<p>Copy the <strong>Primary Connection String</strong>.</p>
-<p>Add to Function App:
-  - In <code>taskmanagerfunc-yourname</code> &gt; <strong>Settings</strong> &gt; <strong>Environment Variables</strong>.
-  - Add:
-     - Name: <code>EventHubConnection</code>.
-     - Value: <code>[your-connection-string]</code>.
-  - Save.</p>
-<p><strong>Update WebApp to Send Events</strong>:
-In <code>TaskManagerWeb</code>, add Event Hubs SDK:</p>
+<p><strong>Step 2: Get Connection String and Add to Function App</strong></p>
+<p>In <code>taskmanagerhub-yourname</code> &gt; <strong>Shared access policies</strong> &gt; <strong>RootManageSharedAccessKey</strong>, copy the <strong>Primary Connection String</strong>.</p>
+<p>Add it to the Function App:</p>
+<ul>
+<li>In <code>taskmanagerfunc-yourname</code> &gt; <strong>Settings</strong> &gt; <strong>Environment Variables</strong>.</li>
+<li>Add:</li>
+<li>Name: <code>EventHubConnection</code>.</li>
+<li>Value: <code>[your-connection-string]</code>.</li>
+<li>Save.</li>
+</ul>
+<p><strong>Step 3: Update WebApp to Send Events</strong></p>
+<p>In <code>TaskManagerWeb</code>, add the Event Hubs SDK and update the controller to send events.</p>
 <pre><code class="language-bash">cd TaskManagerWeb
 dotnet add package Azure.Messaging.EventHubs
 </code></pre>
@@ -1134,14 +1203,16 @@ namespace TaskManagerWeb.Controllers
   &quot;EventHubConnection&quot;: &quot;&quot;
 }
 </code></pre>
-<p>Deploy WebApp:</p>
+<p>Deploy the WebApp and add the environment variable:</p>
 <pre><code class="language-bash">az webapp up --name taskmanagerweb-yourname --resource-group az204exam
 </code></pre>
-<p>In <code>taskmanagerweb-yourname</code> &gt; <strong>Settings</strong> &gt; <strong>Environment Variables</strong>, add:
-Name: <code>EventHubConnection</code>.
-Value: <code>[your-connection-string]</code>.</p>
-<p><strong>Create Event Hub Trigger Function</strong>:
-In <code>TaskManagerFunctions</code>:</p>
+<p>In <code>taskmanagerweb-yourname</code> &gt; <strong>Settings</strong> &gt; <strong>Environment Variables</strong>, add:</p>
+<ul>
+<li>Name: <code>EventHubConnection</code>.</li>
+<li>Value: <code>[your-connection-string]</code>.</li>
+</ul>
+<p><strong>Step 4: Create Event Hub Trigger Function</strong></p>
+<p>In <code>TaskManagerFunctions</code>, create the Event Hub Trigger Function and update its code.</p>
 <pre><code class="language-bash">func new --template &quot;Event Hub Trigger&quot; --name ProcessTaskEvents
 </code></pre>
 <p>Update <code>ProcessTaskEvents.cs</code>:</p>
@@ -1171,8 +1242,8 @@ namespace TaskManagerFunctions
     }
 }
 </code></pre>
-<p><strong>Test Locally (Optional)</strong>:
-Update <code>local.settings.json</code>:</p>
+<p><strong>Step 5: Test Locally (Optional)</strong></p>
+<p>Update <code>local.settings.json</code> in <code>TaskManagerFunctions</code>:</p>
 <pre><code class="language-json">{
     &quot;IsEncrypted&quot;: false,
     &quot;Values&quot;: {
@@ -1183,33 +1254,34 @@ Update <code>local.settings.json</code>:</p>
     }
 }
 </code></pre>
-<p>Run WebApp:</p>
+<p>Run the WebApp and Function locally to test:</p>
 <pre><code class="language-bash">cd TaskManagerWeb
 dotnet run
 </code></pre>
-<p>Create a task via <code>https://localhost:5001</code>.
-Run Function:</p>
+<p>Create a task via <code>https://localhost:5001</code>.</p>
+<p>Run the Function in a separate terminal:</p>
 <pre><code class="language-bash">cd ../TaskManagerFunctions
 func start
 </code></pre>
-<p>Check console for <code>Event Hub message: {"id":"[guid]","Title":"Test Task",...}</code>.</p>
-<p><strong>Deploy and Test</strong>:
-Deploy Function:</p>
+<p>Check the Function's console for <code>Event Hub message: {"id":"[guid]","Title":"Test Task",...}</code>.</p>
+<p><strong>Step 6: Deploy and Test</strong></p>
+<p>Deploy the Function and test in Azure.</p>
 <pre><code class="language-bash">func azure functionapp publish taskmanagerfunc-yourname
 </code></pre>
 <p>Test:</p>
-<p>Access <code>https://taskmanagerweb-yourname.azurewebsites.net</code>, create a task.</p>
-<p>In Portal, go to <code>taskmanagerfunc-yourname</code> &gt; <strong>Functions</strong> &gt; <code>ProcessTaskEvents</code> &gt; <strong>Monitor</strong> &gt; <strong>Logs</strong>.</p>
-<p>Verify logs show <code>Event Hub message</code> with task data.</p>
-<p>Check Event Hub metrics:</p>
-<p>In <code>taskmanagerhub-yourname</code> &gt; <strong>Metrics</strong>, look for <code>Incoming Messages</code>.</p>
+<ul>
+<li>Access <code>https://taskmanagerweb-yourname.azurewebsites.net</code> and create a task.</li>
+<li>In the Azure Portal, go to <code>taskmanagerfunc-yourname</code> &gt; <strong>Functions</strong> &gt; <code>ProcessTaskEvents</code> &gt; <strong>Monitor</strong> &gt; <strong>Logs</strong>.</li>
+<li>Verify logs show <code>Event Hub message</code> with task data.</li>
+<li>Check Event Hub metrics in <code>taskmanagerhub-yourname</code> &gt; <strong>Metrics</strong>; look for <code>Incoming Messages</code>.</li>
+</ul>
 <h2 id="verify-all-topics">Verify All Topics</h2>
 <ul>
 <li><strong>Event Grid</strong>: Triggered <code>TaskCreatedNotification</code> on Cosmos DB task creation.</li>
 <li><strong>Event Hub</strong>: Streamed WebApp task updates to <code>ProcessTaskEvents</code>.</li>
 </ul>
 <h2 id="clean-up-optional">Clean Up (Optional)</h2>
-<p>To avoid costs:</p>
+<p>To avoid costs, delete all resources:</p>
 <pre><code class="language-bash">az group delete -n az204exam --no-wait --yes
 </code></pre>
 <h2 id="next-steps">Next Steps</h2>

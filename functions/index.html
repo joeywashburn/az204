@@ -814,8 +814,8 @@ namespace TaskManagerFunctions
 <pre><code class="language-powershell">curl -X POST http://localhost:7071/api/CreateTask -H &quot;Content-Type: application/json&quot; -d '{&quot;Title&quot;:&quot;Test Task&quot;,&quot;Description&quot;:&quot;Do this&quot;,&quot;DueDate&quot;:&quot;2025-04-15&quot;}'
 </code></pre>
 <p>Check the tasks container (local Azurite or Portal) for a [guid].json file with the task JSON.</p>
-<p><strong>Deploy and Test</strong>:</p>
-<p>Deploy:</p>
+<p><strong>Deploy and Test</strong>:
+Deploy:</p>
 <pre><code class="language-powershell">func azure functionapp publish taskmanagerfunc-yourname
 </code></pre>
 <p>Test:</p>

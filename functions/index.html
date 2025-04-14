@@ -633,6 +633,7 @@
 <li><strong>Azure CLI</strong> (<a href="https://learn.microsoft.com/en-us/cli/azure/install-azure-cli">Install</a>)</li>
 <li><strong>Azure Functions Core Tools</strong> (<a href="https://github.com/Azure/azure-functions-core-tools/releases">Install</a>)</li>
 <li><strong>Azure Subscription</strong> (Free tier or $200 credit recommended for minimal costs)</li>
+<li><strong>Azurite</strong> (<a href="https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=npm%2Cblob-storage#install-azurite">Install</a>)</li>
 <li><strong>Existing Resource Group</strong></li>
 </ul>
 <h2 id="setup-azure-functions-app">Setup Azure Functions App</h2>
@@ -712,11 +713,11 @@
 <ul>
 <li>In <code>TaskManagerFunctions</code> directory run:</li>
 </ul>
-<pre><code class="language-powershell">dotnet add package Azure.Storage.Blobs
-dotnet add package Microsoft.Azure.Functions.Worker
+<pre><code class="language-powershell">dotnet add package Microsoft.Azure.Functions.Worker
 dotnet add package Microsoft.Azure.Functions.Worker.Sdk
 dotnet add package Microsoft.Azure.Functions.Worker.Extensions.Storage
 dotnet add package Microsoft.Azure.Functions.Worker.Extensions.Http
+dotnet add package Microsoft.Azure.Functions.Worker.Extensions.Storage
 </code></pre>
 <p><strong>Update CreateTask Function</strong>:</p>
 <p>Replace CreateTask.cs with:</p>
@@ -742,28 +743,30 @@ namespace TaskManagerFunctions
         public class TaskItem
         {
             public string Id { get; set; } = Guid.NewGuid().ToString();
-            public string Title { get; set; }
-            public string Description { get; set; }
-            public string DueDate { get; set; }
+            public string? Title { get; set; } // Nullable to avoid CS8618
+            public string? Description { get; set; } // Nullable
+            public string? DueDate { get; set; } // Nullable
         }
 
         [Function(&quot;CreateTask&quot;)]
-        public async Task&lt;HttpResponseData&gt; Run(
-            [HttpTrigger(AuthorizationLevel.Function, &quot;post&quot;, Route = null)] HttpRequestData req,
-            [BlobOutput(&quot;tasks/{id}.json&quot;, Connection = &quot;AzureWebJobsStorage&quot;)] out string blobOutput)
+        public async Task&lt;MultiOutput&gt; Run(
+            [HttpTrigger(AuthorizationLevel.Function, &quot;post&quot;, Route = null)] HttpRequestData req)
         {
             _logger.LogInformation(&quot;Creating new task.&quot;);
 
             // Read the request body
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            TaskItem task = JsonSerializer.Deserialize&lt;TaskItem&gt;(requestBody, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            TaskItem? task = JsonSerializer.Deserialize&lt;TaskItem&gt;(requestBody, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-            if (string.IsNullOrEmpty(task?.Title))
+            if (task == null || string.IsNullOrEmpty(task.Title))
             {
                 var badRequestResponse = req.CreateResponse(System.Net.HttpStatusCode.BadRequest);
-                await badRequestResponse.WriteStringAsync(&quot;Please provide a title.&quot;);
-                blobOutput = null; // No blob output for a failed request
-                return badRequestResponse;
+                await badRequestResponse.WriteStringAsync(&quot;Please provide a valid task with a title.&quot;);
+                return new MultiOutput
+                {
+                    Response = badRequestResponse,
+                    BlobOutput = null
+                };
             }
 
             // Generate a new ID for the task
@@ -771,12 +774,25 @@ namespace TaskManagerFunctions
             _logger.LogInformation($&quot;Saving task: {task.Title}&quot;);
 
             // Serialize the task to JSON for Blob storage
-            blobOutput = JsonSerializer.Serialize(task);
+            string blobOutput = JsonSerializer.Serialize(task);
 
             // Return a success response
             var response = req.CreateResponse(System.Net.HttpStatusCode.OK);
             await response.WriteAsJsonAsync(task);
-            return response;
+
+            return new MultiOutput
+            {
+                Response = response,
+                BlobOutput = blobOutput
+            };
+        }
+
+        // Define the multi-output response
+        public class MultiOutput
+        {
+            public HttpResponseData Response { get; set; }
+            [BlobOutput(&quot;tasks/{Id}.json&quot;, Connection = &quot;AzureWebJobsStorage&quot;)]
+            public string BlobOutput { get; set; }
         }
     }
 }
@@ -786,11 +802,10 @@ namespace TaskManagerFunctions
 <pre><code class="language-json">{
     &quot;IsEncrypted&quot;: false,
     &quot;Values&quot;: {
-        &quot;AzureWebJobsStorage&quot;: &quot;UseDevelopmentStorage=true&quot;,
-        &quot;FUNCTIONS_WORKER_RUNTIME&quot;: &quot;dotnet-isolated&quot;,
-        &quot;StorageConnection&quot;: &quot;[your-connection-string]&quot;
+      &quot;AzureWebJobsStorage&quot;: &quot;DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;&quot;,
+      &quot;FUNCTIONS_WORKER_RUNTIME&quot;: &quot;dotnet-isolated&quot;
     }
-}
+  }
 </code></pre>
 <p>Run:</p>
 <pre><code class="language-powershell">func start

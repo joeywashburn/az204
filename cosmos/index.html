@@ -12,6 +12,8 @@
         <link rel="prev" href="../storage/">
       
       
+        <link rel="next" href="../auth/">
+      
       
       <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.11">
@@ -506,19 +508,101 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#next-steps" class="md-nav__link">
-    <span class="md-ellipsis">
-      Next Steps
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
       
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Implement Azure security
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Implement Azure security
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Implement user authentication and authorization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../secure.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Implement secure Azure solutions
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -623,15 +707,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#next-steps" class="md-nav__link">
-    <span class="md-ellipsis">
-      Next Steps
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -684,259 +759,215 @@
 <p><img alt="Container Setup" src="../images/image-2.png" /></p>
 <h3 id="perform-operations-with-the-sdk">Perform Operations with the SDK</h3>
 <p><em>Note</em>: We’ll add a Function to create and read tasks in <code>TasksDB/Tasks</code>, keeping our web app in-memory for now.</p>
-<ol>
-<li><strong>Add Cosmos DB SDK</strong>:</li>
-<li>
-<p>In <code>TaskManagerFunctions</code> directory, run:
-     <code>bash
-     dotnet add package Microsoft.Azure.Cosmos</code></p>
-</li>
-<li>
+<p><strong>Add Cosmos DB SDK</strong>:</p>
+<p>In <code>TaskManagerFunctions</code> directory, run:</p>
+<pre><code class="language-bash">dotnet add package Microsoft.Azure.Cosmos
+dotnet add package Newtonsoft.Json
+</code></pre>
 <p><strong>Get Cosmos DB Connection</strong>:</p>
-</li>
-<li>In the Portal, go to your Cosmos DB account &gt; <strong>Keys</strong>.</li>
-<li>Copy the <strong>Primary Connection String</strong>.</li>
-<li>In your Function App (<code>taskmanagerfunc-yourname</code>), go to <strong>Configuration</strong> &gt; <strong>Application settings</strong>.</li>
-<li>
+<p>In the Portal, go to your Cosmos DB account &gt; <strong>Keys</strong>.</p>
+<p>Copy the <strong>Primary Connection String</strong>.</p>
+<p>In your Function App (<code>taskmanagerfunc-yourname</code>), go to <strong>Settings</strong> &gt; <strong>Environment Variables</strong>.</p>
 <p>Add:</p>
 <ul>
 <li>Name: <code>CosmosDBConnection</code>.</li>
 <li>Value: <code>[your-connection-string]</code>.</li>
-<li>Click <strong>OK</strong> &gt; <strong>Save</strong> &gt; <strong>Continue</strong> to restart.</li>
 </ul>
-</li>
-<li>
 <p><strong>Create ManageTask Function</strong>:</p>
-</li>
-<li>Run:
-     <code>bash
-     cd TaskManagerFunctions
-     func new --template "HttpTrigger" --name ManageTask</code></li>
-<li>
-<p>Edit <code>ManageTask.cs</code>:
-     ```csharp
-     using System.IO;
-     using System.Threading.Tasks;
-     using Microsoft.AspNetCore.Mvc;
-     using Microsoft.Azure.Functions.Worker;
-     using Microsoft.AspNetCore.Http;
-     using Microsoft.Extensions.Logging;
-     using Newtonsoft.Json;
-     using Microsoft.Azure.Cosmos;</p>
-<p>namespace TaskManagerFunctions
- {
-     public class ManageTask
-     {
-         private readonly ILogger<ManageTask> _logger;
-         private readonly CosmosClient _cosmosClient;</p>
-<pre><code>     public ManageTask(ILogger&lt;ManageTask&gt; logger)
-     {
-         _logger = logger;
-         _cosmosClient = new CosmosClient(Environment.GetEnvironmentVariable("CosmosDBConnection"), new CosmosClientOptions { ConnectionMode = ConnectionMode.Direct });
-     }
-
-     public class TaskItem
-     {
-         public string id { get; set; } = Guid.NewGuid().ToString();
-         public string Title { get; set; }
-         public string Description { get; set; }
-         public string DueDate { get; set; }
-     }
-
-     [Function("ManageTask")]
-     public async Task&lt;IActionResult&gt; Run(
-         [HttpTrigger(AuthorizationLevel.Function, "post", "get")] HttpRequest req)
-     {
-         _logger.LogInformation("Processing task in Cosmos DB.");
-
-         var container = _cosmosClient.GetContainer("TasksDB", "Tasks");
-
-         if (req.Method == "POST")
-         {
-             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-             TaskItem task = JsonConvert.DeserializeObject&lt;TaskItem&gt;(requestBody);
-
-             if (string.IsNullOrEmpty(task?.Title))
-             {
-                 return new BadRequestObjectResult("Please provide a title.");
-             }
-
-             task.id = Guid.NewGuid().ToString();
-             await container.CreateItemAsync(task, new PartitionKey(task.id));
-             _logger.LogInformation($"Created task: {task.Title}");
-             return new OkObjectResult(task);
-         }
-         else // GET
-         {
-             string taskId = req.Query["taskId"];
-             if (string.IsNullOrEmpty(taskId))
-             {
-                 return new BadRequestObjectResult("Please provide taskId.");
-             }
-
-             try
-             {
-                 var task = await container.ReadItemAsync&lt;TaskItem&gt;(taskId, new PartitionKey(taskId));
-                 _logger.LogInformation($"Read task: {task.Resource.Title}");
-                 return new OkObjectResult(task.Resource);
-             }
-             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
-             {
-                 return new NotFoundResult();
-             }
-         }
-     }
- }
+<p>Run:</p>
+<pre><code class="language-bash">cd TaskManagerFunctions
+func new --template &quot;HttpTrigger&quot; --name ManageTask
 </code></pre>
-<p>}
- ```</p>
-</li>
-<li>
-<p><strong>Test Locally</strong>:</p>
-</li>
-<li>Update <code>local.settings.json</code>:
-     <code>json
-     {
-         "IsEncrypted": false,
-         "Values": {
-             "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-             "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-             "CosmosDBConnection": "[your-connection-string]"
-         }
-     }</code></li>
-<li>Run:
-     <code>bash
-     func start</code></li>
-<li>POST (create task):
-     <code>bash
-     curl -X POST http://localhost:7071/api/ManageTask -H "Content-Type: application/json" -d '{"Title":"Cosmos Task","Description":"Test SDK","DueDate":"2025-04-15"}'</code></li>
-<li>GET (read task, use <code>id</code> from POST response):
-     <code>bash
-     curl http://localhost:7071/api/ManageTask?taskId=[task-id]</code></li>
-<li>
+<p>Edit <code>ManageTask.cs</code>:</p>
+<pre><code class="language-csharp">using System.IO;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Microsoft.Azure.Cosmos;
+
+namespace TaskManagerFunctions
+{
+    public class ManageTask
+    {
+        private readonly ILogger&lt;ManageTask&gt; _logger;
+        private readonly CosmosClient _cosmosClient;
+
+        public ManageTask(ILogger&lt;ManageTask&gt; logger)
+        {
+            _logger = logger;
+            _cosmosClient = new CosmosClient(Environment.GetEnvironmentVariable(&quot;CosmosDBConnection&quot;), new CosmosClientOptions { ConnectionMode = ConnectionMode.Direct });
+        }
+
+        public class TaskItem
+        {
+            public string id { get; set; } = Guid.NewGuid().ToString();
+            public string Title { get; set; }
+            public string Description { get; set; }
+            public string DueDate { get; set; }
+        }
+
+        [Function(&quot;ManageTask&quot;)]
+        public async Task&lt;IActionResult&gt; Run(
+            [HttpTrigger(AuthorizationLevel.Function, &quot;post&quot;, &quot;get&quot;)] HttpRequest req)
+        {
+            _logger.LogInformation(&quot;Processing task in Cosmos DB.&quot;);
+
+            var container = _cosmosClient.GetContainer(&quot;TasksDB&quot;, &quot;Tasks&quot;);
+
+            if (req.Method == &quot;POST&quot;)
+            {
+                string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+                TaskItem task = JsonConvert.DeserializeObject&lt;TaskItem&gt;(requestBody);
+
+                if (string.IsNullOrEmpty(task?.Title))
+                {
+                    return new BadRequestObjectResult(&quot;Please provide a title.&quot;);
+                }
+
+                task.id = Guid.NewGuid().ToString();
+                await container.CreateItemAsync(task, new PartitionKey(task.id));
+                _logger.LogInformation($&quot;Created task: {task.Title}&quot;);
+                return new OkObjectResult(task);
+            }
+            else // GET
+            {
+                string taskId = req.Query[&quot;taskId&quot;];
+                if (string.IsNullOrEmpty(taskId))
+                {
+                    return new BadRequestObjectResult(&quot;Please provide taskId.&quot;);
+                }
+
+                try
+                {
+                    var task = await container.ReadItemAsync&lt;TaskItem&gt;(taskId, new PartitionKey(taskId));
+                    _logger.LogInformation($&quot;Read task: {task.Resource.Title}&quot;);
+                    return new OkObjectResult(task.Resource);
+                }
+                catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    return new NotFoundResult();
+                }
+            }
+        }
+    }
+}
+</code></pre>
+<p><strong>Test Locally</strong>: OPTIONAL</p>
+<p>Update <code>local.settings.json</code>:  Dont overwrite any of your values from previous lessons.</p>
+<pre><code class="language-json">{
+    &quot;IsEncrypted&quot;: false,
+    &quot;Values&quot;: {
+        &quot;AzureWebJobsStorage&quot;: &quot;UseDevelopmentStorage=true&quot;,
+        &quot;FUNCTIONS_WORKER_RUNTIME&quot;: &quot;dotnet-isolated&quot;,
+        &quot;CosmosDBConnection&quot;: &quot;[your-connection-string]&quot;
+    }
+}
+</code></pre>
+<p>Run:</p>
+<pre><code class="language-bash">func start
+</code></pre>
+<p>POST (create task):</p>
+<pre><code class="language-bash">curl -X POST http://localhost:7071/api/ManageTask -H &quot;Content-Type: application/json&quot; -d '{&quot;Title&quot;:&quot;Cosmos Task&quot;,&quot;Description&quot;:&quot;Test SDK&quot;,&quot;DueDate&quot;:&quot;2025-04-15&quot;}'
+</code></pre>
+<p>GET (read task, use <code>id</code> from POST response):</p>
+<pre><code class="language-bash">curl http://localhost:7071/api/ManageTask?taskId=[task-id]
+</code></pre>
 <p>Check Portal &gt; <strong>Data Explorer</strong> &gt; <code>TasksDB/Tasks</code> for the task.</p>
-</li>
-<li>
-<p><strong>Deploy and Test</strong>:</p>
-</li>
-<li>Deploy:
-     <code>bash
-     func azure functionapp publish taskmanagerfunc-yourname</code></li>
-<li>Test:
-     <code>bash
-     curl -X POST https://taskmanagerfunc-yourname.azurewebsites.net/api/managetask?code=[your-key] -H "Content-Type: application/json" -d '{"Title":"Azure Cosmos","Description":"Deployed","DueDate":"2025-04-15"}'
-     curl https://taskmanagerfunc-yourname.azurewebsites.net/api/managetask?code=[your-key]&amp;taskId=[task-id]</code></li>
+<p>Deploy and Test**:
+- Deploy:</p>
+<pre><code class="language-bash">func azure functionapp publish taskmanagerfunc-yourname
+</code></pre>
+<ul>
+<li>Test:</li>
+</ul>
+<pre><code class="language-bash">curl -X POST https://taskmanagerfunc-yourname.azurewebsites.net/api/managetask?code=[your-key] -H &quot;Content-Type: application/json&quot; -d '{&quot;Title&quot;:&quot;Azure Cosmos&quot;,&quot;Description&quot;:&quot;Deployed&quot;,&quot;DueDate&quot;:&quot;2025-04-15&quot;}'
+curl https://taskmanagerfunc-yourname.azurewebsites.net/api/managetask?code=[your-key]&amp;taskId=[task-id]
+</code></pre>
+<ul>
 <li>Verify in <strong>Data Explorer</strong>.</li>
-</ol>
+</ul>
 <p><em>Why do this?</em> Creating and reading tasks with the SDK is a core exam skill, and it preps for web app integration.</p>
 <h3 id="set-the-appropriate-consistency-level">Set the Appropriate Consistency Level</h3>
 <p><em>Note</em>: Cosmos DB offers consistency levels (Strong, Session, Eventual, etc.). We’ll use Session for our tasks, balancing performance and accuracy.</p>
-<ol>
-<li><strong>Configure Consistency</strong>:</li>
-<li>In the Portal, go to your Cosmos DB account &gt; <strong>Settings</strong> &gt; <strong>Default consistency</strong>.</li>
-<li>Select <strong>Session</strong> &gt; <strong>Save</strong>.</li>
-<li>
-<p>Note: <code>ManageTask</code> uses the account’s default (Session) via <code>CosmosClient</code>.</p>
-</li>
-<li>
-<p><strong>Verify in Code</strong>:</p>
-</li>
-<li>In <code>ManageTask.cs</code>, we initialized:
-     <code>csharp
-     _cosmosClient = new CosmosClient(Environment.GetEnvironmentVariable("CosmosDBConnection"), new CosmosClientOptions { ConnectionMode = ConnectionMode.Direct });</code></li>
-<li>
+<p><strong>Configure Consistency</strong>:</p>
+<p>In the Portal, go to your Cosmos DB account &gt; <strong>Settings</strong> &gt; <strong>Default consistency</strong>.
+Select <strong>Session</strong> &gt; <strong>Save</strong>.
+Note: <code>ManageTask</code> uses the account’s default (Session) via <code>CosmosClient</code>.</p>
+<p><strong>Verify in Code</strong>:
+In <code>ManageTask.cs</code>, we initialized:</p>
+<pre><code class="language-csharp">_cosmosClient = new CosmosClient(Environment.GetEnvironmentVariable(&quot;CosmosDBConnection&quot;), new CosmosClientOptions { ConnectionMode = ConnectionMode.Direct });
+</code></pre>
 <p>Session ensures clients see their own writes, ideal for task creation/reading.</p>
-</li>
-<li>
 <p><strong>Test Consistency</strong>:</p>
-</li>
-<li>Run the POST/GET tests above.</li>
-<li>POST a task, then GET it immediately.</li>
-<li>Check <strong>Data Explorer</strong> to confirm the task matches (e.g., same <code>Title</code>).</li>
-</ol>
+<p>Run the POST/GET tests above.</p>
+<p>POST a task, then GET it immediately.</p>
+<p>Check <strong>Data Explorer</strong> to confirm the task matches (e.g., same <code>Title</code>).</p>
 <p><em>Why do this?</em> Session consistency is common for apps like ours and often tested in the exam.</p>
 <h3 id="implement-change-feed-notifications">Implement Change Feed Notifications</h3>
 <p><em>Note</em>: Change feed tracks changes in <code>Tasks</code>. We’ll add a Function to log updates, useful for notifications.</p>
-<ol>
-<li><strong>Create Change Feed Function</strong>:</li>
-<li>
-<p>Run:
-     <code>bash
-     cd TaskManagerFunctions
-     func new --template "Azure Cosmos DB Trigger" --name TaskChangeFeed</code></p>
-</li>
-<li>
-<p><strong>Update Function</strong>:</p>
-</li>
-<li>
-<p>Edit <code>TaskChangeFeed.cs</code>:
-     ```csharp
-     using System.Collections.Generic;
-     using Microsoft.Azure.Functions.Worker;
-     using Microsoft.Extensions.Logging;</p>
-<p>namespace TaskManagerFunctions
- {
-     public class TaskChangeFeed
-     {
-         private readonly ILogger<TaskChangeFeed> _logger;</p>
-<pre><code>     public TaskChangeFeed(ILogger&lt;TaskChangeFeed&gt; logger)
-     {
-         _logger = logger;
-     }
-
-     [Function("TaskChangeFeed")]
-     public void Run([CosmosDBTrigger(
-         databaseName: "TasksDB",
-         containerName: "Tasks",
-         Connection = "CosmosDBConnection",
-         LeaseContainerName = "leases",
-         CreateLeaseContainerIfNotExists = true)] IReadOnlyList&lt;TaskItem&gt; tasks)
-     {
-         foreach (var task in tasks)
-         {
-             _logger.LogInformation($"Task updated: {task.Title}, ID: {task.id}");
-         }
-     }
-
-     public class TaskItem
-     {
-         public string id { get; set; }
-         public string Title { get; set; }
-         public string Description { get; set; }
-         public string DueDate { get; set; }
-     }
- }
+<p><strong>Create Change Feed Function</strong>:</p>
+<p>Run:</p>
+<pre><code class="language-bash">cd TaskManagerFunctions
+func new --template &quot;Azure Cosmos DB Trigger&quot; --name TaskChangeFeed
 </code></pre>
-<p>}
- ```</p>
-</li>
-<li>
-<p><strong>Test Locally</strong>:</p>
-</li>
-<li>Ensure <code>local.settings.json</code> has <code>CosmosDBConnection</code>.</li>
-<li>Run:
-     <code>bash
-     func start</code></li>
-<li>POST a task via <code>ManageTask</code> (as above).</li>
-<li>
+<p><strong>Update Function</strong>:</p>
+<p>Edit <code>TaskChangeFeed.cs</code>:</p>
+<pre><code class="language-csharp">using System.Collections.Generic;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Extensions.Logging;
+
+namespace TaskManagerFunctions
+{
+    public class TaskChangeFeed
+    {
+        private readonly ILogger&lt;TaskChangeFeed&gt; _logger;
+
+        public TaskChangeFeed(ILogger&lt;TaskChangeFeed&gt; logger)
+        {
+            _logger = logger;
+        }
+
+        [Function(&quot;TaskChangeFeed&quot;)]
+        public void Run([CosmosDBTrigger(
+            databaseName: &quot;TasksDB&quot;,
+            containerName: &quot;Tasks&quot;,
+            Connection = &quot;CosmosDBConnection&quot;,
+            LeaseContainerName = &quot;leases&quot;,
+            CreateLeaseContainerIfNotExists = true)] IReadOnlyList&lt;TaskItem&gt; tasks)
+        {
+            foreach (var task in tasks)
+            {
+                _logger.LogInformation($&quot;Task updated: {task.Title}, ID: {task.id}&quot;);
+            }
+        }
+
+        public class TaskItem
+        {
+            public string id { get; set; }
+            public string Title { get; set; }
+            public string Description { get; set; }
+            public string DueDate { get; set; }
+        }
+    }
+}
+</code></pre>
+<p><strong>Test Locally</strong>: OPTIONAL</p>
+<p>Ensure <code>local.settings.json</code> has <code>CosmosDBConnection</code>.
+Run:</p>
+<pre><code class="language-bash">func start
+</code></pre>
+<p>POST a task via <code>ManageTask</code> (as above).</p>
 <p>Check console for “Task updated: [title], ID: [id]”.</p>
-</li>
-<li>
 <p><strong>Deploy and Test</strong>:</p>
-</li>
-<li>Deploy:
-     <code>bash
-     func azure functionapp publish taskmanagerfunc-yourname</code></li>
-<li>POST a task via <code>ManageTask</code>.</li>
-<li>Check Portal &gt; <strong>Functions</strong> &gt; <code>TaskChangeFeed</code> &gt; <strong>Monitor</strong> &gt; <strong>Logs</strong> for update logs.</li>
-</ol>
+<p>Deploy:</p>
+<pre><code class="language-bash">func azure functionapp publish taskmanagerfunc-yourname
+</code></pre>
+<p>POST a task via <code>ManageTask</code>.
+Check Portal &gt; <strong>Functions</strong> &gt; <code>TaskChangeFeed</code> &gt; <strong>Monitor</strong> &gt; <strong>Logs</strong> for update logs.</p>
 <p><em>Why do this?</em> Change feed is a key exam topic, showing how to react to data changes (e.g., for notifications).</p>
-<h2 id="next-steps">Next Steps</h2>
-<ul>
-<li>Connect <code>TaskManagerWeb</code> to Cosmos DB to replace in-memory tasks.</li>
-<li>Link <code>TaskManagerWeb</code> to Blob Storage for file uploads.</li>
-<li>Add diagnostics (Application Insights) for Cosmos operations.</li>
-</ul>
 
 
 

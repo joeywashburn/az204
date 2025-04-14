@@ -9,20 +9,20 @@
       
       
       
+        <link rel="prev" href="../cosmos/">
       
-        <link rel="next" href="acr/">
       
       
-      <link rel="icon" href="assets/images/favicon.png">
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.11">
     
     
       
-        <title>AZ-204 Study Materials</title>
+        <title>Implement user authentication and authorization - AZ-204 Study Materials</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.4af4bdda.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.4af4bdda.min.css">
       
       
 
@@ -41,7 +41,7 @@
       
     
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -60,7 +60,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#azure-deployment-guide" class="md-skip">
+        <a href="#implement-user-authentication-and-authorization" class="md-skip">
           Skip to content
         </a>
       
@@ -76,7 +76,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="AZ-204 Study Materials" class="md-header__button md-logo" aria-label="AZ-204 Study Materials" data-md-component="logo">
+    <a href=".." title="AZ-204 Study Materials" class="md-header__button md-logo" aria-label="AZ-204 Study Materials" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -96,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Home
+              Implement user authentication and authorization
             
           </span>
         </div>
@@ -174,7 +174,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="AZ-204 Study Materials" class="md-nav__button md-logo" aria-label="AZ-204 Study Materials" data-md-component="logo">
+    <a href=".." title="AZ-204 Study Materials" class="md-nav__button md-logo" aria-label="AZ-204 Study Materials" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -189,32 +189,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Home
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="." class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
         
   
   
@@ -225,113 +203,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#exam-overview" class="md-nav__link">
-    <span class="md-ellipsis">
-      📚 Exam Overview
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#exam-topics" class="md-nav__link">
-    <span class="md-ellipsis">
-      📄 Exam Topics
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="📄 Exam Topics">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-develop-azure-compute-solutions-2530" class="md-nav__link">
-    <span class="md-ellipsis">
-      1. Develop Azure Compute Solutions (25–30%)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-develop-for-azure-storage-1520" class="md-nav__link">
-    <span class="md-ellipsis">
-      2. Develop for Azure Storage (15–20%)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-implement-azure-security-1520" class="md-nav__link">
-    <span class="md-ellipsis">
-      3. Implement Azure Security (15–20%)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#4-monitor-troubleshoot-and-optimize-azure-solutions-510" class="md-nav__link">
-    <span class="md-ellipsis">
-      4. Monitor, Troubleshoot, and Optimize Azure Solutions (5–10%)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#5-connect-to-and-consume-azure-and-third-party-services-2025" class="md-nav__link">
-    <span class="md-ellipsis">
-      5. Connect to and Consume Azure and Third-Party Services (20–25%)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#getting-started" class="md-nav__link">
-    <span class="md-ellipsis">
-      🚀 Getting Started
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#tips-for-success" class="md-nav__link">
-    <span class="md-ellipsis">
-      💡 Tips for Success
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -381,7 +252,7 @@
   
   
     <li class="md-nav__item">
-      <a href="acr/" class="md-nav__link">
+      <a href="../acr/" class="md-nav__link">
         
   
   
@@ -404,7 +275,7 @@
   
   
     <li class="md-nav__item">
-      <a href="webapp/" class="md-nav__link">
+      <a href="../webapp/" class="md-nav__link">
         
   
   
@@ -427,7 +298,7 @@
   
   
     <li class="md-nav__item">
-      <a href="functions/" class="md-nav__link">
+      <a href="../functions/" class="md-nav__link">
         
   
   
@@ -495,7 +366,7 @@
   
   
     <li class="md-nav__item">
-      <a href="storage/" class="md-nav__link">
+      <a href="../storage/" class="md-nav__link">
         
   
   
@@ -518,7 +389,7 @@
   
   
     <li class="md-nav__item">
-      <a href="cosmos/" class="md-nav__link">
+      <a href="../cosmos/" class="md-nav__link">
         
   
   
@@ -545,18 +416,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
           <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
@@ -572,7 +445,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             Implement Azure security
@@ -583,10 +456,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="auth/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Implement user authentication and authorization
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -597,6 +492,35 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -609,7 +533,7 @@
   
   
     <li class="md-nav__item">
-      <a href="secure.md" class="md-nav__link">
+      <a href="../secure.md" class="md-nav__link">
         
   
   
@@ -659,87 +583,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#exam-overview" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
-      📚 Exam Overview
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#exam-topics" class="md-nav__link">
-    <span class="md-ellipsis">
-      📄 Exam Topics
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="📄 Exam Topics">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-develop-azure-compute-solutions-2530" class="md-nav__link">
-    <span class="md-ellipsis">
-      1. Develop Azure Compute Solutions (25–30%)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-develop-for-azure-storage-1520" class="md-nav__link">
-    <span class="md-ellipsis">
-      2. Develop for Azure Storage (15–20%)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-implement-azure-security-1520" class="md-nav__link">
-    <span class="md-ellipsis">
-      3. Implement Azure Security (15–20%)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#4-monitor-troubleshoot-and-optimize-azure-solutions-510" class="md-nav__link">
-    <span class="md-ellipsis">
-      4. Monitor, Troubleshoot, and Optimize Azure Solutions (5–10%)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#5-connect-to-and-consume-azure-and-third-party-services-2025" class="md-nav__link">
-    <span class="md-ellipsis">
-      5. Connect to and Consume Azure and Third-Party Services (20–25%)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#getting-started" class="md-nav__link">
-    <span class="md-ellipsis">
-      🚀 Getting Started
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#tips-for-success" class="md-nav__link">
-    <span class="md-ellipsis">
-      💡 Tips for Success
+      Prerequisites
     </span>
   </a>
   
@@ -761,128 +607,22 @@
 
 
 
-<h1 id="azure-deployment-guide">Azure Deployment Guide</h1>
-<p>Welcome! 👋 This guide is designed to help you prepare for the <strong>AZ-204: Developing Solutions for Microsoft Azure</strong> exam. It covers key concepts, practical steps, and resources to master the skills needed to pass the exam.</p>
-<hr />
-<h2 id="exam-overview">📚 Exam Overview</h2>
-<p>The AZ-204 exam tests your ability to develop solutions for Microsoft Azure. Below is a breakdown of the skills measured:</p>
+<h1 id="implement-user-authentication-and-authorization">Implement user authentication and authorization</h1>
+<p>User Authentication and Authorization to hit the AZ-204 Exam Topics:</p>
 <ul>
-<li><strong>Develop Azure compute solutions</strong> (25–30%)</li>
-<li><strong>Develop for Azure storage</strong> (15–20%)</li>
-<li><strong>Implement Azure security</strong> (15–20%)</li>
-<li><strong>Monitor, troubleshoot, and optimize Azure solutions</strong> (5–10%)</li>
-<li><strong>Connect to and consume Azure services and third-party services</strong> (20–25%)</li>
+<li>Authenticate and authorize users by using the Microsoft Identity platform</li>
+<li>Authenticate and authorize users and apps by using Microsoft Entra ID</li>
+<li>Create and implement shared access signatures</li>
+<li>Implement solutions that interact with Microsoft Graph</li>
 </ul>
-<p>Explore the detailed topics below to dive into each area.</p>
-<hr />
-<h2 id="exam-topics">📄 Exam Topics</h2>
-<h3 id="1-develop-azure-compute-solutions-2530">1. Develop Azure Compute Solutions (25–30%)</h3>
-<p>Learn to build and deploy compute resources in Azure, including containerized solutions, web apps, and serverless functions.</p>
+<h2 id="prerequisites">Prerequisites</h2>
 <ul>
-<li><strong>Implement Containerized Solutions</strong>  </li>
-<li>Create and manage container images for solutions  </li>
-<li>Publish images to Azure Container Registry  </li>
-<li>Run containers using Azure Container Instance  </li>
-<li>
-<p>Create solutions with Azure Container Apps<br />
-<a href="acr/">Learn more</a></p>
-</li>
-<li>
-<p><strong>Implement Azure App Service Web Apps</strong>  </p>
-</li>
-<li>Create an Azure App Service Web App  </li>
-<li>Configure diagnostics, logging, and TLS settings  </li>
-<li>Deploy code and containerized solutions  </li>
-<li>
-<p>Implement autoscaling and deployment slots  </p>
-</li>
-<li>
-<p><strong>Implement Azure Functions</strong>  </p>
-</li>
-<li>Create and configure Azure Functions apps  </li>
-<li>Use input/output bindings and triggers (data operations, timers, webhooks)  </li>
+<li><strong>.NET SDK 8.0</strong> (<a href="https://learn.microsoft.com/en-us/dotnet/core/install/windows?tabs=net80#install-with-windows-package-manager-winget">Install via winget</a>: `winget install Microsoft.DotNet.SDK.8))</li>
+<li><strong>Azure CLI</strong> (<a href="https://learn.microsoft.com/en-us/cli/azure/install-azure-cli">Install</a>)</li>
+<li><strong>Azure Functions Core Tools</strong> (<a href="https://github.com/Azure/azure-functions-core-tools/releases">Install</a>)</li>
+<li><strong>Azure Subscription</strong> (Free tier or $200 credit recommended)</li>
+<li><strong>Existing Resource Group</strong> (<code>az204exam</code>)</li>
 </ul>
-<h3 id="2-develop-for-azure-storage-1520">2. Develop for Azure Storage (15–20%)</h3>
-<p>Master storage solutions like Cosmos DB and Blob Storage for scalable data management.</p>
-<ul>
-<li><strong>Azure Cosmos DB</strong>  </li>
-<li>Perform operations on containers and items using the SDK  </li>
-<li>Set appropriate consistency levels  </li>
-<li>
-<p>Implement change feed notifications  </p>
-</li>
-<li>
-<p><strong>Azure Blob Storage</strong>  </p>
-</li>
-<li>Set and retrieve properties/metadata  </li>
-<li>Perform data operations with the SDK  </li>
-<li>Implement storage policies and data lifecycle management  </li>
-</ul>
-<h3 id="3-implement-azure-security-1520">3. Implement Azure Security (15–20%)</h3>
-<p>Secure Azure solutions with authentication, authorization, and encryption.</p>
-<ul>
-<li><strong>User Authentication and Authorization</strong>  </li>
-<li>Use Microsoft Identity platform and Microsoft Entra ID  </li>
-<li>Create shared access signatures  </li>
-<li>
-<p>Interact with Microsoft Graph  </p>
-</li>
-<li>
-<p><strong>Secure Azure Solutions</strong>  </p>
-</li>
-<li>Use App Configuration or Azure Key Vault for secure app data  </li>
-<li>Develop code using keys, secrets, and certificates in Key Vault  </li>
-<li>Implement Managed Identities  </li>
-</ul>
-<h3 id="4-monitor-troubleshoot-and-optimize-azure-solutions-510">4. Monitor, Troubleshoot, and Optimize Azure Solutions (5–10%)</h3>
-<p>Monitor and improve Azure solutions with Application Insights.</p>
-<ul>
-<li><strong>Application Insights</strong>  </li>
-<li>Monitor metrics, logs, and traces  </li>
-<li>Implement web tests and alerts  </li>
-<li>Instrument apps/services for telemetry  </li>
-</ul>
-<h3 id="5-connect-to-and-consume-azure-and-third-party-services-2025">5. Connect to and Consume Azure and Third-Party Services (20–25%)</h3>
-<p>Integrate Azure solutions with APIs, events, and external services.</p>
-<ul>
-<li><strong>API Management</strong>  </li>
-<li>Create and document APIs in Azure API Management  </li>
-<li>
-<p>Configure access and implement policies  </p>
-</li>
-<li>
-<p><strong>Event-Based Solutions</strong>  </p>
-</li>
-<li>Use Azure Event Grid and Event Hub for event-driven architectures  </li>
-</ul>
-<hr />
-<h2 id="getting-started">🚀 Getting Started</h2>
-<p>To follow this guide:</p>
-<ol>
-<li>
-<p><strong>Use your WGU Azure account</strong><br />
-<a href="https://portal.azure.com">Azure Portal</a>.</p>
-</li>
-<li>
-<p><strong>Install Azure CLI</strong><br />
-   Follow the <a href="https://learn.microsoft.com/en-us/cli/azure/install-azure-cli">installation guide</a>.</p>
-</li>
-<li>
-<p><strong>(Optional) Clone this repo</strong><br />
-   Access all files locally to explore examples and run the guide:</p>
-</li>
-</ol>
-<p><code>powershell
-   git clone https://github.com/joeywashburn/az204.git
-   cd az204
-   mkdocs serve</code></p>
-<hr />
-<h2 id="tips-for-success">💡 Tips for Success</h2>
-<ul>
-<li>Focus on hands-on practice with Azure services using the <a href="https://azure.microsoft.com/en-us/free/">Azure Free Tier</a>.  </li>
-<li>Review the <a href="https://learn.microsoft.com/en-us/certifications/exams/az-204">official AZ-204 study guide</a> for detailed objectives.  </li>
-</ul>
-<p>Happy studying, and good luck on your AZ-204 exam! 🎉</p>
 
 
 
@@ -931,10 +671,10 @@
     
     
       
-      <script id="__config" type="application/json">{"base": ".", "features": [], "search": "assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="assets/javascripts/bundle.c8b220af.min.js"></script>
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
       
     
   </body>

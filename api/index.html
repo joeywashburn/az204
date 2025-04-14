@@ -697,15 +697,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#why" class="md-nav__link">
-    <span class="md-ellipsis">
-      Why
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -728,10 +719,52 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#import-function-app-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Import Function App API
+    </span>
+  </a>
+  
 </li>
         
           <li class="md-nav__item">
-  <a href="#why_1" class="md-nav__link">
+  <a href="#create-webapp-api-manually" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create WebApp API Manually
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#document-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Document APIs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test APIs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why" class="md-nav__link">
     <span class="md-ellipsis">
       Why
     </span>
@@ -764,7 +797,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#why_2" class="md-nav__link">
+  <a href="#why_1" class="md-nav__link">
     <span class="md-ellipsis">
       Why
     </span>
@@ -797,7 +830,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#why_3" class="md-nav__link">
+  <a href="#why_2" class="md-nav__link">
     <span class="md-ellipsis">
       Why
     </span>
@@ -953,15 +986,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#why" class="md-nav__link">
-    <span class="md-ellipsis">
-      Why
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -984,10 +1008,52 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#import-function-app-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Import Function App API
+    </span>
+  </a>
+  
 </li>
         
           <li class="md-nav__item">
-  <a href="#why_1" class="md-nav__link">
+  <a href="#create-webapp-api-manually" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create WebApp API Manually
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#document-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Document APIs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test APIs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why" class="md-nav__link">
     <span class="md-ellipsis">
       Why
     </span>
@@ -1020,7 +1086,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#why_2" class="md-nav__link">
+  <a href="#why_1" class="md-nav__link">
     <span class="md-ellipsis">
       Why
     </span>
@@ -1053,7 +1119,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#why_3" class="md-nav__link">
+  <a href="#why_2" class="md-nav__link">
     <span class="md-ellipsis">
       Why
     </span>
@@ -1110,7 +1176,7 @@
 
 
 <h1 id="connect-to-and-consume-azure-services-and-third-party-services-with-api-management">Connect to and Consume Azure Services and Third-Party Services with API Management</h1>
-<p>This guide covers the AZ-204 exam topics for connecting to and consuming Azure services and third-party services using Azure API Management (APIM). We’ll integrate our existing <code>TaskManagerWeb</code> (WebApp) and <code>TaskManagerFunctions</code> (Function App) with APIM to manage and secure their APIs. The focus is on creating an APIM instance, creating and documenting APIs, configuring access, and implementing policies.</p>
+<p>This guide covers the AZ-204 exam topics for connecting to and consuming Azure services and third-party services using Azure API Management (APIM). We'll integrate our existing <code>TaskManagerWeb</code> (WebApp) and <code>TaskManagerFunctions</code> (Function App) with APIM to manage and secure their APIs. The focus is on creating an APIM instance, creating and documenting APIs, configuring access, and implementing policies.</p>
 <h2 id="prerequisites">Prerequisites</h2>
 <ul>
 <li><strong>Azure Subscription</strong> (Free tier or $200 credit recommended).</li>
@@ -1124,138 +1190,172 @@
 <li><a href="https://github.com/Azure/azure-functions-core-tools/releases">Azure Functions Core Tools</a>.</li>
 </ul>
 <h2 id="create-an-azure-api-management-instance">Create an Azure API Management Instance</h2>
-<p>We’ll set up an APIM instance to manage APIs for our Function App’s <code>ManageTask</code> endpoint and WebApp’s task operations.</p>
+<p>We'll set up an APIM instance to manage APIs for our Function App's <code>ManageTask</code> endpoint and WebApp's task operations.</p>
 <h3 id="steps">Steps</h3>
 <ol>
-<li><strong>Create APIM Instance</strong>:</li>
-<li>In the Azure Portal, go to <strong>Create a resource</strong> &gt; Search for <strong>API Management</strong> &gt; <strong>Create</strong>.</li>
-<li>Configure:<ul>
-<li>Resource group: <code>az204exam</code>.</li>
-<li>Name: <code>taskmanagerapim-yourname</code> (must be globally unique).</li>
-<li>Location: Same as your apps (e.g., West US 3).</li>
-<li>Pricing tier: <strong>Consumption</strong> (exam-friendly, no cost for light usage).</li>
-<li>Organization name: <code>TaskManager</code>.</li>
-<li>Admin email: Your email (for notifications).</li>
-</ul>
-</li>
-<li>Review and create (takes ~5-10 minutes for Consumption tier).</li>
-<li>Run via CLI (alternative):
-     <code>bash
-     az apim create --name taskmanagerapim-yourname --resource-group az204exam --publisher-name TaskManager --publisher-email your-email@example.com --sku-name Consumption --location westus3</code></li>
-<li><strong>Verify</strong>:</li>
-<li>In the Portal, go to <strong>API Management services</strong> &gt; <code>taskmanagerapim-yourname</code>.</li>
-<li>Check <strong>Overview</strong> to confirm the instance is active and note the <strong>Gateway URL</strong> (e.g., <code>https://taskmanagerapim-yourname.azure-api.net</code>).</li>
+<li>Create an APIM instance as shown in the screenshot below.</li>
 </ol>
-<h3 id="why">Why</h3>
-<p>Creating an APIM instance is the foundation for managing APIs, a key exam requirement.</p>
+<p><strong>Step 1: Create APIM Instance</strong></p>
+<p><img alt="Portal Screenshot" src="../images/apim.png" /></p>
 <h2 id="create-and-document-apis">Create and Document APIs</h2>
-<p>We’ll import the Function App’s <code>ManageTask</code> endpoint as an API and manually define a WebApp API, then document both.</p>
+<p>We'll import the Function App's <code>ManageTask</code> endpoint as an API, manually define a WebApp API, and then document both.</p>
 <h3 id="steps_1">Steps</h3>
+<h4 id="import-function-app-api">Import Function App API</h4>
+<p>Follow these steps to import the Function App API:</p>
 <ol>
-<li><strong>Import Function App API</strong>:</li>
-<li>In the Portal, go to <code>taskmanagerapim-yourname</code> &gt; <strong>APIs</strong> &gt; <strong>Add API</strong> &gt; Select <strong>Function App</strong>.</li>
-<li>Configure:<ul>
+<li>
+<p>In the Portal, go to <code>taskmanagerapim-yourname</code> &gt; <strong>APIs</strong> &gt; <strong>Add API</strong> &gt; Select <strong>Function App</strong>.</p>
+</li>
+<li>
+<p>Configure the settings as follows:</p>
+</li>
 <li>Function App: <code>taskmanagerfunc-yourname</code>.</li>
 <li>Select functions: Check <code>ManageTask</code>.</li>
 <li>Display name: <code>TaskManagerFunctionsAPI</code>.</li>
 <li>API URL suffix: <code>functions</code>.</li>
-</ul>
+</ol>
+<h4 id="create-webapp-api-manually">Create WebApp API Manually</h4>
+<p>Follow these steps to create the WebApp API manually:</p>
+<ol>
+<li>
+<p>In <strong>APIs</strong>, select <strong>OpenAPI</strong> &gt; <strong>Manual definition</strong>.</p>
 </li>
-<li>Import and save.</li>
-<li>Run via CLI (alternative):
-     <code>bash
-     az apim api import --resource-group az204exam --service-name taskmanagerapim-yourname --api-id functions-api --specification-format OpenApi --path functions --source-resource-id /subscriptions/[your-subscription-id]/resourceGroups/az204exam/providers/Microsoft.Web/sites/taskmanagerfunc-yourname</code></li>
-<li><strong>Create WebApp API Manually</strong>:</li>
-<li>In <strong>APIs</strong>, select <strong>OpenAPI</strong> &gt; <strong>Manual definition</strong>.</li>
-<li>Configure:<ul>
+<li>
+<p>Configure the settings as follows:</p>
+</li>
 <li>Display name: <code>TaskManagerWebAPI</code>.</li>
 <li>API URL suffix: <code>web</code>.</li>
-<li>Base URL: <code>https://taskmanagerweb-yourname.azurewebsites.net</code>.</li>
-</ul>
+<li>
+<p>Base URL: <code>https://taskmanagerweb-yourname.azurewebsites.net</code>.</p>
 </li>
-<li>Add operations:<ul>
-<li><strong>GET /api/tasks</strong>:</li>
+<li>
+<p>Add the following operations:</p>
+</li>
+<li><strong>GET /api/tasks</strong>:<ul>
 <li>Display name: <code>Get Tasks</code>.</li>
 <li>URL: <code>GET /api/tasks</code>.</li>
 <li>Description: <code>Retrieves the list of tasks</code>.</li>
-<li><strong>POST /api/tasks</strong>:</li>
+</ul>
+</li>
+<li><strong>POST /api/tasks</strong>:<ul>
 <li>Display name: <code>Create Task</code>.</li>
 <li>URL: <code>POST /api/tasks</code>.</li>
 <li>Description: <code>Creates a new task</code>.</li>
 </ul>
 </li>
-<li>Save.</li>
-<li><strong>Document APIs</strong>:</li>
-<li>For <code>TaskManagerFunctionsAPI</code>:<ul>
+</ol>
+<h4 id="document-apis">Document APIs</h4>
+<p>Follow these steps to document the APIs:</p>
+<ol>
+<li>
+<p>Document the <code>TaskManagerFunctionsAPI</code> with its description and request body example.</p>
+</li>
+<li>
+<p>Document the <code>TaskManagerWebAPI</code> with its description and request body.</p>
+</li>
+<li>
+<p>Save all changes.</p>
+</li>
+</ol>
+<p><strong>Step 1: Document <code>TaskManagerFunctionsAPI</code></strong></p>
+<ul>
 <li>Go to <strong>APIs</strong> &gt; <code>TaskManagerFunctionsAPI</code> &gt; <strong>Settings</strong> &gt; <strong>Description</strong>.</li>
 <li>Add: <code>API for managing tasks stored in Cosmos DB via Azure Functions</code>.</li>
-<li>For <code>ManageTask</code> operation:</li>
+<li>For the <code>ManageTask</code> operation:</li>
 <li>Select <strong>POST /api/managetask</strong> &gt; <strong>Frontend</strong> &gt; Add description: <code>Creates a task with title, description, and due date</code>.</li>
-<li>Add request body example:
-     <code>json
-     {
-       "Title": "Sample Task",
-       "Description": "Test task",
-       "DueDate": "2025-04-15"
-     }</code></li>
+<li>Add request body example:</li>
 </ul>
-</li>
-<li>For <code>TaskManagerWebAPI</code>:<ul>
+<pre><code class="language-json">{
+  &quot;Title&quot;: &quot;Sample Task&quot;,
+  &quot;Description&quot;: &quot;Test task&quot;,
+  &quot;DueDate&quot;: &quot;2025-04-15&quot;
+}
+</code></pre>
+<p><strong>Step 2: Document <code>TaskManagerWebAPI</code></strong></p>
+<ul>
 <li>Go to <strong>Settings</strong> &gt; <strong>Description</strong>: <code>API for task management operations from the WebApp</code>.</li>
 <li>For <code>GET /api/tasks</code>: Description: <code>Returns all tasks</code>.</li>
-<li>For <code>POST /api/tasks</code>: Description: <code>Adds a new task</code>. Request body:
-   <code>json
-   {
-     "title": "New Task",
-     "description": "Details",
-     "dueDate": "2025-04-15"
-   }</code></li>
+<li>For <code>POST /api/tasks</code>: Description: <code>Adds a new task</code>. Request body:</li>
 </ul>
+<pre><code class="language-json">{
+  &quot;title&quot;: &quot;New Task&quot;,
+  &quot;description&quot;: &quot;Details&quot;,
+  &quot;dueDate&quot;: &quot;2025-04-15&quot;
+}
+</code></pre>
+<h4 id="test-apis">Test APIs</h4>
+<p>Follow these steps to test the APIs:</p>
+<ol>
+<li>
+<p>Go to the <strong>Test</strong> tab in each API.</p>
 </li>
-<li>Save all changes.</li>
-<li><strong>Test APIs</strong>:</li>
-<li>Go to <strong>Test</strong> tab in each API.</li>
-<li>For <code>TaskManagerFunctionsAPI</code>:<ul>
-<li>Select <code>POST /functions/managetask</code>, add body (use example above), and send.</li>
+<li>
+<p>Test the <code>TaskManagerFunctionsAPI</code>.</p>
+</li>
+<li>
+<p>Test the <code>TaskManagerWebAPI</code>.</p>
+</li>
+<li>
+<p>Check the <strong>Developer Portal</strong> (under <strong>Overview</strong> &gt; <strong>Developer portal</strong>) to see API docs.</p>
+</li>
+</ol>
+<p><strong>Step 2: Test <code>TaskManagerFunctionsAPI</code></strong></p>
+<ul>
+<li>Select <code>POST /functions/managetask</code>, add the body from the example above, and send.</li>
 <li>Verify HTTP 200 and task data in response.</li>
 </ul>
-</li>
-<li>For <code>TaskManagerWebAPI</code>:<ul>
-<li>Test <code>POST /web/api/tasks</code> with the body above.</li>
-<li>Note: If WebApp lacks <code>/api/tasks</code>, we’ll update it later (see Next Steps).</li>
+<p><strong>Step 3: Test <code>TaskManagerWebAPI</code></strong></p>
+<ul>
+<li>Test <code>POST /web/api/tasks</code> with the body from the example above.</li>
+<li>Note: If the WebApp lacks <code>/api/tasks</code>, we'll update it later (see Next Steps).</li>
 </ul>
-</li>
-<li>Check <strong>Developer Portal</strong> (under <strong>Overview</strong> &gt; <strong>Developer portal</strong>) to see API docs.</li>
-</ol>
-<h3 id="why_1">Why</h3>
+<h3 id="why">Why</h3>
 <p>Creating APIs exposes our app functionality, and documentation ensures usability, both critical for the exam.</p>
 <h2 id="configure-access-to-apis">Configure Access to APIs</h2>
-<p>We’ll secure API access using subscription keys and Microsoft Entra ID authentication.</p>
+<p>We'll secure API access using subscription keys and Microsoft Entra ID authentication.</p>
 <h3 id="steps_2">Steps</h3>
+<p>Follow these steps to configure access to the APIs:</p>
 <ol>
-<li><strong>Enable Subscription Keys</strong>:</li>
+<li>
+<p>Enable subscription keys and generate a key.</p>
+</li>
+<li>
+<p>Test the API with the subscription key.</p>
+</li>
+<li>
+<p>Configure Entra ID authentication.</p>
+</li>
+<li>
+<p>Test Entra ID access through the Developer Portal.</p>
+</li>
+<li>
+<p>Verify the access controls.</p>
+</li>
+</ol>
+<p><strong>Step 1: Enable Subscription Keys</strong></p>
+<ul>
 <li>In <code>taskmanagerapim-yourname</code> &gt; <strong>Subscriptions</strong> &gt; Ensure <strong>Require subscription</strong> is enabled for both APIs.</li>
-<li>Generate a key:<ul>
+<li>Generate a key:</li>
 <li>Select <strong>Add subscription</strong>.</li>
 <li>Name: <code>TaskManagerClient</code>.</li>
 <li>Scope: All APIs.</li>
 <li>Save and copy the <strong>Primary key</strong>.</li>
 </ul>
-</li>
-<li><strong>Test with Subscription Key</strong>:</li>
-<li>Use curl or Postman:
-     <code>bash
-     curl -X POST https://taskmanagerapim-yourname.azure-api.net/functions/managetask -H "Ocp-Apim-Subscription-Key: [your-key]" -H "Content-Type: application/json" -d '{"Title":"APIM Task","Description":"Test","DueDate":"2025-04-15"}'</code></li>
+<p><strong>Step 2: Test with Subscription Key</strong></p>
+<p>Use curl or Postman with the following command:</p>
+<pre><code class="language-bash">curl -X POST https://taskmanagerapim-yourname.azure-api.net/functions/managetask -H &quot;Ocp-Apim-Subscription-Key: [your-key]&quot; -H &quot;Content-Type: application/json&quot; -d '{&quot;Title&quot;:&quot;APIM Task&quot;,&quot;Description&quot;:&quot;Test&quot;,&quot;DueDate&quot;:&quot;2025-04-15&quot;}'
+</code></pre>
+<ul>
 <li>Verify HTTP 200 and task creation (check Cosmos DB in Portal &gt; <strong>Data Explorer</strong> &gt; <code>TasksDB/Tasks</code>).</li>
-<li><strong>Configure Entra ID Authentication</strong>:</li>
-<li>In <strong>Microsoft Entra ID</strong> (from <code>auth.md</code>), use the existing <code>TaskManagerWebApp</code> app registration.</li>
-<li>Update redirect URI:<ul>
-<li>Add <code>https://taskmanagerapim-yourname.portal.azure-api.net/signin-aad</code> (for Developer Portal).</li>
 </ul>
-</li>
-<li>In APIM &gt; <strong>APIs</strong> &gt; <code>TaskManagerFunctionsAPI</code> &gt; <strong>Settings</strong>:<ul>
+<p><strong>Step 3: Configure Entra ID Authentication</strong></p>
+<ul>
+<li>In <strong>Microsoft Entra ID</strong> (from <code>auth.md</code>), use the existing <code>TaskManagerWebApp</code> app registration.</li>
+<li>Update redirect URI:</li>
+<li>Add <code>https://taskmanagerapim-yourname.portal.azure-api.net/signin-aad</code> (for Developer Portal).</li>
+<li>In APIM &gt; <strong>APIs</strong> &gt; <code>TaskManagerFunctionsAPI</code> &gt; <strong>Settings</strong>:</li>
 <li>Authentication: Add <strong>OAuth 2.0</strong>.</li>
-<li>Configure:</li>
+<li>Configure:<ul>
 <li>Authorization server: New server.</li>
 <li>Name: <code>EntraID</code>.</li>
 <li>Client ID: From <code>TaskManagerWebApp</code> app registration.</li>
@@ -1263,51 +1363,79 @@
 <li>Authorization URL: <code>https://login.microsoftonline.com/[your-tenant-id]/oauth2/v2.0/authorize</code>.</li>
 <li>Token URL: <code>https://login.microsoftonline.com/[your-tenant-id]/oauth2/v2.0/token</code>.</li>
 <li>Default scope: <code>api://[your-client-id]/user_impersonation</code>.</li>
-<li>Save.</li>
 </ul>
 </li>
+<li>Save.</li>
 <li>Apply to <code>POST /managetask</code> operation.</li>
-<li><strong>Test Entra ID Access</strong>:</li>
+</ul>
+<p><strong>Step 4: Test Entra ID Access</strong></p>
+<ul>
 <li>In <strong>Developer Portal</strong>, sign in with an Entra ID account.</li>
-<li>Test <code>POST /functions/managetask</code> using the portal’s <strong>Try it</strong> feature.</li>
+<li>Test <code>POST /functions/managetask</code> using the portal's <strong>Try it</strong> feature.</li>
 <li>Verify task creation in Cosmos DB.</li>
-<li><strong>Verify</strong>:</li>
+</ul>
+<p><strong>Step 5: Verify</strong></p>
+<ul>
 <li>Without a subscription key, requests to APIs return HTTP 401.</li>
 <li>Entra ID-authenticated requests succeed in the Developer Portal.</li>
-</ol>
-<h3 id="why_2">Why</h3>
+</ul>
+<h3 id="why_1">Why</h3>
 <p>Configuring access with keys and Entra ID ensures secure API consumption, a core AZ-204 topic.</p>
 <h2 id="implement-policies-for-apis">Implement Policies for APIs</h2>
-<p>We’ll add policies to rate-limit the Function App API and rewrite URLs for the WebApp API.</p>
+<p>We'll add policies to rate-limit the Function App API and rewrite URLs for the WebApp API.</p>
 <h3 id="steps_3">Steps</h3>
+<p>Follow these steps to implement policies for the APIs:</p>
 <ol>
-<li><strong>Rate-Limit Function App API</strong>:</li>
+<li>
+<p>Add a rate-limit policy to the Function App API and test it.</p>
+</li>
+<li>
+<p>Add a URL rewrite policy for the WebApp API and test it.</p>
+</li>
+<li>
+<p>Verify the policies.</p>
+</li>
+</ol>
+<p><strong>Step 1: Rate-Limit Function App API</strong></p>
+<ul>
 <li>In <code>taskmanagerapim-yourname</code> &gt; <strong>APIs</strong> &gt; <code>TaskManagerFunctionsAPI</code> &gt; <strong>All operations</strong>.</li>
 <li>Select <strong>Design</strong> &gt; <strong>+ Add policy</strong>.</li>
-<li>Add <strong>Inbound processing</strong> policy:
-     <code>xml
-     &lt;rate-limit calls="5" renewal-period="60" /&gt;</code></li>
+<li>Add <strong>Inbound processing</strong> policy:</li>
+</ul>
+<pre><code class="language-xml">&lt;rate-limit calls=&quot;5&quot; renewal-period=&quot;60&quot; /&gt;
+</code></pre>
+<ul>
 <li>Save.</li>
-<li>Test:
-     <code>bash
-     for i in {1..6}; do curl -X POST https://taskmanagerapim-yourname.azure-api.net/functions/managetask -H "Ocp-Apim-Subscription-Key: [your-key]" -H "Content-Type: application/json" -d '{"Title":"Test'$i'","Description":"Rate limit","DueDate":"2025-04-15"}'; done</code></li>
+<li>Test with the following command:</li>
+</ul>
+<pre><code class="language-bash">for i in {1..6}; do curl -X POST https://taskmanagerapim-yourname.azure-api.net/functions/managetask -H &quot;Ocp-Apim-Subscription-Key: [your-key]&quot; -H &quot;Content-Type: application/json&quot; -d '{&quot;Title&quot;:&quot;Test'$i'&quot;,&quot;Description&quot;:&quot;Rate limit&quot;,&quot;DueDate&quot;:&quot;2025-04-15&quot;}'; done
+</code></pre>
+<ul>
 <li>Expect HTTP 429 (Too Many Requests) after 5 calls in 60 seconds.</li>
-<li><strong>Rewrite URL for WebApp API</strong>:</li>
+</ul>
+<p><strong>Step 2: Rewrite URL for WebApp API</strong></p>
+<ul>
 <li>In <code>TaskManagerWebAPI</code> &gt; <strong>All operations</strong>.</li>
-<li>Add policy:
-     <code>xml
-     &lt;rewrite-uri template="/api/tasks" /&gt;</code></li>
+<li>Add policy:</li>
+</ul>
+<pre><code class="language-xml">&lt;rewrite-uri template=&quot;/api/tasks&quot; /&gt;
+</code></pre>
+<ul>
 <li>Save.</li>
-<li>Note: This assumes the WebApp will support <code>/api/tasks</code>. If not implemented, we’ll add it (see Next Steps).</li>
-<li>Test:
-     <code>bash
-     curl -X POST https://taskmanagerapim-yourname.azure-api.net/web/api/tasks -H "Ocp-Apim-Subscription-Key: [your-key]" -H "Content-Type: application/json" -d '{"title":"Web Task","description":"Test","dueDate":"2025-04-15"}'</code></li>
-<li>Verify request routes correctly (may fail if <code>/api/tasks</code> isn’t coded yet).</li>
-<li><strong>Verify</strong>:</li>
-<li>Check <strong>Trace</strong> in APIM’s <strong>Test</strong> tab to confirm policies applied (rate-limit errors, URL rewrites).</li>
-<li>For Function App, confirm only 5 tasks created in Cosmos DB after test.</li>
-</ol>
-<h3 id="why_3">Why</h3>
+<li>Note: This assumes the WebApp will support <code>/api/tasks</code>. If not implemented, we'll add it (see Next Steps).</li>
+<li>Test with the following command:</li>
+</ul>
+<pre><code class="language-bash">curl -X POST https://taskmanagerapim-yourname.azure-api.net/web/api/tasks -H &quot;Ocp-Apim-Subscription-Key: [your-key]&quot; -H &quot;Content-Type: application/json&quot; -d '{&quot;title&quot;:&quot;Web Task&quot;,&quot;description&quot;:&quot;Test&quot;,&quot;dueDate&quot;:&quot;2025-04-15&quot;}'
+</code></pre>
+<ul>
+<li>Verify the request routes correctly (may fail if <code>/api/tasks</code> isn't coded yet).</li>
+</ul>
+<p><strong>Step 3: Verify</strong></p>
+<ul>
+<li>Check <strong>Trace</strong> in APIM's <strong>Test</strong> tab to confirm policies applied (rate-limit errors, URL rewrites).</li>
+<li>For the Function App, confirm only 5 tasks were created in Cosmos DB after the test.</li>
+</ul>
+<h3 id="why_2">Why</h3>
 <p>Policies like rate-limiting and URL rewriting demonstrate control over API behavior, a key exam skill.</p>
 <h2 id="verify-all-topics">Verify All Topics</h2>
 <ul>
@@ -1317,51 +1445,54 @@
 <li><strong>Policies</strong>: Added rate-limiting and URL rewriting.</li>
 </ul>
 <h2 id="clean-up-optional">Clean Up (Optional)</h2>
-<p>To avoid costs:</p>
+<p>To avoid costs, delete all resources:</p>
 <pre><code class="language-bash">az group delete -n az204exam --no-wait --yes
 </code></pre>
 <h2 id="next-steps">Next Steps</h2>
 <ul>
 <li>Update <code>TaskManagerWeb</code> to support <code>/api/tasks</code> for full WebApp API functionality:</li>
-<li>
-<p>Add a new controller (<code>Controllers/TasksController.cs</code>):
-    ```csharp
-    using Microsoft.AspNetCore.Mvc;
-    using TaskManagerWeb.Models;
-    using System.Collections.Generic;</p>
-<p>namespace TaskManagerWeb.Controllers
+<li>Add a new controller (<code>Controllers/TasksController.cs</code>):</li>
+</ul>
+<pre><code class="language-csharp">using Microsoft.AspNetCore.Mvc;
+using TaskManagerWeb.Models;
+using System.Collections.Generic;
+
+namespace TaskManagerWeb.Controllers
 {
-    [Route("api/tasks")]
+    [Route(&quot;api/tasks&quot;)]
     [ApiController]
     public class TasksController : ControllerBase
     {
-        private static List<TaskItem> _tasks = new List<TaskItem>();</p>
-<pre><code>    [HttpGet]
-    public IActionResult GetTasks()
-    {
-        return Ok(_tasks);
-    }
+        private static List&lt;TaskItem&gt; _tasks = new List&lt;TaskItem&gt;();
 
-    [HttpPost]
-    public IActionResult CreateTask([FromBody] TaskItem task)
-    {
-        if (string.IsNullOrEmpty(task.Title))
+        [HttpGet]
+        public IActionResult GetTasks()
         {
-            return BadRequest("Title is required.");
+            return Ok(_tasks);
         }
-        task.id = System.Guid.NewGuid().ToString();
-        _tasks.Add(task);
-        return Ok(task);
+
+        [HttpPost]
+        public IActionResult CreateTask([FromBody] TaskItem task)
+        {
+            if (string.IsNullOrEmpty(task.Title))
+            {
+                return BadRequest(&quot;Title is required.&quot;);
+            }
+            task.id = System.Guid.NewGuid().ToString();
+            _tasks.Add(task);
+            return Ok(task);
+        }
     }
 }
 </code></pre>
-<p>}
-<code>- Deploy:</code>bash
-az webapp up --name taskmanagerweb-yourname --resource-group az204exam
-```
-- Test all APIs again via APIM.
-- Explore third-party service integration (e.g., Microsoft Graph) for remaining exam coverage.</p>
-</li>
+<ul>
+<li>Deploy:</li>
+</ul>
+<pre><code class="language-bash">az webapp up --name taskmanagerweb-yourname --resource-group az204exam
+</code></pre>
+<ul>
+<li>Test all APIs again via APIM.</li>
+<li>Explore third-party service integration (e.g., Microsoft Graph) for remaining exam coverage.</li>
 </ul>
 
 

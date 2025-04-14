@@ -335,7 +335,7 @@
         <li class="md-nav__item">
   <a href="#build-and-test-docker-locally" class="md-nav__link">
     <span class="md-ellipsis">
-      Build and Test Docker locally
+      Build and Test Docker Locally
     </span>
   </a>
   
@@ -360,9 +360,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#deploy-container-to-aci" class="md-nav__link">
+  <a href="#deploy-container-to-azure-container-instance-aci" class="md-nav__link">
     <span class="md-ellipsis">
-      Deploy container to ACI
+      Deploy Container to Azure Container Instance (ACI)
     </span>
   </a>
   
@@ -378,9 +378,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#clean-up" class="md-nav__link">
+  <a href="#clean-up-optional" class="md-nav__link">
     <span class="md-ellipsis">
-      Clean up
+      Clean Up (Optional)
     </span>
   </a>
   
@@ -877,7 +877,7 @@
         <li class="md-nav__item">
   <a href="#build-and-test-docker-locally" class="md-nav__link">
     <span class="md-ellipsis">
-      Build and Test Docker locally
+      Build and Test Docker Locally
     </span>
   </a>
   
@@ -902,9 +902,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#deploy-container-to-aci" class="md-nav__link">
+  <a href="#deploy-container-to-azure-container-instance-aci" class="md-nav__link">
     <span class="md-ellipsis">
-      Deploy container to ACI
+      Deploy Container to Azure Container Instance (ACI)
     </span>
   </a>
   
@@ -920,9 +920,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#clean-up" class="md-nav__link">
+  <a href="#clean-up-optional" class="md-nav__link">
     <span class="md-ellipsis">
-      Clean up
+      Clean Up (Optional)
     </span>
   </a>
   
@@ -953,8 +953,8 @@
 
 
 
-<h1 id="implement-containerized-solutions">Implement containerized solutions</h1>
-<p>Docker Application to hit the AZ-204 Exam Topics:</p>
+<h1 id="implement-containerized-solutions">Implement Containerized Solutions</h1>
+<p>This guide covers the AZ-204 exam topics for implementing containerized solutions using Docker and Azure services:</p>
 <ul>
 <li>Create and manage container images for solutions</li>
 <li>Publish an image to Azure Container Registry</li>
@@ -963,21 +963,26 @@
 </ul>
 <h2 id="prerequisites">Prerequisites</h2>
 <ul>
-<li><strong>Docker</strong> </li>
-<li><strong>Python</strong> Optional</li>
+<li><strong>Docker</strong></li>
+<li><strong>Python</strong> (Optional)</li>
 <li><strong>Azure Subscription</strong> (Free tier or $200 credit recommended for minimal costs)</li>
-<li><strong>Existing Resource Group</strong></li>
+<li><strong>Existing Resource Group</strong> (<code>az204</code>)</li>
 </ul>
 <h2 id="build-the-dockerfile">Build the Dockerfile</h2>
-<ul>
-<li>Create a directory for your files</li>
-</ul>
+<p>Follow these steps to create the Dockerfile:</p>
+<ol>
+<li>
+<p>Create a directory for your files, then create a <code>Dockerfile</code> with the content below.</p>
+</li>
+<li>
+<p>After setting up the directory, create the <code>Dockerfile</code>.</p>
+</li>
+</ol>
+<p><strong>Step 1: Create the directory</strong></p>
 <pre><code class="language-powershell">mkdir azurecompute25
 cd azurecompute25
 </code></pre>
-<ul>
-<li>Build your Dockerfile</li>
-</ul>
+<p><strong>Step 2: Create the <code>Dockerfile</code></strong></p>
 <pre><code class="language-Dockerfile">FROM python:3.9-slim
 WORKDIR /app
 COPY . .
@@ -986,9 +991,7 @@ EXPOSE 5000
 CMD [&quot;python&quot;, &quot;app.py&quot;]
 </code></pre>
 <h2 id="create-the-flask-app">Create the Flask App</h2>
-<ul>
-<li>In that same directory create a new file called app.py</li>
-</ul>
+<p>In the same directory, create a file named <code>app.py</code> with the following content:</p>
 <pre><code class="language-python">from flask import Flask
 app = Flask(__name__)
 
@@ -999,109 +1002,123 @@ def hello():
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
 </code></pre>
-<h2 id="build-and-test-docker-locally">Build and Test Docker locally</h2>
+<h2 id="build-and-test-docker-locally">Build and Test Docker Locally</h2>
+<p>Follow these steps to build and test the Docker image locally:</p>
+<ol>
+<li>
+<p>Build the Docker image using the command below.</p>
+</li>
+<li>
+<p>Run the container to test it.</p>
+</li>
+<li>
+<p>Open <code>http://localhost:5000</code> in a browser (should display "Hello from Docker!").</p>
+</li>
+<li>
+<p>Stop the container with <code>Ctrl+C</code>.</p>
+</li>
+</ol>
+<p><strong>Step 1: Build the Docker image</strong></p>
 <pre><code class="language-cmd">docker build -t whateveryouwant:1.0 .
 </code></pre>
-<ul>
-<li>Run docker run -p 5000:5000 whateveryouwant:1.0.</li>
-<li>Open http://localhost:5000 in a browser (should show "Hello from Docker!").</li>
-<li>Stop the container with Ctrl+C.</li>
-</ul>
+<p><strong>Step 2: Run the container</strong></p>
+<pre><code class="language-cmd">docker run -p 5000:5000 whateveryouwant:1.0
+</code></pre>
 <h2 id="create-a-container-registry">Create a Container Registry</h2>
-<ul>
-<li>Create the ACR</li>
-</ul>
+<p>Follow these steps to create an Azure Container Registry (ACR):</p>
+<ol>
+<li>
+<p>Create the ACR using the command below.</p>
+</li>
+<li>
+<p>Enable admin access for the ACR.</p>
+</li>
+<li>
+<p>Retrieve the credentials for the ACR.</p>
+</li>
+</ol>
+<p><strong>Step 1: Create the ACR</strong></p>
 <pre><code class="language-powershell">az acr create --resource-group az204 --name acryourname --sku Basic
 </code></pre>
-<ul>
-<li>Enable Admin</li>
-</ul>
+<p><strong>Step 2: Enable admin access</strong></p>
 <pre><code class="language-powershell">az acr update -n acryourname --admin-enabled true
 </code></pre>
-<ul>
-<li>Get you credentials</li>
-</ul>
+<p><strong>Step 3: Retrieve credentials</strong></p>
 <pre><code class="language-powershell">az acr credential show --name acryourname
 </code></pre>
 <h2 id="push-the-image-to-acr">Push the Image to ACR</h2>
-<ul>
-<li>Log in to ACR:</li>
-</ul>
-<pre><code class="language-powershell">docker login acryourname.azurecr.io --username &lt;username&gt; --password &lt;password&gt;.
+<p>Follow these steps to push the Docker image to ACR:</p>
+<ol>
+<li>
+<p>Log in to ACR using the command below.</p>
+</li>
+<li>
+<p>Tag the image for ACR.</p>
+</li>
+<li>
+<p>Push the image to ACR.</p>
+</li>
+<li>
+<p>In the Azure Portal, go to your ACR, click <strong>Repositories</strong>, and verify <code>myapp</code> is listed.</p>
+</li>
+</ol>
+<p><strong>Step 1: Log in to ACR</strong></p>
+<pre><code class="language-powershell">docker login acryourname.azurecr.io --username &lt;username&gt; --password &lt;password&gt;
 </code></pre>
-<ul>
-<li>Tag the image:</li>
-</ul>
-<pre><code class="language-powershell">docker tag myapp:1.0 acryourname.azurecr.io/myapp:1.0.
+<p><strong>Step 2: Tag the image</strong></p>
+<pre><code class="language-powershell">docker tag whateveryouwant:1.0 acryourname.azurecr.io/myapp:1.0
 </code></pre>
-<ul>
-<li>Push the image:</li>
-</ul>
-<pre><code class="language-powershell">docker push acryourname.azurecr.io/myapp:1.0.
+<p><strong>Step 3: Push the image</strong></p>
+<pre><code class="language-powershell">docker push acryourname.azurecr.io/myapp:1.0
 </code></pre>
-<ul>
-<li>In the Azure Portal, go to your ACR, click "Repositories," and verify yourapp is there.</li>
-</ul>
-<h2 id="deploy-container-to-aci">Deploy container to ACI</h2>
-<pre><code class="language-powershell">az container create `
-  --resource-group az204 `
-  --name az204viacli `
-  --os-type Linux `
-  --cpu 1 `
-  --memory 1 `
-  --image acryourname.azurecr.io/myapp:1.0 `
-  --registry-login-server acryourname.azurecr.io `
-  --registry-username &lt;username&gt; `
-  --registry-password &lt;password&gt; `
-  --ports 5000 `
-  --dns-name-label az204viacli `
-  --location westus3
-  ```
-
-- Test your container
-```powershell
-az container show --resource-group az204 --name az204viacli --query ipAddress.fqdn --output tsv 
+<h2 id="deploy-container-to-azure-container-instance-aci">Deploy Container to Azure Container Instance (ACI)</h2>
+<p>Follow these steps to deploy the container to Azure Container Instance (ACI):</p>
+<ol>
+<li>
+<p>Deploy the container using the command below.</p>
+</li>
+<li>
+<p>Test the container by retrieving its FQDN.</p>
+</li>
+<li>
+<p>Open <code>http://&lt;fqdn&gt;:5000</code> in a browser (should display "Hello from Docker!").</p>
+</li>
+<li>
+<p>In the Azure Portal, navigate to your Container Instance to verify it’s running.</p>
+</li>
+</ol>
+<p><strong>Step 1: Deploy the container</strong></p>
+<pre><code class="language-powershell">az container create --resource-group az204 --name az204viacli --os-type Linux --cpu 1 --memory 1 --image acryourname.azurecr.io/myapp:1.0 --registry-login-server acryourname.azurecr.io --registry-username &lt;username&gt; --registry-password &lt;password&gt; --ports 5000 --dns-name-label az204viacli --location westus3
 </code></pre>
-<ul>
-<li>Open http://<fqdn>:5000 in a browser (should show "Hello from Docker!").</li>
-<li>In the Azure Portal, go to your Container Instance and you will see your Container Instance</li>
-</ul>
+<p><strong>Step 2: Test the container</strong></p>
+<pre><code class="language-powershell">az container show --resource-group az204 --name az204viacli --query ipAddress.fqdn --output tsv
+</code></pre>
 <h2 id="deploy-to-container-apps-environment">Deploy to Container Apps Environment</h2>
-<ul>
-<li>Create the Container Apps Environment</li>
-</ul>
-<pre><code class="language-powershell">az containerapp env create `
-  --name az204AppEnv `
-  --resource-group az204 `
-  --location westus3
+<p>Follow these steps to deploy the container to Azure Container Apps:</p>
+<ol>
+<li>
+<p>Create a Container Apps Environment using the command below.</p>
+</li>
+<li>
+<p>Deploy the app to the Container Apps Environment.</p>
+</li>
+<li>
+<p>In the Azure Portal, go to your Resource Group, click on your Container App, and click the URL to verify it displays "Hello from Docker!".</p>
+</li>
+</ol>
+<p><strong>Step 1: Create a Container Apps Environment</strong></p>
+<pre><code class="language-powershell">az containerapp env create --name az204AppEnv --resource-group az204 --location westus3
 </code></pre>
-<ul>
-<li>Deploy the app</li>
-</ul>
-<pre><code class="language-powershell">az containerapp create `
-  --name az204containerapp `
-  --resource-group az204 `
-  --environment az204AppEnv `
-  --image acryourname.azurecr.io/myapp:1.0 `
-  --registry-server acryourname.azurecr.io `
-  --registry-username &lt;username&gt; `
-  --registry-password &lt;password&gt; `
-  --target-port 5000 `
-  --ingress external
+<p><strong>Step 2: Deploy the app</strong></p>
+<pre><code class="language-powershell">az containerapp create --name az204containerapp --resource-group az204 --environment az204AppEnv --image acryourname.azurecr.io/myapp:1.0 --registry-server acryourname.azurecr.io --registry-username &lt;username&gt; --registry-password &lt;password&gt; --target-port 5000 --ingress external
 </code></pre>
-<ul>
-<li>In the Azure Portal, go to your Resource Group and click on your Container App.  Click the URL to make sure you see Hello from Docker!.</li>
-</ul>
-<h2 id="clean-up">Clean up</h2>
-<ul>
-<li>Optional but recommended</li>
-<li>Delete all you resources to not go over $200 limit</li>
-</ul>
+<h2 id="clean-up-optional">Clean Up (Optional)</h2>
+<p>To avoid exceeding the $200 credit limit, delete all resources:</p>
 <pre><code class="language-powershell">az group delete -n az204 --no-wait --yes
 </code></pre>
 <h2 id="next-steps">Next Steps</h2>
 <ul>
-<li>Do everything again, but this time use only the Portal</li>
+<li>Repeat the process using only the Azure Portal.</li>
 </ul>
 
 

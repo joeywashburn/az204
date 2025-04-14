@@ -1,0 +1,1421 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../appinsights/">
+      
+      
+        <link rel="next" href="../events/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.11">
+    
+    
+      
+        <title>Implement API Management - AZ-204 Study Materials</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.4af4bdda.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#connect-to-and-consume-azure-services-and-third-party-services-with-api-management" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="AZ-204 Study Materials" class="md-header__button md-logo" aria-label="AZ-204 Study Materials" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AZ-204 Study Materials
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Implement API Management
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="AZ-204 Study Materials" class="md-nav__button md-logo" aria-label="AZ-204 Study Materials" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    AZ-204 Study Materials
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Develop Azure compute solutions
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Develop Azure compute solutions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../acr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Implement containerized solutions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../webapp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Implement Azure App Service Web Apps
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../functions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Implement Azure Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Develop for Azure storage
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Develop for Azure storage
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Develop solutions that use Azure Blob Storage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cosmos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Develop solutions that use Azure Cosmos DB
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Implement Azure security
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Implement Azure security
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Implement user authentication and authorization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../secure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Implement secure Azure solutions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Monitor and troubleshoot Azure solutions
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Monitor and troubleshoot Azure solutions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appinsights/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Monitor and troubleshoot solutions by using Application Insights
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Connect to and consume Azure services and third-party services
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Connect to and consume Azure services and third-party services
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Implement API Management
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Implement API Management
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-an-azure-api-management-instance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create an Azure API Management Instance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Create an Azure API Management Instance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Steps
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-and-document-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create and Document APIs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Create and Document APIs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#steps_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Steps
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-access-to-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Access to APIs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configure Access to APIs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#steps_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Steps
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implement-policies-for-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implement Policies for APIs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implement Policies for APIs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#steps_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Steps
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verify-all-topics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verify All Topics
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clean-up-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Clean Up (Optional)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Steps
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../events/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Develop event-based solutions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../message/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Develop message-based solutions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-an-azure-api-management-instance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create an Azure API Management Instance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Create an Azure API Management Instance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Steps
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-and-document-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create and Document APIs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Create and Document APIs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#steps_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Steps
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-access-to-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Access to APIs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configure Access to APIs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#steps_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Steps
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implement-policies-for-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implement Policies for APIs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implement Policies for APIs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#steps_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Steps
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verify-all-topics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verify All Topics
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clean-up-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Clean Up (Optional)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Steps
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="connect-to-and-consume-azure-services-and-third-party-services-with-api-management">Connect to and Consume Azure Services and Third-Party Services with API Management</h1>
+<p>This guide covers the AZ-204 exam topics for connecting to and consuming Azure services and third-party services using Azure API Management (APIM). We’ll integrate our existing <code>TaskManagerWeb</code> (WebApp) and <code>TaskManagerFunctions</code> (Function App) with APIM to manage and secure their APIs. The focus is on creating an APIM instance, creating and documenting APIs, configuring access, and implementing policies.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li><strong>Azure Subscription</strong> (Free tier or $200 credit recommended).</li>
+<li><strong>Existing Resource Group</strong> (<code>az204exam</code>).</li>
+<li><strong>Deployed Apps</strong>:</li>
+<li>WebApp: <code>taskmanagerweb-yourname</code> (ASP.NET Core MVC, Free F1 tier).</li>
+<li>Function App: <code>taskmanagerfunc-yourname</code> (.NET 8 isolated, Consumption plan).</li>
+<li><strong>Tools</strong>:</li>
+<li><a href="https://learn.microsoft.com/en-us/dotnet/core/install/windows?tabs=net80#install-with-windows-package-manager-winget">.NET SDK 8.0</a>: <code>winget install Microsoft.DotNet.SDK.8</code>.</li>
+<li><a href="https://learn.microsoft.com/en-us/cli/azure/install-azure-cli">Azure CLI</a>.</li>
+<li><a href="https://github.com/Azure/azure-functions-core-tools/releases">Azure Functions Core Tools</a>.</li>
+</ul>
+<h2 id="create-an-azure-api-management-instance">Create an Azure API Management Instance</h2>
+<p>We’ll set up an APIM instance to manage APIs for our Function App’s <code>ManageTask</code> endpoint and WebApp’s task operations.</p>
+<h3 id="steps">Steps</h3>
+<ol>
+<li><strong>Create APIM Instance</strong>:</li>
+<li>In the Azure Portal, go to <strong>Create a resource</strong> &gt; Search for <strong>API Management</strong> &gt; <strong>Create</strong>.</li>
+<li>Configure:<ul>
+<li>Resource group: <code>az204exam</code>.</li>
+<li>Name: <code>taskmanagerapim-yourname</code> (must be globally unique).</li>
+<li>Location: Same as your apps (e.g., West US 3).</li>
+<li>Pricing tier: <strong>Consumption</strong> (exam-friendly, no cost for light usage).</li>
+<li>Organization name: <code>TaskManager</code>.</li>
+<li>Admin email: Your email (for notifications).</li>
+</ul>
+</li>
+<li>Review and create (takes ~5-10 minutes for Consumption tier).</li>
+<li>Run via CLI (alternative):
+     <code>bash
+     az apim create --name taskmanagerapim-yourname --resource-group az204exam --publisher-name TaskManager --publisher-email your-email@example.com --sku-name Consumption --location westus3</code></li>
+<li><strong>Verify</strong>:</li>
+<li>In the Portal, go to <strong>API Management services</strong> &gt; <code>taskmanagerapim-yourname</code>.</li>
+<li>Check <strong>Overview</strong> to confirm the instance is active and note the <strong>Gateway URL</strong> (e.g., <code>https://taskmanagerapim-yourname.azure-api.net</code>).</li>
+</ol>
+<h3 id="why">Why</h3>
+<p>Creating an APIM instance is the foundation for managing APIs, a key exam requirement.</p>
+<h2 id="create-and-document-apis">Create and Document APIs</h2>
+<p>We’ll import the Function App’s <code>ManageTask</code> endpoint as an API and manually define a WebApp API, then document both.</p>
+<h3 id="steps_1">Steps</h3>
+<ol>
+<li><strong>Import Function App API</strong>:</li>
+<li>In the Portal, go to <code>taskmanagerapim-yourname</code> &gt; <strong>APIs</strong> &gt; <strong>Add API</strong> &gt; Select <strong>Function App</strong>.</li>
+<li>Configure:<ul>
+<li>Function App: <code>taskmanagerfunc-yourname</code>.</li>
+<li>Select functions: Check <code>ManageTask</code>.</li>
+<li>Display name: <code>TaskManagerFunctionsAPI</code>.</li>
+<li>API URL suffix: <code>functions</code>.</li>
+</ul>
+</li>
+<li>Import and save.</li>
+<li>Run via CLI (alternative):
+     <code>bash
+     az apim api import --resource-group az204exam --service-name taskmanagerapim-yourname --api-id functions-api --specification-format OpenApi --path functions --source-resource-id /subscriptions/[your-subscription-id]/resourceGroups/az204exam/providers/Microsoft.Web/sites/taskmanagerfunc-yourname</code></li>
+<li><strong>Create WebApp API Manually</strong>:</li>
+<li>In <strong>APIs</strong>, select <strong>OpenAPI</strong> &gt; <strong>Manual definition</strong>.</li>
+<li>Configure:<ul>
+<li>Display name: <code>TaskManagerWebAPI</code>.</li>
+<li>API URL suffix: <code>web</code>.</li>
+<li>Base URL: <code>https://taskmanagerweb-yourname.azurewebsites.net</code>.</li>
+</ul>
+</li>
+<li>Add operations:<ul>
+<li><strong>GET /api/tasks</strong>:</li>
+<li>Display name: <code>Get Tasks</code>.</li>
+<li>URL: <code>GET /api/tasks</code>.</li>
+<li>Description: <code>Retrieves the list of tasks</code>.</li>
+<li><strong>POST /api/tasks</strong>:</li>
+<li>Display name: <code>Create Task</code>.</li>
+<li>URL: <code>POST /api/tasks</code>.</li>
+<li>Description: <code>Creates a new task</code>.</li>
+</ul>
+</li>
+<li>Save.</li>
+<li><strong>Document APIs</strong>:</li>
+<li>For <code>TaskManagerFunctionsAPI</code>:<ul>
+<li>Go to <strong>APIs</strong> &gt; <code>TaskManagerFunctionsAPI</code> &gt; <strong>Settings</strong> &gt; <strong>Description</strong>.</li>
+<li>Add: <code>API for managing tasks stored in Cosmos DB via Azure Functions</code>.</li>
+<li>For <code>ManageTask</code> operation:</li>
+<li>Select <strong>POST /api/managetask</strong> &gt; <strong>Frontend</strong> &gt; Add description: <code>Creates a task with title, description, and due date</code>.</li>
+<li>Add request body example:
+     <code>json
+     {
+       "Title": "Sample Task",
+       "Description": "Test task",
+       "DueDate": "2025-04-15"
+     }</code></li>
+</ul>
+</li>
+<li>For <code>TaskManagerWebAPI</code>:<ul>
+<li>Go to <strong>Settings</strong> &gt; <strong>Description</strong>: <code>API for task management operations from the WebApp</code>.</li>
+<li>For <code>GET /api/tasks</code>: Description: <code>Returns all tasks</code>.</li>
+<li>For <code>POST /api/tasks</code>: Description: <code>Adds a new task</code>. Request body:
+   <code>json
+   {
+     "title": "New Task",
+     "description": "Details",
+     "dueDate": "2025-04-15"
+   }</code></li>
+</ul>
+</li>
+<li>Save all changes.</li>
+<li><strong>Test APIs</strong>:</li>
+<li>Go to <strong>Test</strong> tab in each API.</li>
+<li>For <code>TaskManagerFunctionsAPI</code>:<ul>
+<li>Select <code>POST /functions/managetask</code>, add body (use example above), and send.</li>
+<li>Verify HTTP 200 and task data in response.</li>
+</ul>
+</li>
+<li>For <code>TaskManagerWebAPI</code>:<ul>
+<li>Test <code>POST /web/api/tasks</code> with the body above.</li>
+<li>Note: If WebApp lacks <code>/api/tasks</code>, we’ll update it later (see Next Steps).</li>
+</ul>
+</li>
+<li>Check <strong>Developer Portal</strong> (under <strong>Overview</strong> &gt; <strong>Developer portal</strong>) to see API docs.</li>
+</ol>
+<h3 id="why_1">Why</h3>
+<p>Creating APIs exposes our app functionality, and documentation ensures usability, both critical for the exam.</p>
+<h2 id="configure-access-to-apis">Configure Access to APIs</h2>
+<p>We’ll secure API access using subscription keys and Microsoft Entra ID authentication.</p>
+<h3 id="steps_2">Steps</h3>
+<ol>
+<li><strong>Enable Subscription Keys</strong>:</li>
+<li>In <code>taskmanagerapim-yourname</code> &gt; <strong>Subscriptions</strong> &gt; Ensure <strong>Require subscription</strong> is enabled for both APIs.</li>
+<li>Generate a key:<ul>
+<li>Select <strong>Add subscription</strong>.</li>
+<li>Name: <code>TaskManagerClient</code>.</li>
+<li>Scope: All APIs.</li>
+<li>Save and copy the <strong>Primary key</strong>.</li>
+</ul>
+</li>
+<li><strong>Test with Subscription Key</strong>:</li>
+<li>Use curl or Postman:
+     <code>bash
+     curl -X POST https://taskmanagerapim-yourname.azure-api.net/functions/managetask -H "Ocp-Apim-Subscription-Key: [your-key]" -H "Content-Type: application/json" -d '{"Title":"APIM Task","Description":"Test","DueDate":"2025-04-15"}'</code></li>
+<li>Verify HTTP 200 and task creation (check Cosmos DB in Portal &gt; <strong>Data Explorer</strong> &gt; <code>TasksDB/Tasks</code>).</li>
+<li><strong>Configure Entra ID Authentication</strong>:</li>
+<li>In <strong>Microsoft Entra ID</strong> (from <code>auth.md</code>), use the existing <code>TaskManagerWebApp</code> app registration.</li>
+<li>Update redirect URI:<ul>
+<li>Add <code>https://taskmanagerapim-yourname.portal.azure-api.net/signin-aad</code> (for Developer Portal).</li>
+</ul>
+</li>
+<li>In APIM &gt; <strong>APIs</strong> &gt; <code>TaskManagerFunctionsAPI</code> &gt; <strong>Settings</strong>:<ul>
+<li>Authentication: Add <strong>OAuth 2.0</strong>.</li>
+<li>Configure:</li>
+<li>Authorization server: New server.</li>
+<li>Name: <code>EntraID</code>.</li>
+<li>Client ID: From <code>TaskManagerWebApp</code> app registration.</li>
+<li>Client secret: Create and copy one from <strong>Certificates &amp; secrets</strong>.</li>
+<li>Authorization URL: <code>https://login.microsoftonline.com/[your-tenant-id]/oauth2/v2.0/authorize</code>.</li>
+<li>Token URL: <code>https://login.microsoftonline.com/[your-tenant-id]/oauth2/v2.0/token</code>.</li>
+<li>Default scope: <code>api://[your-client-id]/user_impersonation</code>.</li>
+<li>Save.</li>
+</ul>
+</li>
+<li>Apply to <code>POST /managetask</code> operation.</li>
+<li><strong>Test Entra ID Access</strong>:</li>
+<li>In <strong>Developer Portal</strong>, sign in with an Entra ID account.</li>
+<li>Test <code>POST /functions/managetask</code> using the portal’s <strong>Try it</strong> feature.</li>
+<li>Verify task creation in Cosmos DB.</li>
+<li><strong>Verify</strong>:</li>
+<li>Without a subscription key, requests to APIs return HTTP 401.</li>
+<li>Entra ID-authenticated requests succeed in the Developer Portal.</li>
+</ol>
+<h3 id="why_2">Why</h3>
+<p>Configuring access with keys and Entra ID ensures secure API consumption, a core AZ-204 topic.</p>
+<h2 id="implement-policies-for-apis">Implement Policies for APIs</h2>
+<p>We’ll add policies to rate-limit the Function App API and rewrite URLs for the WebApp API.</p>
+<h3 id="steps_3">Steps</h3>
+<ol>
+<li><strong>Rate-Limit Function App API</strong>:</li>
+<li>In <code>taskmanagerapim-yourname</code> &gt; <strong>APIs</strong> &gt; <code>TaskManagerFunctionsAPI</code> &gt; <strong>All operations</strong>.</li>
+<li>Select <strong>Design</strong> &gt; <strong>+ Add policy</strong>.</li>
+<li>Add <strong>Inbound processing</strong> policy:
+     <code>xml
+     &lt;rate-limit calls="5" renewal-period="60" /&gt;</code></li>
+<li>Save.</li>
+<li>Test:
+     <code>bash
+     for i in {1..6}; do curl -X POST https://taskmanagerapim-yourname.azure-api.net/functions/managetask -H "Ocp-Apim-Subscription-Key: [your-key]" -H "Content-Type: application/json" -d '{"Title":"Test'$i'","Description":"Rate limit","DueDate":"2025-04-15"}'; done</code></li>
+<li>Expect HTTP 429 (Too Many Requests) after 5 calls in 60 seconds.</li>
+<li><strong>Rewrite URL for WebApp API</strong>:</li>
+<li>In <code>TaskManagerWebAPI</code> &gt; <strong>All operations</strong>.</li>
+<li>Add policy:
+     <code>xml
+     &lt;rewrite-uri template="/api/tasks" /&gt;</code></li>
+<li>Save.</li>
+<li>Note: This assumes the WebApp will support <code>/api/tasks</code>. If not implemented, we’ll add it (see Next Steps).</li>
+<li>Test:
+     <code>bash
+     curl -X POST https://taskmanagerapim-yourname.azure-api.net/web/api/tasks -H "Ocp-Apim-Subscription-Key: [your-key]" -H "Content-Type: application/json" -d '{"title":"Web Task","description":"Test","dueDate":"2025-04-15"}'</code></li>
+<li>Verify request routes correctly (may fail if <code>/api/tasks</code> isn’t coded yet).</li>
+<li><strong>Verify</strong>:</li>
+<li>Check <strong>Trace</strong> in APIM’s <strong>Test</strong> tab to confirm policies applied (rate-limit errors, URL rewrites).</li>
+<li>For Function App, confirm only 5 tasks created in Cosmos DB after test.</li>
+</ol>
+<h3 id="why_3">Why</h3>
+<p>Policies like rate-limiting and URL rewriting demonstrate control over API behavior, a key exam skill.</p>
+<h2 id="verify-all-topics">Verify All Topics</h2>
+<ul>
+<li><strong>APIM Instance</strong>: Created <code>taskmanagerapim-yourname</code> in Consumption tier.</li>
+<li><strong>Create/Document APIs</strong>: Imported <code>ManageTask</code> and defined <code>TaskManagerWebAPI</code> with descriptions and examples.</li>
+<li><strong>Configure Access</strong>: Secured with subscription keys and Entra ID.</li>
+<li><strong>Policies</strong>: Added rate-limiting and URL rewriting.</li>
+</ul>
+<h2 id="clean-up-optional">Clean Up (Optional)</h2>
+<p>To avoid costs:</p>
+<pre><code class="language-bash">az group delete -n az204exam --no-wait --yes
+</code></pre>
+<h2 id="next-steps">Next Steps</h2>
+<ul>
+<li>Update <code>TaskManagerWeb</code> to support <code>/api/tasks</code> for full WebApp API functionality:</li>
+<li>
+<p>Add a new controller (<code>Controllers/TasksController.cs</code>):
+    ```csharp
+    using Microsoft.AspNetCore.Mvc;
+    using TaskManagerWeb.Models;
+    using System.Collections.Generic;</p>
+<p>namespace TaskManagerWeb.Controllers
+{
+    [Route("api/tasks")]
+    [ApiController]
+    public class TasksController : ControllerBase
+    {
+        private static List<TaskItem> _tasks = new List<TaskItem>();</p>
+<pre><code>    [HttpGet]
+    public IActionResult GetTasks()
+    {
+        return Ok(_tasks);
+    }
+
+    [HttpPost]
+    public IActionResult CreateTask([FromBody] TaskItem task)
+    {
+        if (string.IsNullOrEmpty(task.Title))
+        {
+            return BadRequest("Title is required.");
+        }
+        task.id = System.Guid.NewGuid().ToString();
+        _tasks.Add(task);
+        return Ok(task);
+    }
+}
+</code></pre>
+<p>}
+<code>- Deploy:</code>bash
+az webapp up --name taskmanagerweb-yourname --resource-group az204exam
+```
+- Test all APIs again via APIM.
+- Explore third-party service integration (e.g., Microsoft Graph) for remaining exam coverage.</p>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+    
+  </body>
+</html>

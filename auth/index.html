@@ -519,6 +519,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#set-up-entra-id-app-registration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Set Up Entra ID App Registration
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -541,6 +550,188 @@
   
   <span class="md-ellipsis">
     Implement secure Azure solutions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Monitor and troubleshoot Azure solutions
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Monitor and troubleshoot Azure solutions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appinsights/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Monitor and troubleshoot solutions by using Application Insights
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Connect to and consume Azure services and third-party services
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Connect to and consume Azure services and third-party services
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Implement API Management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../events/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Develop event-based solutions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../message/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Develop message-based solutions
     
   </span>
   
@@ -593,6 +784,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#set-up-entra-id-app-registration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Set Up Entra ID App Registration
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -625,6 +825,225 @@
 <li><strong>Azure Subscription</strong> (Free tier or $200 credit recommended)</li>
 <li><strong>Existing Resource Group</strong> (<code>az204exam</code>)</li>
 </ul>
+<h2 id="set-up-entra-id-app-registration">Set Up Entra ID App Registration</h2>
+<p>Create App Registration:</p>
+<p>In Azure Portal, go to Microsoft Entra ID &gt; App registrations &gt; New registration.</p>
+<p>Name: TaskManagerWebApp.</p>
+<p>Supported account types: Select “Accounts in this organizational directory only” (or “Multitenant” for broader access).
+Redirect URI:
+Local: https://localhost:5001/signin-oidc (adjust port if different).
+Azure: https://taskmanagerweb-yourname.azurewebsites.net/signin-oidc (after deployment).
+Click Register.
+Note the Application (client) ID and Directory (tenant) ID.
+Verify Authentication Settings:
+In the app registration, go to Authentication.
+Ensure Web platform is selected with the redirect URI.
+Enable ID tokens (under Implicit grant and hybrid flows).
+Get Tenant Domain:
+In Microsoft Entra ID &gt; Overview, note the Primary domain (e.g., yourtenant.onmicrosoft.com).
+Update WebApp for Authentication
+Note: We’ll modify our Task Manager WebApp to require login before users can view or create tasks.</p>
+<p>Add Microsoft Identity Package:</p>
+<p>Open a terminal in your WebApp project folder.
+Run:</p>
+<pre><code class="language-bash">dotnet add package Microsoft.Identity.Web
+</code></pre>
+<p>Configure Settings:</p>
+<p>Update appsettings.json:</p>
+<pre><code class="language-json">{
+  &quot;AzureAd&quot;: {
+    &quot;Instance&quot;: &quot;https://login.microsoftonline.com/&quot;,
+    &quot;Domain&quot;: &quot;yourtenant.onmicrosoft.com&quot;,
+    &quot;TenantId&quot;: &quot;your-tenant-id&quot;,
+    &quot;ClientId&quot;: &quot;your-client-id&quot;,
+    &quot;CallbackPath&quot;: &quot;/signin-oidc&quot;
+  },
+  &quot;Logging&quot;: {
+    &quot;LogLevel&quot;: {
+      &quot;Default&quot;: &quot;Information&quot;,
+      &quot;Microsoft.AspNetCore&quot;: &quot;Warning&quot;
+    }
+  },
+  &quot;AllowedHosts&quot;: &quot;*&quot;
+}
+</code></pre>
+<p>Replace yourtenant.onmicrosoft.com, your-tenant-id, and your-client-id with values from the app registration.</p>
+<p>Update Program.cs:</p>
+<p>Modify Program.cs to add authentication services:</p>
+<pre><code class="language-csharp">using Microsoft.Identity.Web;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddRazorPages();
+builder.Services.AddControllersWithViews();
+
+// Add Microsoft Identity authentication
+builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection(&quot;AzureAd&quot;));
+
+builder.Services.AddAuthorization();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler(&quot;/Error&quot;);
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapRazorPages();
+app.MapControllers();
+
+app.Run();
+Create or Update Controller:
+
+Since your WebApp uses a Razor view with @model List&lt;TaskManagerWeb.Models.TaskItem&gt;, we’ll create a controller to handle it.
+Create Models/TaskItem.cs (if not already present):
+csharp
+
+Copy
+namespace TaskManagerWeb.Models
+{
+    public class TaskItem
+    {
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string DueDate { get; set; }
+    }
+}
+</code></pre>
+<p>Create Controllers/HomeController.cs:</p>
+<pre><code class="language-csharp">using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using TaskManagerWeb.Models;
+using System.Collections.Generic;
+
+namespace TaskManagerWeb.Controllers
+{
+    [Authorize] // Require login
+    public class HomeController : Controller
+    {
+        public IActionResult Index()
+        {
+            // Mock task list (replace with CosmosDB later)
+            var tasks = new List&lt;TaskItem&gt;
+            {
+                new TaskItem { Title = &quot;Sample Task&quot;, Description = &quot;Test auth&quot;, DueDate = &quot;2025-04-15&quot; }
+            };
+            return View(tasks);
+        }
+
+        [HttpPost]
+        public IActionResult Create(string title, string description, string dueDate)
+        {
+            // Add task logic (e.g., save to CosmosDB)
+            // For now, redirect back to index
+            return RedirectToAction(&quot;Index&quot;);
+        }
+    }
+}
+</code></pre>
+<p>Update Razor View:</p>
+<p>Ensure your view (Views/Home/Index.cshtml) matches the shared HTML/CSS but uses the controller. It’s already good, but confirm it’s in the right place:</p>
+<p>Path: Views/Home/Index.cshtml.</p>
+<p>If it’s elsewhere (e.g., Pages/Index.cshtml), let me know, and we’ll adjust.</p>
+<p>Add Sign-In/Out Links:</p>
+<p>Update Index.cshtml to show user info and sign-out option:</p>
+<pre><code class="language-html">@model List&lt;TaskManagerWeb.Models.TaskItem&gt;
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;!-- Your existing CSS --&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Task Manager&lt;/h1&gt;
+    @if (User.Identity.IsAuthenticated)
+    {
+        &lt;p&gt;Welcome, @User.Identity.Name! &lt;a asp-controller=&quot;Home&quot; asp-action=&quot;SignOut&quot;&gt;Sign Out&lt;/a&gt;&lt;/p&gt;
+    }
+    else
+    {
+        &lt;p&gt;&lt;a href=&quot;/MicrosoftIdentity/Account/SignIn&quot;&gt;Sign In&lt;/a&gt;&lt;/p&gt;
+    }
+
+    &lt;form asp-action=&quot;Create&quot; method=&quot;post&quot;&gt;
+        &lt;div&gt;
+            &lt;label&gt;Title:&lt;/label&gt;
+            &lt;input type=&quot;text&quot; name=&quot;title&quot; required /&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+            &lt;label&gt;Description:&lt;/label&gt;
+            &lt;textarea name=&quot;description&quot;&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+            &lt;label&gt;Due Date:&lt;/label&gt;
+            &lt;input type=&quot;date&quot; name=&quot;dueDate&quot; required /&gt;
+        &lt;/div&gt;
+        &lt;button type=&quot;submit&quot;&gt;Add Task&lt;/button&gt;
+    &lt;/form&gt;
+
+    &lt;h2&gt;Tasks&lt;/h2&gt;
+    &lt;ul&gt;
+        @if (Model != null &amp;&amp; Model.Any())
+        {
+            foreach (var task in Model)
+            {
+                &lt;li&gt;
+                    &lt;div class=&quot;task-info&quot;&gt;
+                        &lt;strong&gt;@task.Title&lt;/strong&gt; - @task.Description
+                        &lt;br /&gt;
+                        &lt;small&gt;Due: @(task.DueDate ?? &quot;No due date&quot;)&lt;/small&gt;
+                    &lt;/div&gt;
+                &lt;/li&gt;
+            }
+        }
+        else
+        {
+            &lt;li class=&quot;no-tasks&quot;&gt;No tasks yet.&lt;/li&gt;
+        }
+    &lt;/ul&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+</code></pre>
+<p>Add a SignOut action in HomeController.cs:</p>
+<pre><code class="language-csharp">public IActionResult SignOut()
+{
+    return SignOut(&quot;Cookies&quot;, OpenIdConnectDefaults.AuthenticationScheme);
+}
+</code></pre>
+<p>Test Locally</p>
+<p>Run WebApp:</p>
+<pre><code class="language-bash">cd TaskManagerWeb
+dotnet run
+</code></pre>
+<p>Access:</p>
+<p>Open https://localhost:5001 (adjust port if different).</p>
+<p>Expect a redirect to https://login.microsoftonline.com/... for login.</p>
+<p>Sign in with a Microsoft/Entra ID account.</p>
+<p>After login, see the Task Manager with “Welcome, [Your Name]!”.</p>
+<p>Verify:</p>
+<p>Without login, you can’t access the task list.</p>
+<p>After login, you see tasks and can submit the form.</p>
+<p>Click Sign Out to end the session.</p>
+<p>Deploy and Test (Optional for Now):</p>
+<p>Deploy to Azure:</p>
+<pre><code class="language-bash">
+az webapp up --name taskmanagerweb-yourname --resource-group az204
+</code></pre>
+<p>Update redirect URI in Entra ID to https://taskmanagerweb-yourname.azurewebsites.net/signin-oidc.</p>
+<p>Test at https://taskmanagerweb-yourname.azurewebsites.net.</p>
 
 
 

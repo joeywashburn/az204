@@ -1,0 +1,1407 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../secure/">
+      
+      
+        <link rel="next" href="../api/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.11">
+    
+    
+      
+        <title>Monitor and troubleshoot solutions by using Application Insights - AZ-204 Study Materials</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.4af4bdda.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#monitor-troubleshoot-and-optimize-azure-solutions-with-application-insights" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="AZ-204 Study Materials" class="md-header__button md-logo" aria-label="AZ-204 Study Materials" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AZ-204 Study Materials
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Monitor and troubleshoot solutions by using Application Insights
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="AZ-204 Study Materials" class="md-nav__button md-logo" aria-label="AZ-204 Study Materials" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    AZ-204 Study Materials
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Develop Azure compute solutions
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Develop Azure compute solutions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../acr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Implement containerized solutions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../webapp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Implement Azure App Service Web Apps
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../functions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Implement Azure Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Develop for Azure storage
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Develop for Azure storage
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Develop solutions that use Azure Blob Storage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cosmos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Develop solutions that use Azure Cosmos DB
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Implement Azure security
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Implement Azure security
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Implement user authentication and authorization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../secure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Implement secure Azure solutions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Monitor and troubleshoot Azure solutions
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Monitor and troubleshoot Azure solutions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Monitor and troubleshoot solutions by using Application Insights
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Monitor and troubleshoot solutions by using Application Insights
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monitor-and-analyze-metrics-logs-and-traces" class="md-nav__link">
+    <span class="md-ellipsis">
+      Monitor and Analyze Metrics, Logs, and Traces
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Monitor and Analyze Metrics, Logs, and Traces">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Steps
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implement-application-insights-web-tests-and-alerts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implement Application Insights Web Tests and Alerts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implement Application Insights Web Tests and Alerts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#steps_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Steps
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#instrument-an-app-or-service-to-use-application-insights" class="md-nav__link">
+    <span class="md-ellipsis">
+      Instrument an App or Service to Use Application Insights
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Instrument an App or Service to Use Application Insights">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#instrument-webapp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Instrument WebApp
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instrument-function-app" class="md-nav__link">
+    <span class="md-ellipsis">
+      Instrument Function App
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verify-all-topics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verify All Topics
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clean-up-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Clean Up (Optional)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Steps
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Connect to and consume Azure services and third-party services
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Connect to and consume Azure services and third-party services
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Implement API Management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../events/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Develop event-based solutions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../message/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Develop message-based solutions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monitor-and-analyze-metrics-logs-and-traces" class="md-nav__link">
+    <span class="md-ellipsis">
+      Monitor and Analyze Metrics, Logs, and Traces
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Monitor and Analyze Metrics, Logs, and Traces">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Steps
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implement-application-insights-web-tests-and-alerts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implement Application Insights Web Tests and Alerts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implement Application Insights Web Tests and Alerts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#steps_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Steps
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#instrument-an-app-or-service-to-use-application-insights" class="md-nav__link">
+    <span class="md-ellipsis">
+      Instrument an App or Service to Use Application Insights
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Instrument an App or Service to Use Application Insights">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#instrument-webapp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Instrument WebApp
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instrument-function-app" class="md-nav__link">
+    <span class="md-ellipsis">
+      Instrument Function App
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verify-all-topics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verify All Topics
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clean-up-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Clean Up (Optional)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Steps
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="monitor-troubleshoot-and-optimize-azure-solutions-with-application-insights">Monitor, Troubleshoot, and Optimize Azure Solutions with Application Insights</h1>
+<p>This guide covers the AZ-204 exam topics for monitoring, troubleshooting, and optimizing Azure solutions using Application Insights, building on our existing <code>TaskManagerWeb</code> (WebApp) and <code>TaskManagerFunctions</code> (Function App). Both apps have Application Insights enabled from their Azure Portal deployment. We’ll use these to monitor metrics/logs/traces, implement web tests/alerts, and instrument custom telemetry.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li><strong>Azure Subscription</strong> (Free tier or $200 credit recommended).</li>
+<li><strong>Existing Resource Group</strong> (<code>az204exam</code>).</li>
+<li><strong>Deployed Apps</strong>:</li>
+<li>WebApp: <code>taskmanagerweb-yourname</code> (ASP.NET Core MVC, Free F1 tier).</li>
+<li>Function App: <code>taskmanagerfunc-yourname</code> (NET 8 isolated, Consumption plan).</li>
+<li><strong>Tools</strong>:</li>
+<li><a href="https://learn.microsoft.com/en-us/dotnet/core/install/windows?tabs=net80#install-with-windows-package-manager-winget">.NET SDK 8.0</a>: <code>winget install Microsoft.DotNet.SDK.8</code>.</li>
+<li><a href="https://learn.microsoft.com/en-us/cli/azure/install-azure-cli">Azure CLI</a>.</li>
+<li><a href="https://github.com/Azure/azure-functions-core-tools/releases">Azure Functions Core Tools</a>.</li>
+</ul>
+<h2 id="monitor-and-analyze-metrics-logs-and-traces">Monitor and Analyze Metrics, Logs, and Traces</h2>
+<p>Application Insights is already enabled for both apps, capturing default telemetry (requests, exceptions). We’ll analyze this data in the Azure Portal.</p>
+<h3 id="steps">Steps</h3>
+<ol>
+<li><strong>Access Application Insights</strong>:</li>
+<li>In the Azure Portal, go to the resource group <code>az204exam</code>.</li>
+<li>Select Application Insights for <code>taskmanagerweb-yourname</code> (WebApp) and <code>taskmanagerfunc-yourname</code> (Function App). If not visible, find them under each app’s <strong>Application Insights</strong> settings.</li>
+<li><strong>Check Metrics</strong>:</li>
+<li>In Application Insights for the WebApp:<ul>
+<li>Go to <strong>Metrics</strong> &gt; Select <code>Server requests</code> &gt; Filter by <code>cloud_RoleName == "taskmanagerweb-yourname"</code>.</li>
+<li>Verify request counts, response times, and failure rates for <code>GET /</code>.</li>
+</ul>
+</li>
+<li>For the Function App:<ul>
+<li>Select <code>Function Execution Count</code> &gt; Filter by <code>cloud_RoleName == "taskmanagerfunc-yourname"</code>.</li>
+<li>Check executions for <code>CreateTask</code> or <code>ManageTask</code> (e.g., <code>POST /api/managetask</code>).</li>
+</ul>
+</li>
+<li><strong>Query Logs</strong>:</li>
+<li>Go to <strong>Logs</strong> in Application Insights.</li>
+<li>Run queries:<ul>
+<li>WebApp: <code>requests | where cloud_RoleName == "taskmanagerweb-yourname" | summarize count() by timestamp</code> (shows request trends).</li>
+<li>Function App: <code>traces | where cloud_RoleName == "taskmanagerfunc-yourname" and message contains "Creating new task"</code> (logs from <code>CreateTask</code>).</li>
+</ul>
+</li>
+<li>Save queries for reuse.</li>
+<li><strong>Verify Traces</strong>:</li>
+<li>For WebApp: In <strong>Logs</strong>, run <code>traces | where cloud_RoleName == "taskmanagerweb-yourname"</code> to see request traces (e.g., page loads, form submissions).</li>
+<li>For Function App: Check <code>traces | where message contains "Processing task in Cosmos DB"</code> (from <code>ManageTask</code>).</li>
+<li>Confirm traces show up in <strong>Transaction search</strong> for specific actions (e.g., POST requests).</li>
+</ol>
+<h3 id="why">Why</h3>
+<p>Analyzing metrics (requests, performance), logs (app behavior), and traces (detailed events) ensures we understand app health, a core AZ-204 skill.</p>
+<h2 id="implement-application-insights-web-tests-and-alerts">Implement Application Insights Web Tests and Alerts</h2>
+<p>We’ll set up a web test for the WebApp’s availability and create alerts for both apps to monitor issues.</p>
+<h3 id="steps_1">Steps</h3>
+<ol>
+<li><strong>Create a Web Test</strong>:</li>
+<li>In Application Insights for <code>taskmanagerweb-yourname</code>, go to <strong>Availability</strong> &gt; <strong>Add classic test</strong>.</li>
+<li>Configure:<ul>
+<li>Test type: <strong>URL ping test</strong>.</li>
+<li>URL: <code>https://taskmanagerweb-yourname.azurewebsites.net</code>.</li>
+<li>Frequency: Every 5 minutes.</li>
+<li>Locations: Select 3 (e.g., West US, East US, West Europe).</li>
+<li>Success criteria: HTTP 200, timeout &lt; 30s.</li>
+</ul>
+</li>
+<li>Save and run the test.</li>
+<li>Check results in <strong>Availability</strong> after 10-15 minutes.</li>
+<li><strong>Set Up Alerts</strong>:</li>
+<li>For WebApp:<ul>
+<li>Go to <strong>Alerts</strong> &gt; <strong>Create alert rule</strong>.</li>
+<li>Condition: <code>Availability test failures</code> &gt; 0 in last 5 minutes.</li>
+<li>Action: Select <strong>Log alert to Azure Monitor</strong> (no email setup needed for exam prep).</li>
+<li>Name: <code>WebAppAvailabilityAlert</code>.</li>
+</ul>
+</li>
+<li>For Function App:<ul>
+<li>Go to Application Insights for <code>taskmanagerfunc-yourname</code> &gt; <strong>Alerts</strong> &gt; <strong>Create alert rule</strong>.</li>
+<li>Condition: <code>Server response time</code> &gt; 3 seconds for <code>CreateTask</code> or <code>ManageTask</code>.</li>
+<li>Action: Log to Azure Monitor.</li>
+<li>Name: <code>FunctionResponseTimeAlert</code>.</li>
+</ul>
+</li>
+<li>Test alerts:<ul>
+<li>Temporarily stop the WebApp (via <strong>Overview</strong> &gt; <strong>Stop</strong>) to trigger the availability alert.</li>
+<li>Simulate slow Function App responses (e.g., add delay in code, redeploy, and test).</li>
+<li>Check <strong>Alerts</strong> &gt; <strong>View alerts</strong> for triggered rules.</li>
+</ul>
+</li>
+<li><strong>Verify</strong>:</li>
+<li>In WebApp’s Application Insights, confirm <strong>Availability</strong> shows test results (green for success, red for failures).</li>
+<li>In <strong>Alerts</strong>, ensure rules logged incidents during tests.</li>
+</ol>
+<h3 id="why_1">Why</h3>
+<p>Web tests validate app uptime, and alerts enable proactive issue detection, both critical for the exam.</p>
+<h2 id="instrument-an-app-or-service-to-use-application-insights">Instrument an App or Service to Use Application Insights</h2>
+<p>Automatic instrumentation captures basic telemetry. We’ll add custom telemetry to track specific actions in both apps.</p>
+<h3 id="instrument-webapp">Instrument WebApp</h3>
+<ol>
+<li><strong>Add Application Insights SDK</strong>:</li>
+<li>In the <code>TaskManagerWeb</code> directory, run:
+     <code>bash
+     dotnet add package Microsoft.ApplicationInsights.AspNetCore</code></li>
+<li><strong>Update HomeController.cs</strong>:</li>
+<li>
+<p>Modify <code>Controllers/HomeController.cs</code>:
+     ```csharp
+     using Microsoft.ApplicationInsights;
+     using Microsoft.AspNetCore.Mvc;
+     using TaskManagerWeb.Models;
+     using System.Collections.Generic;</p>
+<p>namespace TaskManagerWeb.Controllers
+ {
+     public class HomeController : Controller
+     {
+         private static List<TaskItem> _tasks = new List<TaskItem>();
+         private readonly TelemetryClient _telemetryClient;</p>
+<pre><code>     public HomeController(TelemetryClient telemetryClient)
+     {
+         _telemetryClient = telemetryClient;
+     }
+
+     public IActionResult Index()
+     {
+         _telemetryClient.TrackPageView("TaskManagerIndex");
+         return View(_tasks);
+     }
+
+     [HttpPost]
+     public IActionResult Create(string title, string description, string dueDate)
+     {
+         _telemetryClient.TrackEvent("TaskCreated", new Dictionary&lt;string, string&gt; { { "Title", title } });
+         var task = new TaskItem
+         {
+             Title = title,
+             Description = description,
+             DueDate = dueDate
+         };
+         _tasks.Add(task);
+         return RedirectToAction("Index");
+     }
+ }
+</code></pre>
+<p>}
+ <code>3. **Test Locally**:
+   - Run:</code>bash
+ cd TaskManagerWeb
+ dotnet run
+ <code>- Access `https://localhost:5001`, create a task, and reload the page.
+4. **Deploy**:
+   - Deploy to Azure:</code>bash
+ az webapp up --name taskmanagerweb-yourname --resource-group az204exam
+ <code>``
+   - Test at</code>https://taskmanagerweb-yourname.azurewebsites.net<code>.
+5. **Verify**:
+   - In Application Insights for</code>taskmanagerweb-yourname<code>, go to **Events**.
+   - Search for</code>TaskCreated<code>(filter by</code>event name<code>) and</code>TaskManagerIndex<code>(under **Page Views**).
+   - Confirm properties like</code>Title<code>appear for</code>TaskCreated`.</p>
+</li>
+</ol>
+<h3 id="instrument-function-app">Instrument Function App</h3>
+<ol>
+<li><strong>Add Application Insights SDK</strong>:</li>
+<li>In <code>TaskManagerFunctions</code>, ensure the SDK is included (already added for .NET isolated Functions).</li>
+<li><strong>Update ManageTask.cs</strong>:</li>
+<li>
+<p>Modify <code>ManageTask.cs</code>:
+     ```csharp
+     using System.IO;
+     using System.Threading.Tasks;
+     using Microsoft.AspNetCore.Mvc;
+     using Microsoft.Azure.Functions.Worker;
+     using Microsoft.AspNetCore.Http;
+     using Microsoft.Extensions.Logging;
+     using Newtonsoft.Json;
+     using Microsoft.Azure.Cosmos;
+     using Microsoft.ApplicationInsights;
+     using System.Diagnostics;</p>
+<p>namespace TaskManagerFunctions
+ {
+     public class ManageTask
+     {
+         private readonly ILogger<ManageTask> _logger;
+         private readonly CosmosClient _cosmosClient;
+         private readonly TelemetryClient _telemetryClient;</p>
+<pre><code>     public ManageTask(ILogger&lt;ManageTask&gt; logger, TelemetryClient telemetryClient)
+     {
+         _logger = logger;
+         _telemetryClient = telemetryClient;
+         _cosmosClient = new CosmosClient(Environment.GetEnvironmentVariable("CosmosDBConnection"), new CosmosClientOptions { ConnectionMode = ConnectionMode.Direct });
+     }
+
+     public class TaskItem
+     {
+         public string id { get; set; } = Guid.NewGuid().ToString();
+         public string Title { get; set; }
+         public string Description { get; set; }
+         public string DueDate { get; set; }
+     }
+
+     [Function("ManageTask")]
+     public async Task&lt;IActionResult&gt; Run(
+         [HttpTrigger(AuthorizationLevel.Function, "post", "get")] HttpRequest req)
+     {
+         _logger.LogInformation("Processing task in Cosmos DB.");
+         var stopwatch = Stopwatch.StartNew();
+
+         var container = _cosmosClient.GetContainer("TasksDB", "Tasks");
+
+         if (req.Method == "POST")
+         {
+             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+             TaskItem task = JsonConvert.DeserializeObject&lt;TaskItem&gt;(requestBody);
+
+             if (string.IsNullOrEmpty(task?.Title))
+             {
+                 return new BadRequestObjectResult("Please provide a title.");
+             }
+
+             task.id = Guid.NewGuid().ToString();
+             await container.CreateItemAsync(task, new PartitionKey(task.id));
+             stopwatch.Stop();
+             _telemetryClient.TrackMetric("TaskCreationTime", stopwatch.ElapsedMilliseconds);
+             _telemetryClient.TrackEvent("TaskCreatedInCosmos", new Dictionary&lt;string, string&gt; { { "Title", task.Title } });
+             _logger.LogInformation($"Created task: {task.Title}");
+             return new OkObjectResult(task);
+         }
+         else // GET
+         {
+             string taskId = req.Query["taskId"];
+             if (string.IsNullOrEmpty(taskId))
+             {
+                 return new BadRequestObjectResult("Please provide taskId.");
+             }
+
+             try
+             {
+                 var task = await container.ReadItemAsync&lt;TaskItem&gt;(taskId, new PartitionKey(taskId));
+                 _logger.LogInformation($" W task: {task.Resource.Title}");
+                 return new OkObjectResult(task.Resource);
+             }
+             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+             {
+                 return new NotFoundResult();
+             }
+         }
+     }
+ }
+</code></pre>
+<p>}
+ <code>3. **Test Locally**:
+   - Update `local.settings.json` (if needed):</code>json
+ {
+     "IsEncrypted": false,
+     "Values": {
+         "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+         "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+         "CosmosDBConnection": "[your-connection-string]"
+     }
+ }
+ <code>- Run:</code>bash
+ func start
+ <code>- POST a task:</code>bash
+ curl -X POST http://localhost:7071/api/ManageTask -H "Content-Type: application/json" -d '{"Title":"Cosmos Task","Description":"Test SDK","DueDate":"2025-04-15"}'
+ <code>4. **Deploy**:
+   - Deploy to Azure:</code>bash
+ func azure functionapp publish taskmanagerfunc-yourname
+ <code>- Test:</code>bash
+ curl -X POST https://taskmanagerfunc-yourname.azurewebsites.net/api/managetask?code=[your-key] -H "Content-Type: application/json" -d '{"Title":"Azure Cosmos","Description":"Deployed","DueDate":"2025-04-15"}'
+ <code>``
+5. **Verify**:
+   - In Application Insights for</code>taskmanagerfunc-yourname<code>, go to **Metrics** &gt; Filter for</code>TaskCreationTime<code>.
+   - Go to **Events** &gt; Search for</code>TaskCreatedInCosmos<code>and check properties (e.g.,</code>Title<code>).
+   - Confirm logs in **Logs** with</code>traces | where message contains "Created task"`.</p>
+</li>
+</ol>
+<h3 id="why_2">Why</h3>
+<p>Custom instrumentation tracks specific behaviors (e.g., task creation, performance), exceeding auto-instrumentation and meeting exam requirements.</p>
+<h2 id="verify-all-topics">Verify All Topics</h2>
+<ul>
+<li><strong>Metrics/Logs/Traces</strong>: Confirmed via Portal queries and Transaction search.</li>
+<li><strong>Web Tests/Alerts</strong>: Set up and tested for WebApp availability and Function App performance.</li>
+<li><strong>Instrumentation</strong>: Added custom events (<code>TaskCreated</code>, <code>TaskCreatedInCosmos</code>) and metrics (<code>TaskCreationTime</code>) to both apps.</li>
+</ul>
+<h2 id="clean-up-optional">Clean Up (Optional)</h2>
+<p>To avoid costs:</p>
+<pre><code class="language-bash">az group delete -n az204exam --no-wait --yes
+</code></pre>
+<h2 id="next-steps">Next Steps</h2>
+<ul>
+<li>Review telemetry in Application Insights to prepare exam-style questions.</li>
+<li>Move to “Connect to and consume Azure services and third-party services” (e.g., integrate with Microsoft Graph or APIs).</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+    
+  </body>
+</html>
